@@ -1,68 +1,62 @@
-package Model;
+package model;
 
-public class Ville {
+public class Club {
 
-	private int id;
-	private double x;
-	private double y;
 	private String nom;
 
+	// identifiant unique du club
+	private int id;
+
+	// ville du club
+	private Ville v;
+
 	/**
-	 * Genere une ville
+	 * Creation d'un club
 	 * 
-	 * @param id
-	 *            : id unique
 	 * @param nom
-	 * @param x
-	 *            : position X sur la carte (IHM)
-	 * @param y
-	 *            : position Y sur la carte (IHM)
+	 *            : nom du club
+	 * @param id
+	 *            : id unique du club
+	 * @param v
+	 *            : ville du club
+	 * 
 	 */
-	public Ville(int id, String nom, double x, double y) {
-		this.id = id;
-		this.x = x;
-		this.y = y;
+	public Club(String nom, int id, Ville v) {
 		this.nom = nom;
+		this.id = id;
+		this.v = v;
 	}
 
 	/****************************************************************
 	 * ---------------------- GETTER --------------------------------
 	 ****************************************************************/
 
-	public double getX() {
-		return x;
+	public String getNom() {
+		return nom;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public String getNom() {
-		return nom;
-	}
-
-	public double getY() {
-		return y;
+	public Ville getVille() {
+		return v;
 	}
 
 	/****************************************************************
 	 * ---------------------- SETTER --------------------------------
 	 ****************************************************************/
 
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	public void setId(int i) {
-		this.id = i;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setVille(Ville v) {
+		this.v = v;
 	}
 
 	/****************************************************************
@@ -72,5 +66,4 @@ public class Ville {
 	public String toString() {
 		return getNom() + " (" + getId() + ")";
 	}
-
 }

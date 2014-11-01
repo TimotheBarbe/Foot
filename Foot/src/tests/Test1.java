@@ -1,8 +1,8 @@
-package Test;
+package tests;
 
-import Model.Club;
-import Model.Division;
-import Model.Ville;
+import model.Club;
+import model.Division;
+import model.Ville;
 
 public class Test1 {
 
