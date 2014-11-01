@@ -48,12 +48,7 @@ public class Division {
 	}
 
 	public void addClub(Club b) {
-		if (this.contains(b.getId())) {
-			throw new IllegalArgumentException("L'id " + b.getId()
-					+ " existe déjà dans la liste");
-		} else {
-			this.liste.add(b);
-		}
+		this.liste.add(b);
 	}
 
 	public Club getClubById(int id) {
