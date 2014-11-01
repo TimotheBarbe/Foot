@@ -10,10 +10,10 @@ public class Recherche {
 	private int nbClub;
 	private int nbGroupe;
 	private int tailleGroupe;
-	private double[][] tabDistance;
-	private double[][] solution;
+	private int[][] tabDistance;
+	private int[][] solution;
 
-	public Recherche(int nbGroupe, double[][] tabDistance) {
+	public Recherche(int nbGroupe, int[][] tabDistance) {
 		this.nbGroupe = nbGroupe;
 		this.tabDistance = tabDistance;
 		this.nbClub = this.tabDistance.length;
@@ -36,8 +36,14 @@ public class Recherche {
 			IntVar e = VariableFactory.bounded("E " + i, 0, tailleGroupe, s);
 			s.post(IntConstraintFactory.count(i, club, e));
 		}
+
+		// Somme des distances pour chaque poule
+
 		
 		
+//		IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
+//		s.post(IntConstraintFactory.element(rep, tabDistance[0], club[3]));
+
 		s.findSolution();
 		System.out.println(s.toString());
 
