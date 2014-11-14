@@ -23,7 +23,7 @@ public class Recherche {
 	public void lancer() {
 		Solver s = new Solver();
 
-		// solution au pb : si groupe[2]=3, le 2eme groupe est dans la poule 3
+		// solution au pb : si club[2]=3, le 2eme club est dans la poule 3
 		IntVar[] club = new IntVar[nbClub];
 
 		for (int i = 0; i < nbClub; i++) {
