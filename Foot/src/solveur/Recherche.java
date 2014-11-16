@@ -2,8 +2,11 @@ package solveur;
 
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
+import solver.constraints.LogicalConstraintFactory;
+import solver.variables.BoolVar;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
+import solver.variables.view.BoolConstantView;
 
 public class Recherche {
 
@@ -39,10 +42,22 @@ public class Recherche {
 
 		// Somme des distances pour chaque poule
 
-		
-		
-//		IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
-//		s.post(IntConstraintFactory.element(rep, tabDistance[0], club[3]));
+		IntVar zero = VariableFactory.bounded("zero", 0, 0, s);
+		IntVar un = VariableFactory.bounded("un", 1, 1, s);
+
+		for (int j = 0; j < nbClub; j++) {
+			IntVar[] d = VariableFactory
+					.boolArray("memeGroupe " + j, nbClub, s);
+			for (int i = 0; i < d.length; i++) {
+				s.post(LogicalConstraintFactory.ifThenElse(
+						IntConstraintFactory.arithm(club[j], "=", club[i]),
+						IntConstraintFactory.arithm(d[i], "=", un),
+						IntConstraintFactory.arithm(d[i], "=", zero)));
+			}
+		}
+
+		// IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
+		// s.post(IntConstraintFactory.element(rep, tabDistance[0], club[3]));
 
 		s.findSolution();
 		System.out.println(s.toString());
