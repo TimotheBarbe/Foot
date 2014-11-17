@@ -54,6 +54,8 @@ public class Recherche {
 						IntConstraintFactory.arithm(d[i], "=", un),
 						IntConstraintFactory.arithm(d[i], "=", zero)));
 			}
+			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000, s);
+			s.post(IntConstraintFactory.scalar(d, tabDistance[j], distance));
 		}
 
 		// IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
