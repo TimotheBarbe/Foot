@@ -1,5 +1,6 @@
 package tests;
 
+import model.Desiderata;
 import solveur.Recherche;
 
 public class TestRecherche {
@@ -20,8 +21,11 @@ public class TestRecherche {
 				{ 9, 9, 8, 12, 2, 6, 1, 3, 0, 5 },
 				{ 22, 30, 9, 10, 1, 10, 1, 12, 5, 0 } };
 
-		Recherche r = new Recherche(nbg, tab_moyen);
+		Desiderata d1 = new Desiderata(0, 1, "=");
+		Desiderata[] tabDesiderata = new Desiderata[] { d1 };
+		Recherche r = new Recherche(nbg, tab_moyen, tabDesiderata);
 		r.lancer();
-		System.out.println(r.toString());
+		System.out.println(r.getSolution());
+		System.out.println(r.getDistance());
 	}
 }

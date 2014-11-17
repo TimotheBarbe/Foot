@@ -1,5 +1,6 @@
 package solveur;
 
+import model.Desiderata;
 import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
@@ -16,19 +17,26 @@ public class Recherche {
 	private int nbGroupe;
 	private int tailleGroupe;
 	private int[][] tabDistance;
-	private int[][] solution;
+	private int[] solution;
+	private int[] distance;
+	private Desiderata[] listeDesiderata;
 
-	public Recherche(int nbGroupe, int[][] tabDistance) {
+	public Recherche(int nbGroupe, int[][] tabDistance,
+			Desiderata[] listeDesiderata) {
 		this.nbGroupe = nbGroupe;
 		this.tabDistance = tabDistance;
 		this.nbClub = this.tabDistance.length;
 		this.tailleGroupe = (int) Math.ceil((double) nbClub / nbGroupe);
+		this.solution = new int[nbClub];
+		this.distance = new int[nbClub];
+		this.listeDesiderata = listeDesiderata;
 	}
 
 	public void lancer() {
 		Solver s = new Solver();
 
 		// solution au pb : si club[2]=3, le 2eme club est dans la poule 3
+
 		IntVar[] club = new IntVar[nbClub];
 
 		for (int i = 0; i < nbClub; i++) {
@@ -37,6 +45,7 @@ public class Recherche {
 		}
 
 		// Pas plus de clubs que la cap max d'une poule
+
 		for (int i = 0; i < nbGroupe; i++) {
 			IntVar e = VariableFactory.bounded("E " + i, 0, tailleGroupe, s);
 			s.post(IntConstraintFactory.count(i, club, e));
@@ -57,32 +66,51 @@ public class Recherche {
 						IntConstraintFactory.arithm(d[i], "=", un),
 						IntConstraintFactory.arithm(d[i], "=", zero)));
 			}
-			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000, s);
+			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000,
+					s);
 			s.post(IntConstraintFactory.scalar(d, tabDistance[j], distance));
 			tabDist[j] = distance;
 		}
-		
-		IntVar sommeDist = VariableFactory.bounded("somme distance", 0, 10000, s);
+
+		IntVar sommeDist = VariableFactory.bounded("somme distance", 0, 10000,
+				s);
 		s.post(IntConstraintFactory.sum(tabDist, sommeDist));
+
+		// Desiderata
+
+		for (Desiderata d : listeDesiderata) {
+			s.post(IntConstraintFactory.arithm(club[d.getClub1()], d.getOp(),
+					club[d.getClub2()]));
+		}
+
+		// Resolution
 
 		s.set(IntStrategyFactory.inputOrder_InDomainMin(club));
 		s.findOptimalSolution(ResolutionPolicy.MINIMIZE, sommeDist);
-		
-		// IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
-		// s.post(IntConstraintFactory.element(rep, tabDistance[0], club[3]));
 
-		System.out.println(s.toString());
+		// Memorisation
 
-		this.solution = tabDistance;
+		for (int i = 0; i < this.nbClub; i++) {
+			this.solution[i] = club[i].getValue();
+		}
+
+		for (int i = 0; i < this.nbClub; i++) {
+			this.distance[i] = tabDist[i].getValue();
+		}
 	}
 
-	public String toString() {
-		String rep = "";
+	public String getSolution() {
+		String rep = "Solution: ";
 		for (int i = 0; i < solution.length; i++) {
-			for (int j = 0; j < solution[i].length; j++) {
-				rep += "  " + solution[i][j];
-			}
-			rep += " \n";
+			rep += "  " + solution[i];
+		}
+		return rep;
+	}
+
+	public String getDistance() {
+		String rep = "Distances : ";
+		for (int i = 0; i < distance.length; i++) {
+			rep += "  " + distance[i];
 		}
 		return rep;
 	}
