@@ -1,8 +1,10 @@
 package solveur;
 
+import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
 import solver.constraints.LogicalConstraintFactory;
+import solver.search.strategy.IntStrategyFactory;
 import solver.variables.BoolVar;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
@@ -45,6 +47,7 @@ public class Recherche {
 		IntVar zero = VariableFactory.bounded("zero", 0, 0, s);
 		IntVar un = VariableFactory.bounded("un", 1, 1, s);
 
+		IntVar[] tabDist = new IntVar[nbClub];
 		for (int j = 0; j < nbClub; j++) {
 			IntVar[] d = VariableFactory
 					.boolArray("memeGroupe " + j, nbClub, s);
@@ -56,12 +59,18 @@ public class Recherche {
 			}
 			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000, s);
 			s.post(IntConstraintFactory.scalar(d, tabDistance[j], distance));
+			tabDist[j] = distance;
 		}
+		
+		IntVar sommeDist = VariableFactory.bounded("somme distance", 0, 10000, s);
+		s.post(IntConstraintFactory.sum(tabDist, sommeDist));
 
+		s.set(IntStrategyFactory.inputOrder_InDomainMin(club));
+		s.findOptimalSolution(ResolutionPolicy.MINIMIZE, sommeDist);
+		
 		// IntVar rep = VariableFactory.bounded("distance[club[3]]", 0, 11, s);
 		// s.post(IntConstraintFactory.element(rep, tabDistance[0], club[3]));
 
-		s.findSolution();
 		System.out.println(s.toString());
 
 		this.solution = tabDistance;
