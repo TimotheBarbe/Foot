@@ -1,12 +1,12 @@
 package tests;
 
 import model.Desiderata;
+import model.GenerateDistances;
 import solveur.Recherche;
 
 public class TestRecherche {
 
 	public static void main(String[] args) {
-		int nbg = 3;
 		int[][] tab = new int[][] { { 0, 20, 1, 5 }, { 20, 0, 10, 3 },
 				{ 1, 10, 0, 1 }, { 5, 3, 1, 0 } };
 
@@ -22,9 +22,18 @@ public class TestRecherche {
 				{ 22, 30, 9, 10, 1, 10, 1, 12, 5, 0 } };
 
 		Desiderata d1 = new Desiderata(0, 1, "=");
-		Desiderata[] tabDesiderata = new Desiderata[] { d1 };
-		Recherche r = new Recherche(nbg, tab_moyen, tabDesiderata);
+		Desiderata[] tabDesiderata = new Desiderata[] {  };
+
+		int[][] tab_enorme = GenerateDistances.genererTableau(140, 20);
+
+		long millis = System.currentTimeMillis();
+		
+		int nbg = 10;
+		Recherche r = new Recherche(nbg, tab_enorme, tabDesiderata, 60*60000);
 		r.lancer();
+		
+		System.out.println((System.currentTimeMillis() - millis) / 1000.0
+				+ " s");
 		System.out.println(r.getSolution());
 		System.out.println(r.getDistance());
 	}

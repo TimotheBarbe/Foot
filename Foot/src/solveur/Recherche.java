@@ -5,11 +5,9 @@ import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
 import solver.constraints.LogicalConstraintFactory;
-import solver.search.strategy.IntStrategyFactory;
-import solver.variables.BoolVar;
+import solver.search.loop.monitors.SearchMonitorFactory;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
-import solver.variables.view.BoolConstantView;
 
 public class Recherche {
 
@@ -20,9 +18,10 @@ public class Recherche {
 	private int[] solution;
 	private int[] distance;
 	private Desiderata[] listeDesiderata;
+	private long tempsMax;
 
 	public Recherche(int nbGroupe, int[][] tabDistance,
-			Desiderata[] listeDesiderata) {
+			Desiderata[] listeDesiderata, long tempsMax) {
 		this.nbGroupe = nbGroupe;
 		this.tabDistance = tabDistance;
 		this.nbClub = this.tabDistance.length;
@@ -30,6 +29,7 @@ public class Recherche {
 		this.solution = new int[nbClub];
 		this.distance = new int[nbClub];
 		this.listeDesiderata = listeDesiderata;
+		this.tempsMax = tempsMax;
 	}
 
 	public void lancer() {
@@ -47,24 +47,25 @@ public class Recherche {
 		// Pas plus de clubs que la cap max d'une poule
 
 		for (int i = 0; i < nbGroupe; i++) {
-			IntVar e = VariableFactory.bounded("E " + i, 0, tailleGroupe, s);
+			IntVar e = VariableFactory.bounded("E " + i, tailleGroupe - 1,
+					tailleGroupe, s);
 			s.post(IntConstraintFactory.count(i, club, e));
 		}
 
 		// Somme des distances pour chaque poule
 
-		IntVar zero = VariableFactory.bounded("zero", 0, 0, s);
-		IntVar un = VariableFactory.bounded("un", 1, 1, s);
+		IntVar zero = VariableFactory.fixed(0, s);
+		IntVar un = VariableFactory.fixed(1, s);
 
 		IntVar[] tabDist = new IntVar[nbClub];
 		for (int j = 0; j < nbClub; j++) {
 			IntVar[] d = VariableFactory
 					.boolArray("memeGroupe " + j, nbClub, s);
 			for (int i = 0; i < d.length; i++) {
-				s.post(LogicalConstraintFactory.ifThenElse(
+				LogicalConstraintFactory.ifThenElse(
 						IntConstraintFactory.arithm(club[j], "=", club[i]),
 						IntConstraintFactory.arithm(d[i], "=", un),
-						IntConstraintFactory.arithm(d[i], "=", zero)));
+						IntConstraintFactory.arithm(d[i], "=", zero));
 			}
 			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000,
 					s);
@@ -77,19 +78,18 @@ public class Recherche {
 		s.post(IntConstraintFactory.sum(tabDist, sommeDist));
 
 		// Desiderata
-
 		for (Desiderata d : listeDesiderata) {
 			s.post(IntConstraintFactory.arithm(club[d.getClub1()], d.getOp(),
 					club[d.getClub2()]));
 		}
 
+		// Limitation en temps du probleme
+		SearchMonitorFactory.limitTime(s, this.tempsMax);
+
 		// Resolution
-
-		s.set(IntStrategyFactory.inputOrder_InDomainMin(club));
 		s.findOptimalSolution(ResolutionPolicy.MINIMIZE, sommeDist);
-
+		
 		// Memorisation
-
 		for (int i = 0; i < this.nbClub; i++) {
 			this.solution[i] = club[i].getValue();
 		}
