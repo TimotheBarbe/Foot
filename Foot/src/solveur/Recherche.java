@@ -5,7 +5,12 @@ import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
 import solver.constraints.LogicalConstraintFactory;
+import solver.search.limits.FailCounter;
+import solver.search.loop.monitors.SMF;
 import solver.search.loop.monitors.SearchMonitorFactory;
+import solver.search.strategy.IntStrategyFactory;
+import solver.search.strategy.strategy.AbstractStrategy;
+import solver.trace.Chatterbox;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
 
@@ -19,6 +24,7 @@ public class Recherche {
 	private int[] distance;
 	private Desiderata[] listeDesiderata;
 	private long tempsMax;
+	private int distMax = 450;
 
 	public Recherche(int nbGroupe, int[][] tabDistance,
 			Desiderata[] listeDesiderata, long tempsMax) {
@@ -67,16 +73,16 @@ public class Recherche {
 						IntConstraintFactory.arithm(d[i], "=", un),
 						IntConstraintFactory.arithm(d[i], "=", zero));
 			}
-			IntVar distance = VariableFactory.bounded("distance" + j, 0, 1000,
+			IntVar distance = VariableFactory.bounded("distance" + j, 0, 10000,
 					s);
 			s.post(IntConstraintFactory.scalar(d, tabDistance[j], distance));
 			tabDist[j] = distance;
 		}
 
-		IntVar sommeDist = VariableFactory.bounded("somme distance", 0, 10000,
+		IntVar sommeDist = VariableFactory.bounded("somme distance", 0, 100000,
 				s);
 		s.post(IntConstraintFactory.sum(tabDist, sommeDist));
-
+		s.post(IntConstraintFactory.arithm(sommeDist, "<", this.distMax));
 		// Desiderata
 		for (Desiderata d : listeDesiderata) {
 			s.post(IntConstraintFactory.arithm(club[d.getClub1()], d.getOp(),
@@ -86,8 +92,17 @@ public class Recherche {
 		// Limitation en temps du probleme
 		SearchMonitorFactory.limitTime(s, this.tempsMax);
 
+		AbstractStrategy activity = IntStrategyFactory.activity(club,15012011);
+		s.set(IntStrategyFactory.lastConflict(s,activity));
+		SMF.geometrical(s,(nbClub)/2,2,new FailCounter(nbClub),Integer.MAX_VALUE);
+		
 		// Resolution
-		s.findOptimalSolution(ResolutionPolicy.MINIMIZE, sommeDist);
+		
+		Chatterbox.showStatisticsDuringResolution(s, 1000);
+		//s.findOptimalSolution(ResolutionPolicy.MINIMIZE, sommeDist);
+		s.findSolution();
+
+		System.out.println(sommeDist.getValue());
 		
 		// Memorisation
 		for (int i = 0; i < this.nbClub; i++) {

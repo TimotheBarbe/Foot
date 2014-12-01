@@ -7,7 +7,7 @@ public class GenerateDistances {
 	public static int[][] genererTableau(int nbClubs, int distanceMax){
 		int[][] tabSymetrique = new int[nbClubs][nbClubs];
 		
-		Random r = new Random();
+		Random r = new Random(0);
 		
 		for(int i=0; i<nbClubs; i++){
 			for(int j=i+1; j<nbClubs; j++){

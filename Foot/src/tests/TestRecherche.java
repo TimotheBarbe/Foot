@@ -24,11 +24,11 @@ public class TestRecherche {
 		Desiderata d1 = new Desiderata(0, 1, "=");
 		Desiderata[] tabDesiderata = new Desiderata[] {  };
 
-		int[][] tab_enorme = GenerateDistances.genererTableau(140, 20);
+		int[][] tab_enorme = GenerateDistances.genererTableau(15, 20);
 
 		long millis = System.currentTimeMillis();
 		
-		int nbg = 10;
+		int nbg = 3;
 		Recherche r = new Recherche(nbg, tab_enorme, tabDesiderata, 60*60000);
 		r.lancer();
 		
