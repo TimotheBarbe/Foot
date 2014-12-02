@@ -20,13 +20,15 @@ public class TestIHM {
 		Club c2 = new Club("PSG", 1, v2);
 		Club c3 = new Club("Olympique lyonnais", 2, v3);
 		Club c4 = new Club("OM", 3, v4);
-		
+
 		Division d = new Division(2);
 		d.addClub(c1);
 		d.addClub(c2);
 		d.addClub(c3);
 		d.addClub(c4);
 
-		MainWindows test = new MainWindows(d);
+		int[] reponseSolveur = new int[] { 1, 0, 0, 1 };
+
+		MainWindows test = new MainWindows(d, reponseSolveur);
 	}
 }

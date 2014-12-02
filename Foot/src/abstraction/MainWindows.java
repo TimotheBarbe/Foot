@@ -3,8 +3,10 @@ package abstraction;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -23,11 +25,13 @@ public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static int LABEL_SIZE = 12;
 	private Division listeClub;
+	private int[] reponseSolveur;
 
-	public MainWindows(Division listeClub) {
+	public MainWindows(Division listeClub, int[] reponseSolveur) {
 		// this.setSize(800, 600);
 		this.setTitle("Foot");
 		this.listeClub = listeClub;
+		this.reponseSolveur = reponseSolveur;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// this.setContentPane(new
 		// AfficheImage("C:\\carte_region.jpg",listeClub));
@@ -45,7 +49,8 @@ public class MainWindows extends JFrame {
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 6));
 
-		AfficheImage affIm = new AfficheImage("C:\\carte_region.jpg", listeClub);
+		AfficheImage affIm = new AfficheImage("C:\\carte_region.jpg",
+				listeClub, reponseSolveur);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
 		this.listeClub.addObserver(cimg);
@@ -65,15 +70,7 @@ public class MainWindows extends JFrame {
 		panelListe.add(labelClub, BorderLayout.NORTH);
 
 		// LISTE CLUBS
-		JList<String> listeClub = new JList<String>();
-		Vector<String> data = new Vector<String>();
-		for (Club i : this.listeClub.getListe()) {
-			data.add("  " + i.toString());
-		}
-		data.add(0, "Poule 1");
-		listeClub.setListData(data);
-		listeClub.setSelectedIndex(0);
-		listeClub.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JList<String> listeClub = this.getJListClub();
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
 		// TESTS
@@ -85,4 +82,23 @@ public class MainWindows extends JFrame {
 		this.getContentPane().add(panelListe, BorderLayout.WEST);
 	}
 
+	private JList<String> getJListClub() {
+		JList<String> listeClub = new JList<String>();
+		Vector<String> data = new Vector<String>();
+		int clubRestant = reponseSolveur.length;
+		int indice = 0;
+		while (clubRestant > 0) {
+			data.add("Poule " + indice);
+			for (int i = 0; i < reponseSolveur.length; i++) {
+				if (this.reponseSolveur[i] == indice) {
+					data.add("  " + this.listeClub.getListe().get(i));
+					clubRestant--;
+				}
+			}
+			indice++;
+		}
+		listeClub.setListData(data);
+		listeClub.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		return listeClub;
+	}
 }
