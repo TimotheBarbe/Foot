@@ -3,6 +3,7 @@ package tests;
 import java.util.ArrayList;
 
 import model.Club;
+import model.Division;
 import model.Ville;
 import abstraction.MainWindows;
 
@@ -19,12 +20,13 @@ public class TestIHM {
 		Club c2 = new Club("PSG", 1, v2);
 		Club c3 = new Club("Olympique lyonnais", 2, v3);
 		Club c4 = new Club("OM", 3, v4);
-		ArrayList<Club> listeClub = new ArrayList<Club>();
-		listeClub.add(c1);
-		listeClub.add(c2);
-		listeClub.add(c3);
-		listeClub.add(c4);
+		
+		Division d = new Division(2);
+		d.addClub(c1);
+		d.addClub(c2);
+		d.addClub(c3);
+		d.addClub(c4);
 
-		MainWindows test = new MainWindows(listeClub);
+		MainWindows test = new MainWindows(d);
 	}
 }

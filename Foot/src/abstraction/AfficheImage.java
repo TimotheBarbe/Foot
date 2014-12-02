@@ -4,19 +4,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import model.Club;
+import model.Division;
 
 public class AfficheImage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Image carte;
-	private ArrayList<Club> listeClub;
+	private Division listeClub;
 
-	public AfficheImage(String s, ArrayList<Club> listeClub) {
+	public AfficheImage(String s, Division listeClub) {
 		this.carte = getToolkit().getImage(s);
 		this.listeClub = listeClub;
 	}
@@ -28,7 +28,7 @@ public class AfficheImage extends JPanel {
 		g.setColor(Color.BLUE);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 
-		for (Club c : listeClub) {
+		for (Club c : listeClub.getListe()) {
 			int x = (int) c.getVille().getX();
 			int y = (int) c.getVille().getY();
 			String nom = c.toString();
@@ -36,5 +36,4 @@ public class AfficheImage extends JPanel {
 			g.fillOval(x, y, 10, 10);
 		}
 	}
-
 }
