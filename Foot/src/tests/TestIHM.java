@@ -2,10 +2,10 @@ package tests;
 
 import java.util.ArrayList;
 
+import presentation.MainWindows;
 import model.Club;
 import model.Division;
 import model.Ville;
-import abstraction.MainWindows;
 
 public class TestIHM {
 

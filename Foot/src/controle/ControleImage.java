@@ -3,8 +3,8 @@ package controle;
 import java.util.Observable;
 import java.util.Observer;
 
+import presentation.AfficheImage;
 import model.Division;
-import abstraction.AfficheImage;
 
 public class ControleImage implements Observer {
 
