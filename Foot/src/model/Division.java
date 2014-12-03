@@ -3,14 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class Division extends Observable {
+public class Division {
 
 	// liste des clubs
 	public ArrayList<Club> liste;
 
 	// nombre de groupes de la division
 	public int nombreDeGroupe;
-	public static final Integer CHANGEMENT_CLUB = new Integer(1);
 
 	public Division(int nombreDeGroupe) {
 		this.liste = new ArrayList<Club>();
@@ -35,8 +34,6 @@ public class Division extends Observable {
 
 	public void setListe(ArrayList<Club> liste) {
 		this.liste = liste;
-		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
 	}
 
 	public void setNbGroupe(int n) {
@@ -53,8 +50,6 @@ public class Division extends Observable {
 
 	public void addClub(Club b) {
 		this.liste.add(b);
-		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
 	}
 
 	public Club getClubById(int id) {
@@ -73,8 +68,7 @@ public class Division extends Observable {
 					+ " n'existe pas dans la liste");
 		} else {
 			this.liste.remove(this.getClubById(id));
-			this.setChanged();
-			this.notifyObservers(CHANGEMENT_CLUB);
+
 		}
 	}
 

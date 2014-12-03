@@ -4,17 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.Division;
+import model.Obs;
 
 public class ControleJBoxTest implements ActionListener{
 
-	private Division d;
+	private Obs obs;
 	
-	public ControleJBoxTest(Division d){
-		this.d =d;
+	public ControleJBoxTest(Obs obs){
+		this.obs = obs;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		d.removeClub(1);
+		obs.changeGroupe(1, (int)(Math.random()*3));
 	}
 
 }

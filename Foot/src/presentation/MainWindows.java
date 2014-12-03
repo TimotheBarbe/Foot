@@ -3,10 +3,8 @@ package presentation;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -15,8 +13,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
-import model.Club;
 import model.Division;
+import model.Obs;
 import controle.ControleImage;
 import controle.ControleJBoxTest;
 
@@ -24,14 +22,12 @@ public class MainWindows extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static int LABEL_SIZE = 12;
-	private Division listeClub;
-	private int[] reponseSolveur;
+	private Obs obs;
 
-	public MainWindows(Division listeClub, int[] reponseSolveur) {
+	public MainWindows(Obs obs) {
 		// this.setSize(800, 600);
 		this.setTitle("Foot");
-		this.listeClub = listeClub;
-		this.reponseSolveur = reponseSolveur;
+		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// this.setContentPane(new
 		// AfficheImage("C:\\carte_region.jpg",listeClub));
@@ -50,10 +46,10 @@ public class MainWindows extends JFrame {
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 6));
 
 		AfficheImage affIm = new AfficheImage("C:\\carte_region.jpg",
-				listeClub, reponseSolveur);
+				obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
-		this.listeClub.addObserver(cimg);
+		this.obs.addObserver(cimg);
 
 		this.getContentPane().add(panelCarte, BorderLayout.CENTER);
 	}
@@ -76,7 +72,7 @@ public class MainWindows extends JFrame {
 		// TESTS
 		JCheckBox test = new JCheckBox();
 		panelListe.add(test, BorderLayout.SOUTH);
-		ControleJBoxTest controleboxtest = new ControleJBoxTest(this.listeClub);
+		ControleJBoxTest controleboxtest = new ControleJBoxTest(this.obs);
 		test.addActionListener(controleboxtest);
 
 		this.getContentPane().add(panelListe, BorderLayout.WEST);
@@ -85,13 +81,13 @@ public class MainWindows extends JFrame {
 	private JList<String> getJListClub() {
 		JList<String> listeClub = new JList<String>();
 		Vector<String> data = new Vector<String>();
-		int clubRestant = reponseSolveur.length;
+		int clubRestant = obs.getReponseSolveur().length;
 		int indice = 0;
 		while (clubRestant > 0) {
 			data.add("Poule " + indice);
-			for (int i = 0; i < reponseSolveur.length; i++) {
-				if (this.reponseSolveur[i] == indice) {
-					data.add("  " + this.listeClub.getListe().get(i));
+			for (int i = 0; i < obs.getReponseSolveur().length; i++) {
+				if (this.obs.getReponseSolveur()[i] == indice) {
+					data.add("  " + this.obs.getDiv().getListe().get(i));
 					clubRestant--;
 				}
 			}

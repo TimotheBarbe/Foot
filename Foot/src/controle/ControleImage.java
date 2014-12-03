@@ -3,8 +3,8 @@ package controle;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.Obs;
 import presentation.AfficheImage;
-import model.Division;
 
 public class ControleImage implements Observer {
 
@@ -16,7 +16,7 @@ public class ControleImage implements Observer {
 
 	public void update(Observable o, Object message) {
 		Integer iMessage = (Integer) message;
-		if (iMessage == Division.CHANGEMENT_CLUB) {
+		if (iMessage == Obs.CHANGEMENT_CLUB) {
 			affIm.repaint();
 		}
 	}

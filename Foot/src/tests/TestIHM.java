@@ -1,11 +1,10 @@
 package tests;
 
-import java.util.ArrayList;
-
-import presentation.MainWindows;
 import model.Club;
 import model.Division;
+import model.Obs;
 import model.Ville;
+import presentation.MainWindows;
 
 public class TestIHM {
 
@@ -28,7 +27,8 @@ public class TestIHM {
 		d.addClub(c4);
 
 		int[] reponseSolveur = new int[] { 1, 0, 0, 1 };
+		Obs obs = new Obs(d, reponseSolveur);
 
-		MainWindows test = new MainWindows(d, reponseSolveur);
+		MainWindows test = new MainWindows(obs);
 	}
 }

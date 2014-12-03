@@ -9,18 +9,17 @@ import javax.swing.JPanel;
 
 import model.Club;
 import model.Division;
+import model.Obs;
 
 public class AfficheImage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Image carte;
-	private Division listeClub;
-	private int[] reponseSolveur;
+	private Obs obs;
 
-	public AfficheImage(String s, Division listeClub, int[] reponseSolveur) {
+	public AfficheImage(String s, Obs obs) {
 		this.carte = getToolkit().getImage(s);
-		this.listeClub = listeClub;
-		this.reponseSolveur = reponseSolveur;
+		this.obs = obs;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -28,12 +27,12 @@ public class AfficheImage extends JPanel {
 		g.drawImage(this.carte, 0, 0, getWidth(), getHeight(), this);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 
-		for (int i = 0; i < listeClub.getListe().size(); i++) {
-			Club c = listeClub.getListe().get(i);
+		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
+			Club c = obs.getDiv().getListe().get(i);
 			int x = (int) c.getVille().getX();
 			int y = (int) c.getVille().getY();
 			String nom = c.toString();
-			g.setColor(this.getColor(this.reponseSolveur[i]));
+			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
 			g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 			g.fillOval(x, y, 10, 10);
 		}
