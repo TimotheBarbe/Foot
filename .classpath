@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Foot/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Cours/A3/Projet d&apos;option/Jar Choco/choco-3.2.2/choco-samples-3.2.2-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Cours/A3/Projet d&apos;option/Jar Choco/choco-3.2.2/choco-solver-3.2.2.jar"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Cours/A3/Projet d&apos;option/Jar Choco/choco-3.2.2/choco-solver-3.2.2-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Cours/A3/Projet d&apos;option/Jar Choco/choco-3.2.2/choco-solver-3.2.2-with-dependencies.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
