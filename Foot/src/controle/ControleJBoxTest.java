@@ -3,7 +3,6 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.Division;
 import model.Obs;
 
 public class ControleJBoxTest implements ActionListener{

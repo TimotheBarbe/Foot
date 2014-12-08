@@ -8,16 +8,16 @@ import presentation.AfficheImage;
 
 public class ControleImage implements Observer {
 
-	private AfficheImage affIm;
+	private AfficheImage affImage;
 	
-	public ControleImage(AfficheImage affIm) {
-		this.affIm = affIm;
+	public ControleImage(AfficheImage affImage) {
+		this.affImage = affImage;
 	}
 
 	public void update(Observable o, Object message) {
 		Integer iMessage = (Integer) message;
 		if (iMessage == Obs.CHANGEMENT_CLUB) {
-			affIm.repaint();
+			affImage.repaint();
 		}
 	}
 }

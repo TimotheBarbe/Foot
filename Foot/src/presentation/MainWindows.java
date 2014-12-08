@@ -13,7 +13,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
-import model.Division;
 import model.Obs;
 import controle.ControleImage;
 import controle.ControleJBoxTest;
@@ -45,7 +44,7 @@ public class MainWindows extends JFrame {
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 6));
 
-		AfficheImage affIm = new AfficheImage("C:\\carte_region.jpg",
+		AfficheImage affIm = new AfficheImage("carte_region.jpg",
 				obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
