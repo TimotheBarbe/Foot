@@ -2,10 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="Foot/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/apidocs-3.2.2.zip"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-samples-3.2.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jxl-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/choco-3.2.2/choco-samples-3.2.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/choco-3.2.2/choco-solver-3.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/choco-3.2.2/choco-solver-3.2.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/choco-3.2.2/choco-solver-3.2.2-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/choco-3.2.2/apidocs-3.2.2.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
