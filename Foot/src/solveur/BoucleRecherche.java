@@ -12,6 +12,8 @@ public class BoucleRecherche {
 	private boolean afficher;
 	private static long epsilon = 100;
 	private int sommeDistFinal;
+	private int sommeDistMax = 100000;
+	private double pourcentage = 0.99;
 
 	public BoucleRecherche(int nbGroupe, int[][] tabDistance,
 			Desiderata[] listeDesiderata, long tempsMaxTotal,
@@ -27,22 +29,27 @@ public class BoucleRecherche {
 	public void run() {
 		long debut = System.currentTimeMillis();
 		long now = debut;
-		int sommeDistMax = 100000;
-		double pourcentage = 0.99;
+		
+
 		while (now - debut < tempsMaxTotal && pourcentage < 1) {
-			long startBoucle = System.currentTimeMillis();
-			Recherche r = new Recherche(nbGroupe, tabDistance, listeDesiderata,
-					tempsMaxBoucle, sommeDistMax, afficher);
-			r.execute();
-			long endBoucle = System.currentTimeMillis();
-			if (startBoucle + tempsMaxBoucle > endBoucle - epsilon) {
-				sommeDistFinal = r.sommeDist.getValue();
-				sommeDistMax = (int) (r.sommeDist.getValue() * pourcentage);
-			} else {
-				pourcentage += 0.001;
-			}
+			this.recherche();
 			now = System.currentTimeMillis();
 		}
 		System.out.println("meilleur : " + sommeDistFinal);
+	}
+	
+	public synchronized void recherche(){
+		long startBoucle = System.currentTimeMillis();
+		Recherche r = new Recherche(nbGroupe, tabDistance, listeDesiderata,
+				tempsMaxBoucle, sommeDistMax, afficher);
+		r.execute();
+		long endBoucle = System.currentTimeMillis();
+		if (startBoucle + tempsMaxBoucle > endBoucle - epsilon) {
+			sommeDistFinal = r.sommeDist.getValue();
+			sommeDistMax = (int) (r.sommeDist.getValue() * pourcentage);
+		} else {
+			pourcentage += 0.001;
+		}
+
 	}
 }

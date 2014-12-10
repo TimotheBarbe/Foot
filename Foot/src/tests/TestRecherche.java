@@ -24,13 +24,13 @@ public class TestRecherche {
 		Desiderata d1 = new Desiderata(0, 1, "=");
 		Desiderata[] tabDesiderata = new Desiderata[] { d1 };
 
-		int[][] tab_enorme = GenerateDistances.genererTableau(100, 20);
+		int[][] tab_enorme = GenerateDistances.genererTableau(150, 100);
 
 		long millis = System.currentTimeMillis();
 
-		int nbg = 10;
+		int nbg = 15;
 		Recherche r = new Recherche(nbg, tab_enorme, tabDesiderata, 6 * 60000,
-				15000, true);
+				125000, true);
 		r.execute();
 
 		System.out.println("temps : "+(System.currentTimeMillis() - millis) / 1000.0

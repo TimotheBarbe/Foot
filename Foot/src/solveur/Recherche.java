@@ -3,12 +3,10 @@ package solveur;
 import model.Desiderata;
 import samples.AbstractProblem;
 import solver.Solver;
-import solver.constraints.Arithmetic;
 import solver.constraints.IntConstraintFactory;
 import solver.constraints.LogicalConstraintFactory;
 import solver.search.limits.FailCounter;
 import solver.search.loop.monitors.SMF;
-import solver.search.loop.monitors.SearchMonitorFactory;
 import solver.search.strategy.IntStrategyFactory;
 import solver.search.strategy.strategy.AbstractStrategy;
 import solver.trace.Chatterbox;
@@ -49,10 +47,9 @@ public class Recherche extends AbstractProblem {
 	public String getSolution() {
 		String rep = "Solution:  ";
 		for (int i = 0; i < solution.length; i++) {
-			if (solution[i] <10) {
+			if (solution[i] < 10) {
 				rep += "    " + solution[i];
-			}
-			else {
+			} else {
 				rep += "   " + solution[i];
 			}
 		}
@@ -62,10 +59,9 @@ public class Recherche extends AbstractProblem {
 	public String getDistance() {
 		String rep = "Distances: ";
 		for (int i = 0; i < distance.length; i++) {
-			if (distance[i] <100) {
+			if (distance[i] < 100) {
 				rep += "   " + distance[i];
-			}
-			else {
+			} else {
 				rep += "  " + distance[i];
 			}
 		}
@@ -119,33 +115,33 @@ public class Recherche extends AbstractProblem {
 
 		// Homogeneite distance intergroupe
 
-		for (int j = 0; j < nbClub; j++) {
-			IntVar sommeDistDuGroupe = VariableFactory.bounded(
-					"distance intergroupe" + j, 0, this.distMax, solver);
-			solver.post(IntConstraintFactory.scalar(matriceGroupe[j],
-					tabDistance[j], sommeDistDuGroupe));
-
-			IntVar nFoisSommeDistDuGroupe = VariableFactory.bounded(
-					"n*distance intergroupe" + j, 0, this.distMax, solver);
-			solver.post(IntConstraintFactory.times(sommeDistDuGroupe,
-					this.tailleGroupe, nFoisSommeDistDuGroupe));
-
-			IntVar diff = VariableFactory.bounded("diff" + j, -this.distMax,
-					this.distMax, solver);
-			IntVar[] tab = new IntVar[] { nFoisSommeDistDuGroupe, tabDist[j] };
-			int[] multi = new int[] { -1, 1 };
-			solver.post(IntConstraintFactory.scalar(tab, multi, diff));
-
-			IntVar abs = VariableFactory.abs(diff);
-
-			IntVar moyennePonderee = VariableFactory.bounded("moyenne ponderee"
-					+ j, 0, this.distMax, solver);
-			solver.post(IntConstraintFactory.times(tabDist[j],
-					(int) (this.tailleGroupe * 0.9), moyennePonderee));
-
-			solver.post(IntConstraintFactory.arithm(abs, "<", moyennePonderee));
-
-		}
+		// for (int j = 0; j < nbClub; j++) {
+		// IntVar sommeDistDuGroupe = VariableFactory.bounded(
+		// "distance intergroupe" + j, 0, this.distMax, solver);
+		// solver.post(IntConstraintFactory.scalar(matriceGroupe[j],
+		// tabDistance[j], sommeDistDuGroupe));
+		//
+		// IntVar nFoisSommeDistDuGroupe = VariableFactory.bounded(
+		// "n*distance intergroupe" + j, 0, this.distMax, solver);
+		// solver.post(IntConstraintFactory.times(sommeDistDuGroupe,
+		// this.tailleGroupe, nFoisSommeDistDuGroupe));
+		//
+		// IntVar diff = VariableFactory.bounded("diff" + j, -this.distMax,
+		// this.distMax, solver);
+		// IntVar[] tab = new IntVar[] { nFoisSommeDistDuGroupe, tabDist[j] };
+		// int[] multi = new int[] { -1, 1 };
+		// solver.post(IntConstraintFactory.scalar(tab, multi, diff));
+		//
+		// IntVar abs = VariableFactory.abs(diff);
+		//
+		// IntVar moyennePonderee = VariableFactory.bounded("moyenne ponderee"
+		// + j, 0, this.distMax, solver);
+		// solver.post(IntConstraintFactory.times(tabDist[j], 10,
+		// moyennePonderee));
+		//
+		// solver.post(IntConstraintFactory.arithm(abs, "<", moyennePonderee));
+		// save[j] = sommeDistDuGroupe;
+		// }
 
 		// Somme des distances
 
