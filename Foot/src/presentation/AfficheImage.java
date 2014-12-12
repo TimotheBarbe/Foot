@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JPanel;
 
 import model.Club;
 import model.Obs;
 
-public class AfficheImage extends JPanel {
+public class AfficheImage extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private Image image;
@@ -18,23 +22,27 @@ public class AfficheImage extends JPanel {
 	public AfficheImage(String s, Obs obs) {
 		this.image = getToolkit().getImage(s);
 		this.setObs(obs);
+		this.addMouseListener(this);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+		int zoom = obs.getZoom();
+		int coinX = (int) obs.getCoinZoom().getX();
+		int coinY = (int) obs.getCoinZoom().getY();
+		g.drawImage(this.image, -coinX, -coinY, zoom * getWidth(), zoom
+				* getHeight(), this);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 
 		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 			Club c = obs.getDiv().getListe().get(i);
-			int x = (int) c.getVille().getX();
-			int y = (int) c.getVille().getY();
+			int x = zoom * (int) (c.getVille().getX());
+			int y = zoom * (int) (c.getVille().getY());
 			String nom = c.toString();
 			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
 			g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 			g.fillOval(x, y, 10, 10);
 		}
-
 	}
 
 	private Color getColor(int numeroGroupe) {
@@ -59,6 +67,33 @@ public class AfficheImage extends JPanel {
 
 	public void setObs(Obs obs) {
 		this.obs = obs;
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			obs.setZoom(obs.getZoom() + 1);
+//			obs.setCoinZoom(new Point(e.getX() - 800 / obs.getZoom(), e.getY()
+//					- 600 / obs.getZoom()));
+
+		}
+		if (e.getButton() == MouseEvent.BUTTON3) {
+			obs.setZoom(obs.getZoom() - 1);
+//			obs.setCoinZoom(new Point(e.getX(), e.getY()));
+
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+
 	}
 
 }

@@ -5,16 +5,17 @@ import java.awt.event.ActionListener;
 
 import model.Obs;
 
-public class ControleJBoxTest implements ActionListener{
+public class ControleJBoxTest implements ActionListener {
 
 	private Obs obs;
-	
-	public ControleJBoxTest(Obs obs){
+
+	public ControleJBoxTest(Obs obs) {
 		this.obs = obs;
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-		obs.changeGroupe(1, (int)(Math.random()*3));
+		obs.changeGroupe(1, (int) (Math.random() * 3));
+		obs.setZoom(2);
 	}
 
 }

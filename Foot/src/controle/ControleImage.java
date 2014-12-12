@@ -16,7 +16,7 @@ public class ControleImage implements Observer {
 
 	public void update(Observable o, Object message) {
 		Integer iMessage = (Integer) message;
-		if (iMessage == Obs.CHANGEMENT_CLUB) {
+		if (iMessage == Obs.CHANGEMENT_CLUB || iMessage == Obs.CHANGEMENT_ZOOM) {
 			affImage.repaint();
 		}
 	}

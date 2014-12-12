@@ -37,6 +37,7 @@ public class MainWindows extends JFrame {
 		this.creerCarte();
 		this.creerGauche();
 		this.pack();
+
 	}
 
 	private void creerCarte() {
@@ -44,12 +45,11 @@ public class MainWindows extends JFrame {
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 6));
 
-		AfficheImage affIm = new AfficheImage("carte_region.jpg",
-				obs);
+		AfficheImage affIm = new AfficheImage("carte_region.jpg", obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
-		this.obs.addObserver(cimg);
 
+		this.obs.addObserver(cimg);
 		this.getContentPane().add(panelCarte, BorderLayout.CENTER);
 	}
 
