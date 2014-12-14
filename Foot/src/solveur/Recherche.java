@@ -56,6 +56,10 @@ public class Recherche extends AbstractProblem {
 		return rep;
 	}
 
+	public int[] getTabSolution() {
+		return this.solution;
+	}
+
 	public String getDistance() {
 		String rep = "Distances: ";
 		for (int i = 0; i < distance.length; i++) {
