@@ -36,14 +36,14 @@ public class AfficheImage extends JPanel implements MouseListener {
 		int zoom = obs.getZoom();
 		int coinX = (int) obs.getCoinZoom().getX();
 		int coinY = (int) obs.getCoinZoom().getY();
-		g.drawImage(this.image, -coinX, -coinY, zoom * getWidth(), zoom
+		g.drawImage(this.image, -coinX*zoom, -coinY*zoom, zoom * getWidth(), zoom
 				* getHeight(), this);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 
 		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 			Club c = obs.getDiv().getListe().get(i);
-			int x = zoom * (int) (c.getVille().getX());
-			int y = zoom * (int) (c.getVille().getY());
+			int x = zoom * (int) (c.getVille().getX()-coinX);
+			int y = zoom * (int) (c.getVille().getY()-coinY);
 			String nom = c.toString();
 			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
 			if (obs.isAfficherNom()) {
@@ -100,16 +100,18 @@ public class AfficheImage extends JPanel implements MouseListener {
 
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			obs.setZoom(obs.getZoom() + 1);
-			// obs.setCoinZoom(new Point(e.getX() - 800 / obs.getZoom(),
-			// e.getY()
-			// - 600 / obs.getZoom()));
+			int zoom = obs.getZoom() + 1;
+			obs.setZoom(zoom);
+			System.out.println(e.getX()+"  "+e.getY());
+			Point nouveauCoin = new Point(e.getX() - 400 / zoom, e.getY()
+					- 300 / zoom);
+			System.out.println(nouveauCoin);
+			obs.setCoinZoom(nouveauCoin);
 
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
-			obs.setZoom(obs.getZoom() - 1);
-			// obs.setCoinZoom(new Point(e.getX(), e.getY()));
-
+			obs.setZoom(1);
+			obs.setCoinZoom(new Point());
 		}
 	}
 
