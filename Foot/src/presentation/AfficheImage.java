@@ -40,7 +40,9 @@ public class AfficheImage extends JPanel implements MouseListener {
 			int y = zoom * (int) (c.getVille().getY());
 			String nom = c.toString();
 			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-			g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+			if (obs.isAfficherNom()) {
+				g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+			}
 			g.fillOval(x, y, 10, 10);
 		}
 	}
@@ -57,6 +59,27 @@ public class AfficheImage extends JPanel implements MouseListener {
 		case 2:
 			c = Color.GREEN;
 			break;
+		case 3:
+			c = Color.YELLOW;
+			break;
+		case 4:
+			c = Color.ORANGE;
+			break;
+		case 5:
+			c = Color.PINK;
+			break;
+		case 6:
+			c = Color.GRAY;
+			break;
+		case 7:
+			c = Color.DARK_GRAY;
+			break;
+		case 8:
+			c = Color.MAGENTA;
+			break;
+		case 9:
+			c = Color.LIGHT_GRAY;
+			break;
 		}
 		return c;
 	}
@@ -72,13 +95,14 @@ public class AfficheImage extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			obs.setZoom(obs.getZoom() + 1);
-//			obs.setCoinZoom(new Point(e.getX() - 800 / obs.getZoom(), e.getY()
-//					- 600 / obs.getZoom()));
+			// obs.setCoinZoom(new Point(e.getX() - 800 / obs.getZoom(),
+			// e.getY()
+			// - 600 / obs.getZoom()));
 
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			obs.setZoom(obs.getZoom() - 1);
-//			obs.setCoinZoom(new Point(e.getX(), e.getY()));
+			// obs.setCoinZoom(new Point(e.getX(), e.getY()));
 
 		}
 	}

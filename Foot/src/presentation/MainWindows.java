@@ -6,16 +6,19 @@ import java.awt.Font;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import model.Obs;
 import controle.ControleImage;
-import controle.ControleJBoxTest;
+import controle.ControleJBoxAfficherNom;
 
 public class MainWindows extends JFrame {
 
@@ -28,22 +31,21 @@ public class MainWindows extends JFrame {
 		this.setTitle("Foot");
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// this.setContentPane(new
-		// AfficheImage("C:\\carte_region.jpg",listeClub));
+
 		this.getContentPane().setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setVisible(true);
 
 		this.creerCarte();
 		this.creerGauche();
+		this.creerBas();
 		this.pack();
-
 	}
 
 	private void creerCarte() {
 		JPanel panelCarte = new JPanel(new BorderLayout());
 		panelCarte.setPreferredSize(new Dimension(800, 600));
-		panelCarte.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 6));
+		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
 		AfficheImage affIm = new AfficheImage("carte_region.jpg", obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
@@ -54,30 +56,75 @@ public class MainWindows extends JFrame {
 	}
 
 	private void creerGauche() {
-		JPanel panelListe = new JPanel(new BorderLayout());
-		panelListe.setBorder(BorderFactory.createEmptyBorder(6, 6, 3, 3));
-		panelListe.setPreferredSize(new Dimension(200, 600));
+		JPanel gauche = new JPanel(new BorderLayout());
 
-		// TITRE
+		// LISTE DES CLUBS
+		JPanel panelListe = new JPanel(new BorderLayout());
+		panelListe.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		panelListe.setPreferredSize(new Dimension(200, 600));
+		// titre
 		JLabel labelClub = new JLabel("Clubs");
 		labelClub.setFont(new Font(labelClub.getFont().getName(), Font.BOLD,
 				LABEL_SIZE));
 		panelListe.add(labelClub, BorderLayout.NORTH);
-
-		// LISTE CLUBS
-		JList<String> listeClub = this.getJListClub();
+		// liste
+		JScrollPane listeClub = this.getJListClub();
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
-		// TESTS
-		JCheckBox test = new JCheckBox();
-		panelListe.add(test, BorderLayout.SOUTH);
-		ControleJBoxTest controleboxtest = new ControleJBoxTest(this.obs);
-		test.addActionListener(controleboxtest);
+		// LISTE DES DISTANCE
+		JPanel panelDist = new JPanel(new BorderLayout());
+		panelDist.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		panelDist.setPreferredSize(new Dimension(70, 600));
+		// titre
+		JLabel labelDist = new JLabel("Distances");
+		labelDist.setFont(new Font(labelDist.getFont().getName(), Font.BOLD,
+				LABEL_SIZE));
+		panelDist.add(labelDist, BorderLayout.NORTH);
+		// liste
+		JScrollPane jsp = this.getJListDist();
+		panelDist.add(jsp, BorderLayout.CENTER);
 
-		this.getContentPane().add(panelListe, BorderLayout.WEST);
+		gauche.add(panelListe, BorderLayout.CENTER);
+		gauche.add(panelDist, BorderLayout.EAST);
+		this.getContentPane().add(gauche, BorderLayout.WEST);
 	}
 
-	private JList<String> getJListClub() {
+	private void creerBas() {
+		JPanel panelBas = new JPanel(new BorderLayout());
+
+		// AFFICHER NOMS
+		JPanel panelWest = new JPanel(new BorderLayout());
+		// tickbox
+		JCheckBox tickAfficherNom = new JCheckBox();
+		panelWest.add(tickAfficherNom, BorderLayout.WEST);
+		ControleJBoxAfficherNom controleboxtest = new ControleJBoxAfficherNom(
+				this.obs);
+		tickAfficherNom.addActionListener(controleboxtest);
+		// titre
+		JLabel labelAfficherNom = new JLabel("Afficher les noms des clubs?");
+		labelAfficherNom.setFont(new Font(labelAfficherNom.getFont().getName(),
+				Font.BOLD, LABEL_SIZE));
+		panelWest.add(labelAfficherNom, BorderLayout.CENTER);
+
+		// BOUTONS
+		JPanel panelEast = new JPanel(new BorderLayout());
+		panelEast.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		// export solution
+		JButton exportsolution = new JButton("Exporter la solution");
+		panelEast.add(exportsolution, BorderLayout.WEST);
+		// espace vide
+		panelEast.add(Box.createRigidArea(new Dimension(5, 0)),
+				BorderLayout.CENTER);
+		// export carte
+		JButton exportCarte = new JButton("Exporter la carte");
+		panelEast.add(exportCarte, BorderLayout.EAST);
+
+		panelBas.add(panelWest, BorderLayout.WEST);
+		panelBas.add(panelEast, BorderLayout.EAST);
+		this.getContentPane().add(panelBas, BorderLayout.SOUTH);
+	}
+
+	private JScrollPane getJListClub() {
 		JList<String> listeClub = new JList<String>();
 		Vector<String> data = new Vector<String>();
 		int clubRestant = obs.getReponseSolveur().length;
@@ -94,6 +141,18 @@ public class MainWindows extends JFrame {
 		}
 		listeClub.setListData(data);
 		listeClub.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		return listeClub;
+		return new JScrollPane(listeClub);
+	}
+
+	private JScrollPane getJListDist() {
+		JList<String> listeDist = new JList<String>();
+		Vector<String> data = new Vector<String>();
+		for (int i = 0; i < obs.getDiv().getNbGroupe()
+				+ obs.getDiv().getNbClub(); i++) {
+			data.add(" " + (double) Math.round(Math.random() * 50 * 10) / 10);
+		}
+		listeDist.setListData(data);
+		listeDist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		return new JScrollPane(listeDist);
 	}
 }
