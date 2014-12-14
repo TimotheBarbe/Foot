@@ -48,10 +48,7 @@ public class MainWindows extends JFrame {
 
 	private void creerCarte() {
 		JPanel panelCarte = new JPanel(new BorderLayout());
-		Image iconeCurseur = getToolkit().getImage("magnifier.png");
-		Cursor curs = getToolkit().createCustomCursor(iconeCurseur,
-				new Point(1, 1), "monCurseur");
-		panelCarte.setCursor(curs);
+
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 

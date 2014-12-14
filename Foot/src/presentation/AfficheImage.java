@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -23,6 +24,11 @@ public class AfficheImage extends JPanel implements MouseListener {
 		this.image = getToolkit().getImage(s);
 		this.setObs(obs);
 		this.addMouseListener(this);
+		// Curseur
+		Image iconeCurseur = getToolkit().getImage("magnifier.png");
+		Cursor curs = getToolkit().createCustomCursor(iconeCurseur,
+				new Point(1, 1), "monCurseur");
+		this.setCursor(curs);
 	}
 
 	public void paintComponent(Graphics g) {
