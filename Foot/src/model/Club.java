@@ -48,7 +48,10 @@ public class Club {
 	public double[] getCoordMatriByGPS(double[] coordonneesGPS){
 		double[] coordonnesMatricielles = new double[2];
 		
-		coordonnesMatricielles = this.coordonneesGPS;
+		coordonnesMatricielles[0] = (coordonneesGPS[0]-47)*1500;
+		coordonnesMatricielles[1] = (coordonneesGPS[1]+2)*900;
+		
+		//coordonnesMatricielles = this.coordonneesGPS;
 		return coordonnesMatricielles;
 	}
 	

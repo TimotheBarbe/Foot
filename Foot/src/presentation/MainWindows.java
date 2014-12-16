@@ -31,7 +31,6 @@ public class MainWindows extends JFrame {
 	private Obs obs;
 
 	public MainWindows(Obs obs) {
-		// this.setSize(800, 600);
 		this.setTitle("Foot");
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -49,7 +48,7 @@ public class MainWindows extends JFrame {
 	private void creerCarte() {
 		JPanel panelCarte = new JPanel(new BorderLayout());
 
-		panelCarte.setPreferredSize(new Dimension(800, 600));
+		panelCarte.setPreferredSize(new Dimension(1200, 800));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
 		AfficheImage affIm = new AfficheImage("carte_region.jpg", obs);
