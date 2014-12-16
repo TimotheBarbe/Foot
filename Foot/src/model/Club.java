@@ -7,8 +7,11 @@ public class Club {
 	// identifiant unique du club
 	private int id;
 
-	// ville du club
-	private Ville v;
+	// coordonnes GPS
+	private double[] coordonneesGPS;
+	
+	// coordonnees matricielles
+	private double[] coordonneesMatricielles;
 
 	/**
 	 * Creation d'un club
@@ -17,16 +20,37 @@ public class Club {
 	 *            : nom du club
 	 * @param id
 	 *            : id unique du club
-	 * @param v
-	 *            : ville du club
+	 * @param coordonneesGPS
+	 *            : coordonnees GPS du club
 	 * 
 	 */
-	public Club(String nom, int id, Ville v) {
+	public Club(String nom, int id, double[] coordonnesGPS) {
 		this.nom = nom;
 		this.id = id;
-		this.v = v;
+		this.coordonneesGPS = coordonnesGPS;
+		
+		this.coordonneesMatricielles = this.getCoordMatriByGPS(coordonnesGPS);
 	}
 
+	/****************************************************************
+	 * ---------------------- METHODES ------------------------------
+	 ****************************************************************/
+
+	public String toString() {
+		return getNom() + " (" + getId() + ")";
+	}
+	
+	/**
+	 * 
+	 * @param coordonneesGPS : les coordonnees GPS du club
+	 * @return le calcul des coordonnees matricielles a partir des coordonnees GPS
+	 */
+	public double[] getCoordMatriByGPS(double[] coordonneesGPS){
+		double[] coordonnesMatricielles = new double[2];
+		
+		return coordonnesMatricielles;
+	}
+	
 	/****************************************************************
 	 * ---------------------- GETTER --------------------------------
 	 ****************************************************************/
@@ -38,11 +62,14 @@ public class Club {
 	public int getId() {
 		return id;
 	}
-
-	public Ville getVille() {
-		return v;
+	
+	public double[] getCoordonneesGPS() {
+		return coordonneesGPS;
 	}
 
+	public double[] getCoordonneesMatricielles() {
+		return coordonneesMatricielles;
+	}
 	/****************************************************************
 	 * ---------------------- SETTER --------------------------------
 	 ****************************************************************/
@@ -54,16 +81,12 @@ public class Club {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public void setVille(Ville v) {
-		this.v = v;
+	
+	public void setCoordonneesGPS(double[] coordonneesGPS) {
+		this.coordonneesGPS = coordonneesGPS;
 	}
-
-	/****************************************************************
-	 * ---------------------- METHODES ------------------------------
-	 ****************************************************************/
-
-	public String toString() {
-		return getNom() + " (" + getId() + ")";
+	
+	public void setCoordonneesMatricielles(double[] coordonneesMatricielles) {
+		this.coordonneesMatricielles = coordonneesMatricielles;
 	}
 }

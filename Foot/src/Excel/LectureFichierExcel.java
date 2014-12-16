@@ -46,7 +46,7 @@ public class LectureFichierExcel {
 		workbook = null;
 		try {
 			/* Récupération du classeur Excel (en lecture) */
-			workbook = Workbook.getWorkbook(new File("Donnees/test.xls"));
+			workbook = Workbook.getWorkbook(new File("Donnees/BASE LOGICIEL GROUPES.xls"));
 
 			/*
 			 * Un fichier excel est composé de plusieurs feuilles, on y accède
@@ -73,7 +73,7 @@ public class LectureFichierExcel {
 			System.out.println(contenuA1);
 			System.out.println(contenuC3);
 
-			System.out.println(toString(getAllTab(0)));
+			//System.out.println(toString(getAllTab(0)));
 
 		} catch (BiffException e) {
 			e.printStackTrace();

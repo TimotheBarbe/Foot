@@ -27,8 +27,8 @@ public class AfficheImage extends JPanel {
 
 		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 			Club c = obs.getDiv().getListe().get(i);
-			int x = (int) c.getVille().getX();
-			int y = (int) c.getVille().getY();
+			int x = (int) c.getCoordonneesMatricielles()[0];
+			int y = (int) c.getCoordonneesMatricielles()[1];
 			String nom = c.toString();
 			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
 			g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
