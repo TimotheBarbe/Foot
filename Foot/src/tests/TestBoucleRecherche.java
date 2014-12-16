@@ -10,11 +10,11 @@ public class TestBoucleRecherche {
 		Desiderata d1 = new Desiderata(0, 1, "!=");
 		Desiderata[] tabDesiderata = new Desiderata[] { d1 };
 
-		int[][] tab_enorme = GenerateDistances.genererTableau(100, 20);
+		int[][] tab_enorme = GenerateDistances.genererTableau(150, 100);
 
 		long millis = System.currentTimeMillis();
 
-		int nbg = 10;
+		int nbg = 15;
 		BoucleRecherche r = new BoucleRecherche(nbg, tab_enorme, tabDesiderata, 5 * 60000, 60000,
 				true);
 		r.run();

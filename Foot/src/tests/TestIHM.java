@@ -3,30 +3,23 @@ package tests;
 import model.Club;
 import model.Division;
 import model.Obs;
-import model.Ville;
 import presentation.MainWindows;
 
 public class TestIHM {
 
 	public static void main(String[] args) {
+		int nbClub = 100;
+		int nbGroupe = 10;
+		Division d = new Division(nbGroupe);
+		int[] reponseSolveur = new int[nbClub];
+		for (int i = 0; i < nbClub; i++) {
+			double[] coordonneesGPS = {50 + Math.random() * 700, 50 + Math.random() * 500};
+			
+			Club c = new Club("Club " + i, i, coordonneesGPS);
+			d.addClub(c);
+			reponseSolveur[i] = (int) (nbGroupe * Math.random());
+		}
 
-		Ville v1 = new Ville(0, "Nantes", 200, 300);
-		Ville v2 = new Ville(1, "Paris", 400, 250);
-		Ville v3 = new Ville(1, "Lyon", 250, 250);
-		Ville v4 = new Ville(1, "Marseilles", 600, 75);
-
-		Club c1 = new Club("FCN", 0, v1);
-		Club c2 = new Club("PSG", 1, v2);
-		Club c3 = new Club("Olympique lyonnais", 2, v3);
-		Club c4 = new Club("OM", 3, v4);
-
-		Division d = new Division(2);
-		d.addClub(c1);
-		d.addClub(c2);
-		d.addClub(c3);
-		d.addClub(c4);
-
-		int[] reponseSolveur = new int[] { 1, 0, 0, 1 };
 		Obs obs = new Obs(d, reponseSolveur);
 
 		MainWindows test = new MainWindows(obs);
