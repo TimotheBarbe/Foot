@@ -23,6 +23,7 @@ import javax.swing.ListSelectionModel;
 import model.Obs;
 import controle.ControleImage;
 import controle.ControleJBoxAfficherNom;
+import controle.ControleJListClub;
 
 public class MainWindows extends JFrame {
 
@@ -48,7 +49,7 @@ public class MainWindows extends JFrame {
 	private void creerCarte() {
 		JPanel panelCarte = new JPanel(new BorderLayout());
 
-		panelCarte.setPreferredSize(new Dimension(1200, 800));
+		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
 		AfficheImage affIm = new AfficheImage("carte_region.jpg", obs);
@@ -134,7 +135,7 @@ public class MainWindows extends JFrame {
 		int clubRestant = obs.getReponseSolveur().length;
 		int indice = 0;
 		while (clubRestant > 0) {
-			data.add("Poule " + indice);
+			data.add("Poule " + (indice + 1));
 			for (int i = 0; i < obs.getReponseSolveur().length; i++) {
 				if (this.obs.getReponseSolveur()[i] == indice) {
 					data.add("  " + this.obs.getDiv().getListe().get(i));
@@ -145,6 +146,9 @@ public class MainWindows extends JFrame {
 		}
 		listeClub.setListData(data);
 		listeClub.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// Controleur
+		ControleJListClub cjlist = new ControleJListClub(obs);
+		listeClub.addListSelectionListener(cjlist);
 		return new JScrollPane(listeClub);
 	}
 

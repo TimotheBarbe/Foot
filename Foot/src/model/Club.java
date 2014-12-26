@@ -32,10 +32,6 @@ public class Club {
 		this.coordonneesMatricielles = this.getCoordMatriByGPS(coordonnesGPS);
 	}
 
-	/****************************************************************
-	 * ---------------------- METHODES ------------------------------
-	 ****************************************************************/
-
 	public String toString() {
 		return getNom() + " (" + getId() + ")";
 	}
@@ -59,10 +55,6 @@ public class Club {
 		return coordonnesMatricielles;
 	}
 
-	/****************************************************************
-	 * ---------------------- GETTER --------------------------------
-	 ****************************************************************/
-
 	public String getNom() {
 		return nom;
 	}
@@ -78,10 +70,6 @@ public class Club {
 	public double[] getCoordonneesMatricielles() {
 		return coordonneesMatricielles;
 	}
-
-	/****************************************************************
-	 * ---------------------- SETTER --------------------------------
-	 ****************************************************************/
 
 	public void setNom(String nom) {
 		this.nom = nom;
