@@ -13,6 +13,7 @@ public class Obs extends Observable {
 	private Point coinZoom;
 	private boolean afficherNom;
 	private int indiceSurvole;
+	private Club clubSelection;
 
 	public Obs(Division div, int[] reponseSolveur) {
 		super();
@@ -22,6 +23,7 @@ public class Obs extends Observable {
 		this.coinZoom = new Point(0, 0);
 		this.setAfficherNom(false);
 		this.setIndiceSurvole(-1);
+		this.setClubSelectionne(null);
 	}
 
 	public Division getDiv() {
@@ -86,6 +88,16 @@ public class Obs extends Observable {
 
 	public void setIndiceSurvole(int indiceSurvole) {
 		this.indiceSurvole = indiceSurvole;
+		this.setChanged();
+		this.notifyObservers(CHANGEMENT_CLUB);
+	}
+
+	public Club getClubSelectionne() {
+		return clubSelection;
+	}
+
+	public void setClubSelectionne(Club clubS) {
+		this.clubSelection = clubS;
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_CLUB);
 	}

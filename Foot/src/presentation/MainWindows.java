@@ -1,12 +1,8 @@
 package presentation;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -24,6 +20,7 @@ import model.Obs;
 import controle.ControleImage;
 import controle.ControleJBoxAfficherNom;
 import controle.ControleJListClub;
+import controle.ObserverJScrollClub;
 
 public class MainWindows extends JFrame {
 
@@ -74,6 +71,7 @@ public class MainWindows extends JFrame {
 		panelListe.add(labelClub, BorderLayout.NORTH);
 		// liste
 		JScrollPane listeClub = this.getJListClub();
+		this.obs.addObserver(new ObserverJScrollClub(obs, listeClub));
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
 		// LISTE DES DISTANCE
@@ -147,8 +145,9 @@ public class MainWindows extends JFrame {
 		listeClub.setListData(data);
 		listeClub.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// Controleur
-		ControleJListClub cjlist = new ControleJListClub(obs);
+		ControleJListClub cjlist = new ControleJListClub(obs, listeClub);
 		listeClub.addListSelectionListener(cjlist);
+		this.obs.addObserver(cjlist);
 		return new JScrollPane(listeClub);
 	}
 

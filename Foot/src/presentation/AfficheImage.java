@@ -26,7 +26,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 	public AfficheImage(String s, Obs obs) {
 		this.image = getToolkit().getImage(s);
-		this.setObs(obs);
+		this.obs = obs;
 		this.addMouseListener(this);
 		this.addMouseWheelListener(this);
 		this.addMouseMotionListener(this);
@@ -104,15 +104,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 		return c;
 	}
 
-	public Obs getObs() {
-		return obs;
-	}
-
-	public void setObs(Obs obs) {
-		this.obs = obs;
-	}
-
 	public void mouseClicked(MouseEvent e) {
+		int clubclick = this.getClubPlusProche(e.getX(), e.getY());
+		if (clubclick >= 0) {
+			obs.setClubSelectionne(obs.getDiv().getListe().get(clubclick));
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
