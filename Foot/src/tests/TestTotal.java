@@ -3,12 +3,12 @@ package tests;
 import java.awt.Point;
 import java.util.Random;
 
-import presentation.MainWindows;
-import solveur.Recherche;
 import model.Club;
 import model.Desiderata;
 import model.Division;
 import model.Obs;
+import presentation.MainWindows;
+import solveur.Recherche;
 
 public class TestTotal {
 
@@ -19,11 +19,10 @@ public class TestTotal {
 		Point[] tabPoint = new Point[nbClub];
 		Random rdm = new Random(0);
 		for (int i = 0; i < nbClub; i++) {
-			tabPoint[i] = new Point((int) (50 + rdm.nextInt(700)),
-					(int) (50 + rdm.nextInt(500)));
-			
-			double[] coordonneesGPS = {tabPoint[i].getX(), tabPoint[i].getY()};
-			
+			tabPoint[i] = new Point((int) (50 + rdm.nextInt(700)), (int) (50 + rdm.nextInt(500)));
+
+			double[] coordonneesGPS = { tabPoint[i].getX(), tabPoint[i].getY() };
+
 			Club c = new Club("Club " + i, i, coordonneesGPS);
 			d.addClub(c);
 		}
@@ -36,8 +35,7 @@ public class TestTotal {
 
 		Desiderata[] tabDesiderata = new Desiderata[0];
 
-		Recherche r = new Recherche(nbGroupe, tabDist, tabDesiderata,
-				6 * 60000, 265000, true);
+		Recherche r = new Recherche(nbGroupe, tabDist, tabDesiderata, 6 * 60000, 300000, true);
 		r.execute();
 		int[] tabSolution = r.getTabSolution();
 		Obs obs = new Obs(d, tabSolution);

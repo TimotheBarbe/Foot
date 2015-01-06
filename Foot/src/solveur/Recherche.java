@@ -29,8 +29,7 @@ public class Recherche extends AbstractProblem {
 	private IntVar[] tabDist;
 	private boolean afficher;
 
-	public Recherche(int nbGroupe, int[][] tabDistance,
-			Desiderata[] listeDesiderata, long tempsMax, int distMax,
+	public Recherche(int nbGroupe, int[][] tabDistance, Desiderata[] listeDesiderata, long tempsMax, int distMax,
 			boolean afficher) {
 		this.nbGroupe = nbGroupe;
 		this.tabDistance = tabDistance;
@@ -79,15 +78,13 @@ public class Recherche extends AbstractProblem {
 		club = new IntVar[nbClub];
 
 		for (int i = 0; i < nbClub; i++) {
-			club[i] = VariableFactory.bounded("Club " + i + " ", 0,
-					nbGroupe - 1, solver);
+			club[i] = VariableFactory.bounded("Club " + i + " ", 0, nbGroupe - 1, solver);
 		}
 
 		// Pas plus de clubs que la cap max d'une poule
 
 		for (int i = 0; i < nbGroupe; i++) {
-			IntVar e = VariableFactory.bounded("E " + i, tailleGroupe - 1,
-					tailleGroupe, solver);
+			IntVar e = VariableFactory.bounded("E " + i, tailleGroupe - 1, tailleGroupe, solver);
 			solver.post(IntConstraintFactory.count(i, club, e));
 		}
 
@@ -97,24 +94,31 @@ public class Recherche extends AbstractProblem {
 		IntVar un = VariableFactory.fixed(1, solver);
 
 		tabDist = new IntVar[nbClub];
-		IntVar[][] matriceGroupe = VariableFactory.boolMatrix("matriceGroupe",
-				nbClub, nbClub, solver);
+		IntVar[][] matriceGroupe = VariableFactory.boolMatrix("matriceGroupe", nbClub, nbClub, solver);
 
 		for (int j = 0; j < nbClub; j++) {
-			IntVar[] memeGroupe = VariableFactory.boolArray("memeGroupe " + j,
-					nbClub, solver);
+			IntVar[] memeGroupe = VariableFactory.boolArray("memeGroupe " + j, nbClub, solver);
 			for (int i = 0; i < memeGroupe.length; i++) {
-				LogicalConstraintFactory.ifThenElse(
-						IntConstraintFactory.arithm(club[j], "=", club[i]),
+				LogicalConstraintFactory.ifThenElse(IntConstraintFactory.arithm(club[j], "=", club[i]),
 						IntConstraintFactory.arithm(memeGroupe[i], "=", un),
 						IntConstraintFactory.arithm(memeGroupe[i], "=", zero));
 			}
 			matriceGroupe[j] = memeGroupe;
-			IntVar distance = VariableFactory.bounded("distance" + j, 0,
-					this.distMax, solver);
-			solver.post(IntConstraintFactory.scalar(memeGroupe, tabDistance[j],
-					distance));
+			IntVar distance = VariableFactory.bounded("distance" + j, 0, this.distMax, solver);
+			solver.post(IntConstraintFactory.scalar(memeGroupe, tabDistance[j], distance));
 			tabDist[j] = distance;
+		}
+
+		// Clubs dans des groupes différents s'ils ont particulièrement loin -
+		// dist sup au rayonCercle
+		int rayonCercle = 500;
+
+		for (int i = 0; i < nbClub; i++) {
+			for (int j = i + 1; j < nbClub; j++) {
+				if (tabDistance[i][j] > rayonCercle) {
+					solver.post(IntConstraintFactory.arithm(club[i], "!=", club[j]));
+				}
+			}
 		}
 
 		// Homogeneite distance intergroupe
@@ -149,16 +153,14 @@ public class Recherche extends AbstractProblem {
 
 		// Somme des distances
 
-		sommeDist = VariableFactory.bounded("somme distance", 0, this.distMax,
-				solver);
+		sommeDist = VariableFactory.bounded("somme distance", 0, this.distMax, solver);
 		solver.post(IntConstraintFactory.sum(tabDist, sommeDist));
 		solver.post(IntConstraintFactory.arithm(sommeDist, "<", this.distMax));
 
 		// Desiderata
 
 		for (Desiderata d : listeDesiderata) {
-			solver.post(IntConstraintFactory.arithm(club[d.getClub1()],
-					d.getOp(), club[d.getClub2()]));
+			solver.post(IntConstraintFactory.arithm(club[d.getClub1()], d.getOp(), club[d.getClub2()]));
 		}
 
 	}
@@ -170,8 +172,7 @@ public class Recherche extends AbstractProblem {
 
 		AbstractStrategy activity = IntStrategyFactory.activity(club, 15012011);
 		solver.set(IntStrategyFactory.lastConflict(solver, activity));
-		SMF.geometrical(solver, (nbClub) / 2, 2, new FailCounter(nbClub),
-				Integer.MAX_VALUE);
+		SMF.geometrical(solver, (nbClub) / 2, 2, new FailCounter(nbClub), Integer.MAX_VALUE);
 		if (afficher) {
 			Chatterbox.showStatisticsDuringResolution(solver, 5000);
 		}
