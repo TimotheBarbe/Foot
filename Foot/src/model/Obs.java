@@ -5,8 +5,9 @@ import java.util.Observable;
 
 public class Obs extends Observable {
 
-	public static final Integer CHANGEMENT_CLUB = new Integer(1);
+	public static final Integer CHANGEMENT_CLUB_COURANT = new Integer(1);
 	public static final Integer CHANGEMENT_ZOOM = new Integer(2);
+	public static final Integer CHANGEMENT_REPONSE_SOLVEUR = new Integer(3);
 	private Division div;
 	private int[] reponseSolveur;
 	private int zoom;
@@ -14,6 +15,7 @@ public class Obs extends Observable {
 	private boolean afficherNom;
 	private int indiceSurvole;
 	private Club clubSelection;
+	private int indiceJListClubSelection;
 
 	public Obs(Division div, int[] reponseSolveur) {
 		super();
@@ -24,6 +26,7 @@ public class Obs extends Observable {
 		this.setAfficherNom(false);
 		this.setIndiceSurvole(-1);
 		this.setClubSelectionne(null);
+		this.setIndiceJListClubSelection(-1);
 	}
 
 	public Division getDiv() {
@@ -33,7 +36,7 @@ public class Obs extends Observable {
 	public void setDiv(Division div) {
 		this.div = div;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
+		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
 
 	public int[] getReponseSolveur() {
@@ -42,6 +45,8 @@ public class Obs extends Observable {
 
 	public void setReponseSolveur(int[] reponseSolveur) {
 		this.reponseSolveur = reponseSolveur;
+		this.setChanged();
+		this.notifyObservers(CHANGEMENT_REPONSE_SOLVEUR);
 	}
 
 	public int getZoom() {
@@ -69,7 +74,7 @@ public class Obs extends Observable {
 	public void changeGroupe(int id, int newGroupe) {
 		this.reponseSolveur[id] = newGroupe;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
+		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
 
 	public boolean isAfficherNom() {
@@ -79,7 +84,7 @@ public class Obs extends Observable {
 	public void setAfficherNom(boolean afficherNom) {
 		this.afficherNom = afficherNom;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
+		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
 
 	public int getIndiceSurvole() {
@@ -89,7 +94,7 @@ public class Obs extends Observable {
 	public void setIndiceSurvole(int indiceSurvole) {
 		this.indiceSurvole = indiceSurvole;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
+		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
 
 	public Club getClubSelectionne() {
@@ -99,7 +104,15 @@ public class Obs extends Observable {
 	public void setClubSelectionne(Club clubS) {
 		this.clubSelection = clubS;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB);
+		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
+	}
+
+	public int getIndiceJListClubSelection() {
+		return indiceJListClubSelection;
+	}
+
+	public void setIndiceJListClubSelection(int indiceJListClubSelection) {
+		this.indiceJListClubSelection = indiceJListClubSelection;
 	}
 
 }

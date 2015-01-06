@@ -1,7 +1,6 @@
 package presentation;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -12,10 +11,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import model.Club;
 import model.Obs;
+import controle.ControleJPopMenu;
 
 public class AfficheImage extends JPanel implements MouseListener,
 		MouseWheelListener, MouseMotionListener {
@@ -105,9 +107,25 @@ public class AfficheImage extends JPanel implements MouseListener,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		int clubclick = this.getClubPlusProche(e.getX(), e.getY());
-		if (clubclick >= 0) {
-			obs.setClubSelectionne(obs.getDiv().getListe().get(clubclick));
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			int clubclick = this.getClubPlusProche(e.getX(), e.getY());
+			if (clubclick >= 0) {
+				obs.setClubSelectionne(obs.getDiv().getListe().get(clubclick));
+			}
+		}
+		if (e.getButton() == MouseEvent.BUTTON3) {
+			int clubclick = this.getClubPlusProche(e.getX(), e.getY());
+			if (clubclick >= 0) {
+				JPopupMenu contextMenu = new JPopupMenu();
+				for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
+					JMenuItem item = new JMenuItem(""+(i + 1));
+					contextMenu.add(item);
+					item.addActionListener(new ControleJPopMenu(obs, clubclick));
+				}
+				contextMenu.setEnabled(true);
+				contextMenu.setVisible(true);
+				contextMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
 		}
 	}
 
@@ -140,7 +158,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 	private int getClubPlusProche(int x, int y) {
 		Point pointClick = this.getCoordonneesSansZoom(x, y);
-		double distMini = 20;
+		double distMini = 10;
 		int rep = -1;
 		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 			Club c = obs.getDiv().getListe().get(i);

@@ -20,7 +20,7 @@ import model.Obs;
 import controle.ControleImage;
 import controle.ControleJBoxAfficherNom;
 import controle.ControleJListClub;
-import controle.ObserverJScrollClub;
+import controle.ControleJListDistance;
 
 public class MainWindows extends JFrame {
 
@@ -71,7 +71,6 @@ public class MainWindows extends JFrame {
 		panelListe.add(labelClub, BorderLayout.NORTH);
 		// liste
 		JScrollPane listeClub = this.getJListClub();
-		this.obs.addObserver(new ObserverJScrollClub(obs, listeClub));
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
 		// LISTE DES DISTANCE
@@ -134,7 +133,7 @@ public class MainWindows extends JFrame {
 		int indice = 0;
 		while (clubRestant > 0) {
 			data.add("Poule " + (indice + 1));
-			for (int i = 0; i < obs.getReponseSolveur().length; i++) {
+			for (int  i = 0; i < obs.getReponseSolveur().length; i++) {
 				if (this.obs.getReponseSolveur()[i] == indice) {
 					data.add("  " + this.obs.getDiv().getListe().get(i));
 					clubRestant--;
@@ -160,6 +159,9 @@ public class MainWindows extends JFrame {
 		}
 		listeDist.setListData(data);
 		listeDist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listeDist.setEnabled(false);
+		ControleJListDistance cjlist = new ControleJListDistance(obs, listeDist);
+		this.obs.addObserver(cjlist);
 		return new JScrollPane(listeDist);
 	}
 }
