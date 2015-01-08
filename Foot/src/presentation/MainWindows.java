@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import model.Obs;
@@ -21,6 +22,7 @@ import controle.ControleImage;
 import controle.ControleJBoxAfficherNom;
 import controle.ControleJListClub;
 import controle.ControleJListDistance;
+import controle.ControleRecherche;
 
 public class MainWindows extends JFrame {
 
@@ -64,12 +66,12 @@ public class MainWindows extends JFrame {
 		JPanel panelListe = new JPanel(new BorderLayout());
 		panelListe.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 		panelListe.setPreferredSize(new Dimension(200, 600));
-		// titre
+		
 		JLabel labelClub = new JLabel("Clubs");
 		labelClub.setFont(new Font(labelClub.getFont().getName(), Font.BOLD,
 				LABEL_SIZE));
 		panelListe.add(labelClub, BorderLayout.NORTH);
-		// liste
+		
 		JScrollPane listeClub = this.getJListClub();
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
@@ -77,15 +79,26 @@ public class MainWindows extends JFrame {
 		JPanel panelDist = new JPanel(new BorderLayout());
 		panelDist.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 		panelDist.setPreferredSize(new Dimension(70, 600));
-		// titre
+		
 		JLabel labelDist = new JLabel("Distances");
 		labelDist.setFont(new Font(labelDist.getFont().getName(), Font.BOLD,
 				LABEL_SIZE));
 		panelDist.add(labelDist, BorderLayout.NORTH);
-		// liste
+		
 		JScrollPane jsp = this.getJListDist();
 		panelDist.add(jsp, BorderLayout.CENTER);
+		
+		// CHAMPS DE RECHERCHE
+		JPanel panelRecherche = new JPanel(new BorderLayout());
+		panelRecherche.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		
+		panelRecherche.add(new JLabel("Recherche"),BorderLayout.NORTH);
+		
+		JTextField fieldRecherche = new JTextField(10);
+		fieldRecherche.getDocument().addDocumentListener(new ControleRecherche(obs));
+		panelRecherche.add(fieldRecherche);
 
+		gauche.add(panelRecherche,BorderLayout.NORTH);
 		gauche.add(panelListe, BorderLayout.CENTER);
 		gauche.add(panelDist, BorderLayout.EAST);
 		this.getContentPane().add(gauche, BorderLayout.WEST);
@@ -133,7 +146,7 @@ public class MainWindows extends JFrame {
 		int indice = 0;
 		while (clubRestant > 0) {
 			data.add("Poule " + (indice + 1));
-			for (int  i = 0; i < obs.getReponseSolveur().length; i++) {
+			for (int i = 0; i < obs.getReponseSolveur().length; i++) {
 				if (this.obs.getReponseSolveur()[i] == indice) {
 					data.add("  " + this.obs.getDiv().getListe().get(i));
 					clubRestant--;

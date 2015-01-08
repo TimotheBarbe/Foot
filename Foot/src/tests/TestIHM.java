@@ -25,10 +25,12 @@ public class TestIHM {
 	}
 
 	public static String[][] getAllTab(int sheet) {
-		String[][] tab = new String[getNumeroLastLigne(sheet, 0)][getNumeroLastColonne(sheet, 0)];
+		String[][] tab = new String[getNumeroLastLigne(sheet, 0)][getNumeroLastColonne(
+				sheet, 0)];
 		for (int i = 0; i < tab.length; i++) {
 			for (int j = 0; j < tab[0].length; j++) {
-				tab[i][j] = workbook.getSheet(sheet).getCell(i, j).getContents();
+				tab[i][j] = workbook.getSheet(sheet).getCell(i, j)
+						.getContents();
 			}
 		}
 		return tab;
@@ -50,9 +52,11 @@ public class TestIHM {
 		workbook = null;
 		try {
 			/* Recuperation du classeur Excel (en lecture) */
-			workbook = Workbook.getWorkbook(new File("Donnees/CoordonneesGPSEquipes.xls"));
+			workbook = Workbook.getWorkbook(new File(
+					"Donnees/CoordonneesGPSEquipes.xls"));
 
-			// On prend la premiere feuille du fichier qui contient les coordonnees
+			// On prend la premiere feuille du fichier qui contient les
+			// coordonnees
 			Sheet sheet = workbook.getSheet(0);
 
 			// On recupere les numeros d'affiliation des clubs
@@ -67,27 +71,27 @@ public class TestIHM {
 			// On recupere la longitude des clubs
 			Cell[] longitudeClubs = sheet.getColumn(3);
 
-			int nbClub = affiliationClubs.length-1;
+			int nbClub = affiliationClubs.length - 1;
 			int nbGroupe = 10;
 			Division d = new Division(nbGroupe);
 			int[] reponseSolveur = new int[nbClub];
 
-			for (int i=1; i<=nbClub; i++) {
-				double[] coordonneesGPS = {Double.parseDouble(latitudeClubs[i].getContents()),
-						Double.parseDouble(longitudeClubs[i].getContents())};
+			for (int i = 1; i <= nbClub; i++) {
+				double[] coordonneesGPS = {
+						Double.parseDouble(latitudeClubs[i].getContents()),
+						Double.parseDouble(longitudeClubs[i].getContents()) };
 
 				Club c = new Club(nomClubs[i].getContents(),
 						Integer.parseInt(affiliationClubs[i].getContents()),
 						coordonneesGPS);
-				
+
 				d.addClub(c);
-				reponseSolveur[i-1] = (int) (nbGroupe * Math.random());
+				reponseSolveur[i - 1] = (int) (nbGroupe * Math.random());
 			}
 
 			Obs obs = new Obs(d, reponseSolveur);
 
 			MainWindows test = new MainWindows(obs);
-
 
 		} catch (BiffException e) {
 			e.printStackTrace();

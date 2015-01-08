@@ -111,7 +111,7 @@ public class Recherche extends AbstractProblem {
 
 		// Clubs dans des groupes différents s'ils ont particulièrement loin -
 		// dist sup au rayonCercle
-		int rayonCercle = 500;
+		int rayonCercle = 30;
 
 		for (int i = 0; i < nbClub; i++) {
 			for (int j = i + 1; j < nbClub; j++) {
