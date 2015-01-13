@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import model.Obs;
+import controle.ControleBoutonExportCarte;
 import controle.ControleImage;
 import controle.ControleJBoxAfficherNom;
 import controle.ControleJListClub;
@@ -131,7 +132,8 @@ public class MainWindows extends JFrame {
 		panelEast.add(Box.createRigidArea(new Dimension(5, 0)),
 				BorderLayout.CENTER);
 		// export carte
-		JButton exportCarte = new JButton("Exporter la carte");
+		JButton exportCarte = new JButton("Exporter les cartes");
+		exportCarte.addActionListener(new ControleBoutonExportCarte());
 		panelEast.add(exportCarte, BorderLayout.EAST);
 
 		panelBas.add(panelWest, BorderLayout.WEST);
