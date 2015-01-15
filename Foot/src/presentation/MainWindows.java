@@ -30,6 +30,7 @@ public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static int LABEL_SIZE = 12;
 	private Obs obs;
+	private static String pathCarte = "carte_region.jpg";
 
 	public MainWindows(Obs obs) {
 		this.setTitle("Foot");
@@ -52,7 +53,7 @@ public class MainWindows extends JFrame {
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
-		AfficheImage affIm = new AfficheImage("carte_region.jpg", obs);
+		AfficheImage affIm = new AfficheImage(pathCarte, obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
 
@@ -67,12 +68,12 @@ public class MainWindows extends JFrame {
 		JPanel panelListe = new JPanel(new BorderLayout());
 		panelListe.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 		panelListe.setPreferredSize(new Dimension(200, 600));
-		
+
 		JLabel labelClub = new JLabel("Clubs");
 		labelClub.setFont(new Font(labelClub.getFont().getName(), Font.BOLD,
 				LABEL_SIZE));
 		panelListe.add(labelClub, BorderLayout.NORTH);
-		
+
 		JScrollPane listeClub = this.getJListClub();
 		panelListe.add(listeClub, BorderLayout.CENTER);
 
@@ -80,26 +81,27 @@ public class MainWindows extends JFrame {
 		JPanel panelDist = new JPanel(new BorderLayout());
 		panelDist.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 		panelDist.setPreferredSize(new Dimension(70, 600));
-		
+
 		JLabel labelDist = new JLabel("Distances");
 		labelDist.setFont(new Font(labelDist.getFont().getName(), Font.BOLD,
 				LABEL_SIZE));
 		panelDist.add(labelDist, BorderLayout.NORTH);
-		
+
 		JScrollPane jsp = this.getJListDist();
 		panelDist.add(jsp, BorderLayout.CENTER);
-		
+
 		// CHAMPS DE RECHERCHE
 		JPanel panelRecherche = new JPanel(new BorderLayout());
 		panelRecherche.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-		
-		panelRecherche.add(new JLabel("Recherche"),BorderLayout.NORTH);
-		
+
+		panelRecherche.add(new JLabel("Recherche"), BorderLayout.NORTH);
+
 		JTextField fieldRecherche = new JTextField(10);
-		fieldRecherche.getDocument().addDocumentListener(new ControleRecherche(obs));
+		fieldRecherche.getDocument().addDocumentListener(
+				new ControleRecherche(obs));
 		panelRecherche.add(fieldRecherche);
 
-		gauche.add(panelRecherche,BorderLayout.NORTH);
+		gauche.add(panelRecherche, BorderLayout.NORTH);
 		gauche.add(panelListe, BorderLayout.CENTER);
 		gauche.add(panelDist, BorderLayout.EAST);
 		this.getContentPane().add(gauche, BorderLayout.WEST);
@@ -133,7 +135,8 @@ public class MainWindows extends JFrame {
 				BorderLayout.CENTER);
 		// export carte
 		JButton exportCarte = new JButton("Exporter les cartes");
-		exportCarte.addActionListener(new ControleBoutonExportCarte());
+		exportCarte.addActionListener(new ControleBoutonExportCarte(obs,
+				pathCarte));
 		panelEast.add(exportCarte, BorderLayout.EAST);
 
 		panelBas.add(panelWest, BorderLayout.WEST);
