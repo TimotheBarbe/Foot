@@ -9,6 +9,7 @@ import model.Division;
 import model.Obs;
 import presentation.MainWindows;
 import solveur.Recherche;
+import solveur.RecuitSimule;
 
 public class TestTotal {
 
@@ -36,10 +37,14 @@ public class TestTotal {
 
 		Desiderata[] tabDesiderata = new Desiderata[0];
 
-		Recherche r = new Recherche(nbGroupe, tabDist, tabDesiderata,
-				6 * 60000, 30000, true);
-		r.execute();
-		int[] tabSolution = r.getTabSolution();
+//		Recherche r = new Recherche(nbGroupe, tabDist, tabDesiderata,
+//				6 * 60000, 30000, true);
+//		r.execute();
+//		int[] tabSolution = r.getTabSolution();
+		
+		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null, 600000, 8000);
+		int[] tabSolution = RS.meilleurSolution;
+		
 		Obs obs = new Obs(d, tabSolution);
 
 		MainWindows test = new MainWindows(obs);

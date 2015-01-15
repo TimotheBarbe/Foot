@@ -9,10 +9,12 @@ public class Division {
 
 	// nombre de groupes de la division
 	public int nombreDeGroupe;
+	public String nom;
 
 	public Division(int nombreDeGroupe) {
 		this.liste = new ArrayList<Club>();
 		this.nombreDeGroupe = nombreDeGroupe;
+		this.nom = "Division";
 	}
 
 	/****************************************************************
@@ -21,6 +23,10 @@ public class Division {
 
 	public ArrayList<Club> getListe() {
 		return liste;
+	}
+
+	public String getNom() {
+		return nom;
 	}
 
 	public int getNbGroupe() {
@@ -37,6 +43,10 @@ public class Division {
 
 	public void setNbGroupe(int n) {
 		this.nombreDeGroupe = n;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	/****************************************************************
@@ -81,6 +91,7 @@ public class Division {
 	}
 
 	public String toString() {
-		return getNbClub() + " clubs dans " + this.nombreDeGroupe + " groupes";
+		return nom + " (" + getNbClub() + " clubs dans " + this.nombreDeGroupe
+				+ " groupes)";
 	}
 }

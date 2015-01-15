@@ -16,7 +16,7 @@ public class RecuitSimule {
 	private double distanceTotale;
 	private long tempsMaxTotal;
 	private long tempsMaxBoucle;
-	private int meilleurSolution[];
+	public int meilleurSolution[];
 	private double meilleurDist;
 	private static double alpha = 0.98; // coefficient de décroissance de la
 										// température
