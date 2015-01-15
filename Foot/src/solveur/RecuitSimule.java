@@ -17,6 +17,7 @@ public class RecuitSimule {
 	private long tempsMaxTotal;
 	private long tempsMaxBoucle;
 	private int meilleurSolution[];
+	private double meilleurDist;
 	private static double alpha = 0.98; // coefficient de décroissance de la
 										// température
 
@@ -98,7 +99,7 @@ public class RecuitSimule {
 		double dateFin = dateCourante + tempsMaxTotal;
 
 		solutionInitialeAleatoire();
-
+		meilleurDist = distanceTotale;
 		double temperature = 1;
 		int nbIter = 0;
 		while (dateCourante < dateFin) {
@@ -124,8 +125,12 @@ public class RecuitSimule {
 				double delta = distanceTotale - distanceTotaleOld;
 				if (delta <= 0) {
 					// oui
-					for (int i = 0; i < nbClub; i++) {
-						meilleurSolution[i] = clubs[i];
+
+					if (meilleurDist > distanceTotale) {
+						for (int i = 0; i < nbClub; i++) {
+							meilleurSolution[i] = clubs[i];
+							meilleurDist = distanceTotale;
+						}
 					}
 
 					System.out.println(nbIter + "." + nbIterBoucle + " - Distance totale : " + distanceTotale
@@ -160,7 +165,7 @@ public class RecuitSimule {
 			clubs[i] = meilleurSolution[i];
 		}
 		majDistances();
-		System.out.println("Meilleur solution (mais qui bug) : " + distanceTotale);
+		System.out.println("Meilleur solution : " + distanceTotale);
 	}
 
 	public static void main(String[] args) {
