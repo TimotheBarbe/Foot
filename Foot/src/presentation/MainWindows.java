@@ -34,12 +34,12 @@ public class MainWindows extends JFrame {
 	public static String pathLogo = "Logo_DistrictFootball44.jpg";
 
 	public MainWindows(Obs obs) {
+		this.setPreferredSize(new Dimension(800,600));
 		this.setTitle("Foot");
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.getContentPane().setLayout(new BorderLayout());
-		this.setResizable(false);
 		this.setVisible(true);
 
 		this.creerCarte();
@@ -68,7 +68,7 @@ public class MainWindows extends JFrame {
 		// LISTE DES CLUBS
 		JPanel panelListe = new JPanel(new BorderLayout());
 		panelListe.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
-		panelListe.setPreferredSize(new Dimension(200, 600));
+		panelListe.setPreferredSize(new Dimension(150, 600));
 
 		JLabel labelClub = new JLabel("Clubs");
 		labelClub.setFont(new Font(labelClub.getFont().getName(), Font.BOLD,

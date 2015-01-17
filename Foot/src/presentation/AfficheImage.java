@@ -39,37 +39,81 @@ public class AfficheImage extends JPanel implements MouseListener,
 		int zoom = obs.getZoom();
 		int coinX = (int) obs.getCoinZoom().getX();
 		int coinY = (int) obs.getCoinZoom().getY();
-		g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom, zoom
-				* getWidth(), zoom * getHeight(), this);
-		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0, 550, 120,
-				100, this);
 
-		g.setFont(new Font("Arial", Font.BOLD, 12));
+		// Si la largeur est plus petite que la longeur (au facteur 1.389 pres)
+		if (getHeight() * 1.389 > getWidth()) {
+			g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom, zoom
+					* getWidth(), (int) (zoom * getWidth() / 1.389), this);
+			g.setFont(new Font("Arial", Font.BOLD, 12));
 
-		// Dessin des points (avant les noms pour eviter la superposition)
-		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-			Club c = obs.getDiv().getListe().get(i);
+			// Dessin des points (avant les noms pour eviter la superposition)
+			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
+				Club c = obs.getDiv().getListe().get(i);
 
-			int x = zoom * (int) (c.getCoordonneesMatricielles()[0] - coinX);
-			int y = zoom * (int) (c.getCoordonneesMatricielles()[1] - coinY);
+				int x = (int) (zoom * (double) getWidth() / 552 * (c
+						.getCoordonneesMatricielles()[0] - coinX));
+				int y = (int) (zoom * (double) getWidth() / 552 * (c
+						.getCoordonneesMatricielles()[1] - coinY));
 
-			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-			g.fillOval(x, y, 10, 10);
-		}
+				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+				g.fillOval(x, y, 10, 10);
+			}
 
-		// Dessin des noms
-		for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-			Club c = obs.getDiv().getListe().get(i);
+			// Dessin des noms
+			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
+				Club c = obs.getDiv().getListe().get(i);
 
-			int x = zoom * (int) (c.getCoordonneesMatricielles()[0] - coinX);
-			int y = zoom * (int) (c.getCoordonneesMatricielles()[1] - coinY);
+				int x = (int) (zoom * (double) getWidth() / 552 * (c
+						.getCoordonneesMatricielles()[0] - coinX));
+				int y = (int) (zoom * (double) getWidth() / 552 * (c
+						.getCoordonneesMatricielles()[1] - coinY));
 
-			String nom = c.toString();
-			g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-			if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
-				g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+				String nom = c.toString();
+				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+				if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+					g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+				}
+			}
+			// Si la largeur est plus grande que la longeur (au facteur 1.389
+			// pres)
+		} else {
+			g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom,
+					(int) (zoom * 1.389 * getHeight()), zoom * getHeight(),
+					this);
+			g.setFont(new Font("Arial", Font.BOLD, 12));
+
+			// Dessin des points (avant les noms pour eviter la superposition)
+			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
+				Club c = obs.getDiv().getListe().get(i);
+
+				int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+						.getCoordonneesMatricielles()[0] - coinX));
+				int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+						.getCoordonneesMatricielles()[1] - coinY));
+
+				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+				g.fillOval(x, y, 10, 10);
+			}
+
+			// Dessin des noms
+			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
+				Club c = obs.getDiv().getListe().get(i);
+
+				int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+						.getCoordonneesMatricielles()[0] - coinX));
+				int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+						.getCoordonneesMatricielles()[1] - coinY));
+
+				String nom = c.toString();
+				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+				if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+					g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+				}
 			}
 		}
+		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0,
+				getHeight() - 100, 120, 100, this);
+
 	}
 
 	private Color getColor(int numeroGroupe) {
@@ -177,8 +221,16 @@ public class AfficheImage extends JPanel implements MouseListener,
 	}
 
 	private Point getCoordonneesSansZoom(int x, int y) {
-		int xf = (int) (obs.getCoinZoom().getX() + x / obs.getZoom());
-		int yf = (int) (obs.getCoinZoom().getY() + y / obs.getZoom());
+		double facteur = 1;
+		if (getHeight() * 1.389 > getWidth()) {
+			facteur = (double) getWidth() / 552;
+		} else {
+			facteur = (double) getHeight() / 552 * 1.389;
+		}
+		int xf = (int) (obs.getCoinZoom().getX() + x
+				/ (obs.getZoom() * facteur));
+		int yf = (int) (obs.getCoinZoom().getY() + y
+				/ (obs.getZoom() * facteur));
 		return new Point(xf, yf);
 	}
 
