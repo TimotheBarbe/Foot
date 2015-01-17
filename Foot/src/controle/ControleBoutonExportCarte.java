@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -12,9 +11,9 @@ import javax.swing.JFileChooser;
 import model.Club;
 import model.Obs;
 import presentation.BoiteDeDialogue;
+import presentation.MainWindows;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -27,12 +26,12 @@ public class ControleBoutonExportCarte implements ActionListener {
 	private Obs obs;
 	private Image imageCarte;
 
-	public ControleBoutonExportCarte(Obs obs, String pathCarte) {
+	public ControleBoutonExportCarte(Obs obs) {
 		this.obs = obs;
 		try {
-			imageCarte = Image.getInstance(pathCarte);
+			imageCarte = Image.getInstance(MainWindows.pathCarte);
 		} catch (Exception e) {
-			e.printStackTrace();
+			BoiteDeDialogue.error(e.getMessage());
 		}
 	}
 
@@ -54,6 +53,7 @@ public class ControleBoutonExportCarte implements ActionListener {
 					PdfContentByte cb = myWriter.getDirectContent();
 					dessinerCarte(cb, i);
 					dessinerTitre(cb, i);
+					dessinerLogo(cb);
 					myPDF.close();
 				} catch (Exception e) {
 					BoiteDeDialogue.error(e.getMessage());
@@ -63,6 +63,18 @@ public class ControleBoutonExportCarte implements ActionListener {
 			if (ok)
 				BoiteDeDialogue.info("Cartes sauvegardées");
 		}
+	}
+
+	private void dessinerLogo(PdfContentByte cb) {
+		try {
+			imageCarte = Image.getInstance(MainWindows.pathLogo);
+			imageCarte.scaleToFit(100, 100);
+			imageCarte.setAbsolutePosition(10, 10);
+			cb.addImage(imageCarte);
+		} catch (Exception e) {
+			BoiteDeDialogue.error(e.getMessage());
+		}
+
 	}
 
 	private void dessinerTitre(PdfContentByte cb, int i) throws Exception {

@@ -23,11 +23,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 		MouseWheelListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
-	private Image image;
+	private Image imageCarte;
 	private Obs obs;
 
-	public AfficheImage(String s, Obs obs) {
-		this.image = getToolkit().getImage(s);
+	public AfficheImage(Obs obs) {
+		this.imageCarte = getToolkit().getImage(MainWindows.pathCarte);
 		this.obs = obs;
 		this.addMouseListener(this);
 		this.addMouseWheelListener(this);
@@ -39,8 +39,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 		int zoom = obs.getZoom();
 		int coinX = (int) obs.getCoinZoom().getX();
 		int coinY = (int) obs.getCoinZoom().getY();
-		g.drawImage(this.image, -coinX * zoom, -coinY * zoom,
-				zoom * getWidth(), zoom * getHeight(), this);
+		g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom, zoom
+				* getWidth(), zoom * getHeight(), this);
+		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0, 550, 120,
+				100, this);
+
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 
 		// Dessin des points (avant les noms pour eviter la superposition)
@@ -118,7 +121,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 			if (clubclick >= 0) {
 				JPopupMenu contextMenu = new JPopupMenu();
 				for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
-					JMenuItem item = new JMenuItem(""+(i + 1));
+					JMenuItem item = new JMenuItem("" + (i + 1));
 					contextMenu.add(item);
 					item.addActionListener(new ControleJPopMenu(obs, clubclick));
 				}

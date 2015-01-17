@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/jxl-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

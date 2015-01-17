@@ -30,7 +30,8 @@ public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static int LABEL_SIZE = 12;
 	private Obs obs;
-	private static String pathCarte = "carte_region.jpg";
+	public static String pathCarte = "carte_region.jpg";
+	public static String pathLogo = "Logo_DistrictFootball44.jpg";
 
 	public MainWindows(Obs obs) {
 		this.setTitle("Foot");
@@ -53,7 +54,7 @@ public class MainWindows extends JFrame {
 		panelCarte.setPreferredSize(new Dimension(800, 600));
 		panelCarte.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
-		AfficheImage affIm = new AfficheImage(pathCarte, obs);
+		AfficheImage affIm = new AfficheImage(obs);
 		panelCarte.add(affIm, BorderLayout.CENTER);
 		ControleImage cimg = new ControleImage(affIm);
 
@@ -135,8 +136,7 @@ public class MainWindows extends JFrame {
 				BorderLayout.CENTER);
 		// export carte
 		JButton exportCarte = new JButton("Exporter les cartes");
-		exportCarte.addActionListener(new ControleBoutonExportCarte(obs,
-				pathCarte));
+		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
 		panelEast.add(exportCarte, BorderLayout.EAST);
 
 		panelBas.add(panelWest, BorderLayout.WEST);
