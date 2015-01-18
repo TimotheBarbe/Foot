@@ -42,8 +42,10 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 		// Si la largeur est plus petite que la longeur (au facteur 1.389 pres)
 		if (getHeight() * 1.389 > getWidth()) {
-			g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom, zoom
-					* getWidth(), (int) (zoom * getWidth() / 1.389), this);
+			g.drawImage(this.imageCarte, (int) (-coinX * zoom
+					* (double) getWidth() / 552), (int) (-coinY * zoom
+					* (double) getWidth() / 552), zoom * getWidth(),
+					(int) (zoom * getWidth() / 1.389), this);
 			g.setFont(new Font("Arial", Font.BOLD, 12));
 
 			// Dessin des points (avant les noms pour eviter la superposition)
@@ -77,7 +79,9 @@ public class AfficheImage extends JPanel implements MouseListener,
 			// Si la largeur est plus grande que la longeur (au facteur 1.389
 			// pres)
 		} else {
-			g.drawImage(this.imageCarte, -coinX * zoom, -coinY * zoom,
+			g.drawImage(this.imageCarte, (int) (-coinX * zoom
+					* (double) getHeight() / 552 * 1.389), (int) (-coinY * zoom
+					* (double) getHeight() / 552 * 1.389),
 					(int) (zoom * 1.389 * getHeight()), zoom * getHeight(),
 					this);
 			g.setFont(new Font("Arial", Font.BOLD, 12));
@@ -193,8 +197,8 @@ public class AfficheImage extends JPanel implements MouseListener,
 		if (notches < 0) {
 			int zoom = obs.getZoom() + 1;
 			obs.setZoom(zoom);
-			Point nouveauCoin = new Point(e.getX() - 400 / zoom, e.getY() - 300
-					/ zoom);
+			Point nouveauCoin = new Point(e.getX() * 552 / getWidth() - 400
+					/ (zoom), e.getY() - 300 / zoom);
 			obs.setCoinZoom(nouveauCoin);
 
 		} else {

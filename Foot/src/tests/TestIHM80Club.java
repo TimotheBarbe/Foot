@@ -12,7 +12,7 @@ import model.Division;
 import model.Obs;
 import presentation.MainWindows;
 
-public class TestIHM {
+public class TestIHM80Club {
 
 	private static Workbook workbook;
 
@@ -71,7 +71,7 @@ public class TestIHM {
 			// On recupere la longitude des clubs
 			Cell[] longitudeClubs = sheet.getColumn(3);
 
-			int nbClub = affiliationClubs.length - 1;
+			int nbClub = 80;
 			int nbGroupe = 10;
 			Division d = new Division(nbGroupe);
 			int[] reponseSolveur = new int[nbClub];

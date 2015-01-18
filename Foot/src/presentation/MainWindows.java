@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -30,11 +31,11 @@ public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static int LABEL_SIZE = 12;
 	private Obs obs;
-	public static String pathCarte = "carte_region.jpg";
-	public static String pathLogo = "Logo_DistrictFootball44.jpg";
+	public static String pathCarte = "Donnees/carte_region.jpg";
+	public static String pathLogo = "Donnees/Logo_DistrictFootball44.jpg";
 
 	public MainWindows(Obs obs) {
-		this.setPreferredSize(new Dimension(800,600));
+		this.setPreferredSize(new Dimension(800, 600));
 		this.setTitle("Foot");
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -135,7 +136,8 @@ public class MainWindows extends JFrame {
 		panelEast.add(Box.createRigidArea(new Dimension(5, 0)),
 				BorderLayout.CENTER);
 		// export carte
-		JButton exportCarte = new JButton("Exporter les cartes");
+		JButton exportCarte = new JButton("Exporter les cartes", new ImageIcon(
+				"Donnees/logo-pdf.png"));
 		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
 		panelEast.add(exportCarte, BorderLayout.EAST);
 

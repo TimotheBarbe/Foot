@@ -15,10 +15,15 @@ import presentation.MainWindows;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class ControleBoutonExportCarte implements ActionListener {
@@ -52,6 +57,7 @@ public class ControleBoutonExportCarte implements ActionListener {
 					myPDF.open();
 					PdfContentByte cb = myWriter.getDirectContent();
 					dessinerCarte(cb, i);
+					dessinerTable(cb, i);
 					dessinerTitre(cb, i);
 					dessinerLogo(cb);
 					myPDF.close();
@@ -65,12 +71,36 @@ public class ControleBoutonExportCarte implements ActionListener {
 		}
 	}
 
+	private void dessinerTable(PdfContentByte cb, int groupe) throws Exception {
+		PdfPTable table = new PdfPTable(3);
+		BaseFont bf = BaseFont.createFont();
+		cb.setFontAndSize(bf, 8);
+		table.setTotalWidth(new float[] { 50, 250, 60 });
+		Font font = FontFactory.getFont(FontFactory.HELVETICA, 8);
+		ArrayList<Club> listeClub = obs.getDiv().getListe();
+		// En-tete
+		table.addCell(new PdfPCell(new Paragraph("ID", font)));
+		table.addCell(new PdfPCell(new Paragraph("Nom", font)));
+		table.addCell(new PdfPCell(new Paragraph("Distance (km)", font)));
+		// clubs du groupe 'groupe'
+		for (int i = 0; i < listeClub.size(); i++) {
+			if (obs.getReponseSolveur()[i] == groupe) {
+				table.addCell(new PdfPCell(new Paragraph(listeClub.get(i)
+						.getId() + "", font)));
+				table.addCell(new PdfPCell(new Paragraph(listeClub.get(i)
+						.getNom(), font)));
+				table.addCell(new PdfPCell(new Paragraph(15.5 + "", font)));
+			}
+		}
+		table.writeSelectedRows(0, -1, 100, 350, cb);
+	}
+
 	private void dessinerLogo(PdfContentByte cb) {
 		try {
-			imageCarte = Image.getInstance(MainWindows.pathLogo);
-			imageCarte.scaleToFit(100, 100);
-			imageCarte.setAbsolutePosition(10, 10);
-			cb.addImage(imageCarte);
+			Image imageLogo = Image.getInstance(MainWindows.pathLogo);
+			imageLogo.scaleToFit(100, 100);
+			imageLogo.setAbsolutePosition(500, 10);
+			cb.addImage(imageLogo);
 		} catch (Exception e) {
 			BoiteDeDialogue.error(e.getMessage());
 		}
@@ -97,9 +127,9 @@ public class ControleBoutonExportCarte implements ActionListener {
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {
-				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0] / 2;
+				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
-						.getCoordonneesMatricielles()[1] / 2;
+						.getCoordonneesMatricielles()[1];
 				cb.circle(x, y, (float) 1);
 			}
 		}
@@ -111,9 +141,9 @@ public class ControleBoutonExportCarte implements ActionListener {
 		cb.setFontAndSize(bf, 6);
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {
-				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0] / 2;
+				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
-						.getCoordonneesMatricielles()[1] / 2;
+						.getCoordonneesMatricielles()[1];
 				cb.showTextAligned(Element.ALIGN_CENTER, listeClub.get(i)
 						.getId() + "", x, y + 8, 0);
 			}
