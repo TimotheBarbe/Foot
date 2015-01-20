@@ -41,7 +41,7 @@ public class TestTotal {
 		// 6 * 60000, 30000, true);
 		// r.execute();
 		// int[] tabSolution = r.getTabSolution();
-		int nbMinuntes = 60;
+		int nbMinuntes = 1;
 		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null,
 				nbMinuntes * 60000, nbMinuntes * 800);
 		int[] tabSolution = RS.meilleurSolution;

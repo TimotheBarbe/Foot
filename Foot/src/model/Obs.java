@@ -1,7 +1,9 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Vector;
 
 public class Obs extends Observable {
 
@@ -115,4 +117,20 @@ public class Obs extends Observable {
 		this.indiceJListClubSelection = indiceJListClubSelection;
 	}
 
+	public ArrayList<String> getListForTable() {
+		ArrayList<String> data = new ArrayList<String>();
+		int clubRestant = this.getReponseSolveur().length;
+		int indice = 0;
+		while (clubRestant > 0) {
+			data.add("Poule " + (indice + 1));
+			for (int i = 0; i < this.getReponseSolveur().length; i++) {
+				if (this.getReponseSolveur()[i] == indice) {
+					data.add("  " + this.getDiv().getListe().get(i));
+					clubRestant--;
+				}
+			}
+			indice++;
+		}
+		return data;
+	}
 }
