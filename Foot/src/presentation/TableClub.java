@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class TableClub extends AbstractTableModel {
+public class TableClub extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,5 +59,4 @@ public class TableClub extends AbstractTableModel {
 			data[i][1] = liste.get(i);
 		}
 	}
-
 }
