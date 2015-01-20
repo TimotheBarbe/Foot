@@ -71,7 +71,7 @@ public class MainWindows extends JFrame {
 				int colIndex = columnAtPoint(p);
 				int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-				if (realColumnIndex == 1) { // Sport column
+				if (realColumnIndex == 1) {
 					tip = "" + getValueAt(rowIndex, colIndex);
 				} else {
 					tip = super.getToolTipText(e);
