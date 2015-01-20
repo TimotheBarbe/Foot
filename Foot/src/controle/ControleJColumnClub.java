@@ -1,19 +1,24 @@
 package controle;
 
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Club;
 import model.Obs;
+import presentation.FrameClub;
 import presentation.TableClub;
 
-public class ControleJColumnClub implements ListSelectionListener, Observer {
+public class ControleJColumnClub implements ListSelectionListener, Observer,
+		MouseListener {
 
 	private Obs obs;
 	private JTable table;
@@ -62,5 +67,32 @@ public class ControleJColumnClub implements ListSelectionListener, Observer {
 					table.getSelectedRow(), 0, true)));
 		}
 
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			try {
+				String selection = model.getValueAt(table.getSelectedRow(), 1).toString();
+				String id = selection.substring(selection.indexOf("(") + 1,
+						selection.indexOf(")"));
+				Club c = obs.getDiv().getClubById(Integer.parseInt(id));
+				FrameClub frame = new FrameClub(c, obs);
+			}
+			catch(Exception ex){
+				
+			}
+		}
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
 	}
 }

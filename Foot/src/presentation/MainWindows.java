@@ -44,7 +44,6 @@ public class MainWindows extends JFrame {
 		this.setTitle("Foot");
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 		this.getContentPane().setLayout(new BorderLayout());
 		this.setVisible(true);
 
@@ -90,6 +89,7 @@ public class MainWindows extends JFrame {
 		ControleJColumnClub controleTable = new ControleJColumnClub(obs, table,
 				model);
 		cellSelectionModel.addListSelectionListener(controleTable);
+		table.addMouseListener(controleTable);
 		this.obs.addObserver(controleTable);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(table);
