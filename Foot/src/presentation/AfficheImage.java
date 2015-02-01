@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -170,6 +171,9 @@ public class AfficheImage extends JPanel implements MouseListener,
 				JPopupMenu contextMenu = new JPopupMenu();
 				for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
 					JMenuItem item = new JMenuItem("" + (i + 1));
+					if (obs.getReponseSolveur()[clubclick] == i) {
+						item.setIcon(new ImageIcon("Donnees/icone-tick.png"));
+					}
 					contextMenu.add(item);
 					item.addActionListener(new ControleJPopMenu(obs, clubclick));
 				}
