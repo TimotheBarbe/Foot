@@ -1,6 +1,8 @@
 package presentation;
 
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -39,10 +41,17 @@ public class FrameClub extends JFrame {
 		int groupe = obs.getReponseSolveur()[obs.getDiv().getListe().indexOf(c)];
 		JComboBox<Integer> comboGroupe = new JComboBox<Integer>();
 		for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
-			comboGroupe.addItem(i);
+			comboGroupe.addItem(i + 1);
 		}
-		comboGroupe.setSelectedItem(groupe);
+		comboGroupe.setSelectedItem(groupe + 1);
 		comboGroupe.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		comboGroupe.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				int[] tmp = obs.getReponseSolveur();
+				tmp[obs.getDiv().getListe().indexOf(c)] = (int) e.getItem() - 1;
+				obs.setReponseSolveur(tmp);
+			}
+		});
 
 		// distance
 		JLabel distance = new JLabel("Distance : " + 15.5);

@@ -7,7 +7,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
