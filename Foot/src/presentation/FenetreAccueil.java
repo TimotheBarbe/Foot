@@ -2,6 +2,7 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -22,14 +23,16 @@ public class FenetreAccueil extends JFrame{
 	private int nbGoupes;
 	
 	public FenetreAccueil(){
-		this.setPreferredSize(new Dimension(400, 200));
+		this.setPreferredSize(new Dimension(400, 150));
 		this.setTitle("District de Loire Atlantique");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.setVisible(true);
 		
 		this.creerCentre();
+		
 		this.pack();
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 	
 	public void creerCentre(){
@@ -52,13 +55,11 @@ public class FenetreAccueil extends JFrame{
 		centre.add(importer, BorderLayout.EAST);
 		nord.add(centre, BorderLayout.SOUTH);
 		
-		
-		JPanel sud = new JPanel(new BorderLayout());
+		JPanel sud = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JButton continuer = new JButton("Continuer");
 		sud.add(continuer);
 		
 		this.getContentPane().add(nord, BorderLayout.NORTH);
-		this.getContentPane().add(Box.createRigidArea(new Dimension(0, 10)));
 		this.getContentPane().add(sud, BorderLayout.CENTER);
 	}
 	
