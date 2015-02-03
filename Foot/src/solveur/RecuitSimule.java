@@ -16,6 +16,7 @@ public class RecuitSimule {
 	private double distanceTotale;
 	private long tempsMaxTotal;
 	private long tempsMaxBoucle;
+	private int nbRestart;
 	public int meilleurSolution[];
 	private double meilleurDist;
 	private static double alpha = 0.98; // coefficient de décroissance de la
@@ -39,7 +40,6 @@ public class RecuitSimule {
 		Collections.shuffle(ListSolIni);
 		for (int i = 0; i < nbClub; i++) {
 			clubs[i] = ListSolIni.get(i);
-			meilleurSolution[i] = clubs[i];
 		}
 
 		majDistances();
@@ -83,7 +83,7 @@ public class RecuitSimule {
 	// TODO pas encore de desiderata
 	// TODO tab dist à mettre en double
 	public RecuitSimule(int nbGroupe, int[][] tabDistance, Desiderata[] listeDesiderata, long tempsMaxTotal,
-			long tempsMaxBoucle) {
+			long tempsMaxBoucle, int nbRestart) {
 
 		this.nbGroupe = nbGroupe;
 		this.tabDistance = tabDistance;
@@ -91,81 +91,92 @@ public class RecuitSimule {
 		this.clubs = new int[nbClub];
 		this.tempsMaxBoucle = tempsMaxBoucle;
 		this.tempsMaxTotal = tempsMaxTotal;
+		this.nbRestart = nbRestart;
 		this.solution = new int[nbClub];
 		this.distance = new double[nbClub];
 		this.meilleurSolution = new int[nbClub];
 
-		double dateCourante = System.currentTimeMillis();
-		double dateFin = dateCourante + tempsMaxTotal;
-
 		solutionInitialeAleatoire();
 		meilleurDist = distanceTotale;
-		double temperature = 1;
-		int nbIter = 0;
-		while (dateCourante < dateFin) {
-			nbIter++;
-			double dateCouranteBoucle = System.currentTimeMillis();
-			double dateFinBoucle = dateCouranteBoucle + tempsMaxBoucle;
 
-			int nbIterBoucle = 0;
-
-			while (dateCouranteBoucle < dateFinBoucle) {
-				nbIterBoucle++;
-
-				double distanceTotaleOld = distanceTotale;
-				int a = (int) (nbClub * Math.random());
-				int b = a;
-				while (a == b) {
-					b = (int) (nbClub * Math.random());
-				}
-
-				inverserClubs(a, b);
-				majDistances();
-
-				double delta = distanceTotale - distanceTotaleOld;
-				if (delta <= 0) {
-					// oui
-
-					if (meilleurDist > distanceTotale) {
-						for (int i = 0; i < nbClub; i++) {
-							meilleurSolution[i] = clubs[i];
-							meilleurDist = distanceTotale;
-						}
-					}
-
-					System.out.println(nbIter + "." + nbIterBoucle + " - Distance totale : " + distanceTotale
-							+ ", Température : " + temperature);
-				} else {
-					// proba de oui
-					double p = Math.random();
-					double proba = Math.exp(-(0.001 * delta) / temperature);
-
-					if (p < proba) {
-						// on accepte
-					} else {
-						// on accepte pas
-						inverserClubs(a, b);
-						majDistances();
-					}
-
-					System.out.println(nbIter + "." + nbIterBoucle + " - Distance totale : " + distanceTotale
-							+ ", Température : " + temperature + ", probabilité " + proba);
-				}
-
-				dateCouranteBoucle = System.currentTimeMillis();
-
-			}
-
-			System.out.println("Distance totale : " + distanceTotale);
-
-			temperature *= alpha;
-			dateCourante = System.currentTimeMillis();
-		}
 		for (int i = 0; i < nbClub; i++) {
-			clubs[i] = meilleurSolution[i];
+			meilleurSolution[i] = clubs[i];
 		}
-		majDistances();
-		System.out.println("Meilleur solution : " + distanceTotale);
+
+		int restart = 0;
+		while (restart < nbRestart) {
+
+			double dateCourante = System.currentTimeMillis();
+			double dateFin = dateCourante + tempsMaxTotal / nbRestart;
+
+			double temperature = 1;
+			int nbIter = 0;
+			while (dateCourante < dateFin) {
+				nbIter++;
+				double dateCouranteBoucle = System.currentTimeMillis();
+				double dateFinBoucle = dateCouranteBoucle + tempsMaxBoucle;
+
+				int nbIterBoucle = 0;
+
+				while (dateCouranteBoucle < dateFinBoucle) {
+					nbIterBoucle++;
+
+					double distanceTotaleOld = distanceTotale;
+					int a = (int) (nbClub * Math.random());
+					int b = a;
+					while (a == b) {
+						b = (int) (nbClub * Math.random());
+					}
+
+					inverserClubs(a, b);
+					majDistances();
+
+					double delta = distanceTotale - distanceTotaleOld;
+					if (delta <= 0) {
+						// oui
+
+						if (meilleurDist > distanceTotale) {
+							for (int i = 0; i < nbClub; i++) {
+								meilleurSolution[i] = clubs[i];
+								meilleurDist = distanceTotale;
+							}
+						}
+
+						System.out.println(nbIter + "." + nbIterBoucle + " - Distance totale : " + distanceTotale
+								+ ", Température : " + temperature);
+					} else {
+						// proba de oui
+						double p = Math.random();
+						double proba = Math.exp(-(0.001 * delta) / temperature);
+
+						if (p < proba) {
+							// on accepte
+						} else {
+							// on accepte pas
+							inverserClubs(a, b);
+							majDistances();
+						}
+
+						System.out.println(nbIter + "." + nbIterBoucle + " - Distance totale : " + distanceTotale
+								+ ", Température : " + temperature + ", probabilité " + proba);
+					}
+
+					dateCouranteBoucle = System.currentTimeMillis();
+
+				}
+
+				System.out.println("Distance totale : " + distanceTotale);
+
+				temperature *= alpha;
+				dateCourante = System.currentTimeMillis();
+			}
+			for (int i = 0; i < nbClub; i++) {
+				clubs[i] = meilleurSolution[i];
+			}
+			majDistances();
+			System.out.println("Meilleur solution : " + distanceTotale);
+			restart++;
+		}
 	}
 
 	public static void main(String[] args) {
@@ -176,7 +187,7 @@ public class RecuitSimule {
 
 		int nbGroupe = 10;
 
-		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null, 60000, 800);
+		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null, 60000, 800, 4);
 
 	}
 }
