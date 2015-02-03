@@ -34,7 +34,8 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 				.getSource();
 		try {
 			String selection = obs.getListForTable().get(
-					liste.getAnchorSelectionIndex());
+					table.convertRowIndexToModel(liste
+							.getAnchorSelectionIndex()));
 			String id = selection.substring(selection.indexOf("(") + 1,
 					selection.indexOf(")"));
 			Club c = obs.getDiv().getClubById(Integer.parseInt(id));
@@ -54,9 +55,9 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 		if (iMessage == Obs.CHANGEMENT_CLUB_COURANT
 				|| iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
 			if (obs.getClubSelectionne() != null) {
-				for (int i = 0; i < table.getModel().getRowCount(); i++) {
-					if (table.getModel().getValueAt(i, 1)
-							.equals("  " + obs.getClubSelectionne())) {
+				for (int i = 0; i < table.getRowCount(); i++) {
+					if (table.getValueAt(i, 1).equals(
+							"  " + obs.getClubSelectionne())) {
 						table.setRowSelectionInterval(i, i);
 						obs.setIndiceJListClubSelection(i);
 					}
@@ -71,14 +72,14 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) {
 			try {
-				String selection = model.getValueAt(table.getSelectedRow(), 1).toString();
+				String selection = model.getValueAt(table.getSelectedRow(), 1)
+						.toString();
 				String id = selection.substring(selection.indexOf("(") + 1,
 						selection.indexOf(")"));
 				Club c = obs.getDiv().getClubById(Integer.parseInt(id));
 				FrameClub frame = new FrameClub(c, obs);
-			}
-			catch(Exception ex){
-				
+			} catch (Exception ex) {
+
 			}
 		}
 	}
