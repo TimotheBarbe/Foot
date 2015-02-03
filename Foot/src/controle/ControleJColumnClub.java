@@ -51,7 +51,7 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 		Integer iMessage = (Integer) message;
 		if (iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
 			model.setData(obs.getListForTable());
-			//table.repaint();
+			table.repaint();
 		}
 		if (iMessage == Obs.CHANGEMENT_CLUB_COURANT
 				|| iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {

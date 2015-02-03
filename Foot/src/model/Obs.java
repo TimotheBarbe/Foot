@@ -11,6 +11,7 @@ public class Obs extends Observable {
 	public static final Integer CHANGEMENT_DESSIN = new Integer(2);
 	public static final Integer CHANGEMENT_REPONSE_SOLVEUR = new Integer(3);
 	
+	
 	private Division div;
 	private int[] reponseSolveur;
 	private int zoom;
@@ -100,7 +101,7 @@ public class Obs extends Observable {
 	public void setIndiceSurvole(int indiceSurvole) {
 		this.indiceSurvole = indiceSurvole;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
+		this.notifyObservers(CHANGEMENT_DESSIN);
 	}
 
 	public Club getClubSelectionne() {
