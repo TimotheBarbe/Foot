@@ -2,13 +2,14 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Vector;
 
 public class Obs extends Observable {
 
 	public static final Integer CHANGEMENT_CLUB_COURANT = new Integer(1);
-	public static final Integer CHANGEMENT_ZOOM = new Integer(2);
+	public static final Integer CHANGEMENT_DESSIN = new Integer(2);
 	public static final Integer CHANGEMENT_REPONSE_SOLVEUR = new Integer(3);
 	private Division div;
 	private int[] reponseSolveur;
@@ -18,6 +19,7 @@ public class Obs extends Observable {
 	private int indiceSurvole;
 	private Club clubSelection;
 	private int indiceJListClubSelection;
+	private boolean[] tableVisible;
 
 	public Obs(Division div, int[] reponseSolveur) {
 		super();
@@ -25,6 +27,8 @@ public class Obs extends Observable {
 		this.reponseSolveur = reponseSolveur;
 		this.zoom = 1;
 		this.coinZoom = new Point(0, 0);
+		this.tableVisible = new boolean[reponseSolveur.length];
+		Arrays.fill(this.tableVisible, true);
 		this.setAfficherNom(false);
 		this.setIndiceSurvole(-1);
 		this.setClubSelectionne(null);
@@ -59,7 +63,7 @@ public class Obs extends Observable {
 		if (zoom > 0) {
 			this.zoom = zoom;
 			this.setChanged();
-			this.notifyObservers(CHANGEMENT_ZOOM);
+			this.notifyObservers(CHANGEMENT_DESSIN);
 		}
 	}
 
@@ -70,7 +74,7 @@ public class Obs extends Observable {
 	public void setCoinZoom(Point centreZoom) {
 		this.coinZoom = centreZoom;
 		this.setChanged();
-		this.notifyObservers(CHANGEMENT_ZOOM);
+		this.notifyObservers(CHANGEMENT_DESSIN);
 	}
 
 	public void changeGroupe(int id, int newGroupe) {
@@ -108,6 +112,17 @@ public class Obs extends Observable {
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
+	
+	public boolean[] getTableVisible() {
+		return tableVisible;
+	}
+
+	public void setTableVisible(boolean[] tableVisible) {
+		this.tableVisible = tableVisible;
+		this.setChanged();
+		this.notifyObservers(CHANGEMENT_DESSIN);
+	}
+
 
 	public int getIndiceJListClubSelection() {
 		return indiceJListClubSelection;
