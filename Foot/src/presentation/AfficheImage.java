@@ -51,30 +51,34 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 			// Dessin des points (avant les noms pour eviter la superposition)
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-				Club c = obs.getDiv().getListe().get(i);
+				if (obs.getTableVisible()[i]) {
+					Club c = obs.getDiv().getListe().get(i);
 
-				int x = (int) (zoom * (double) getWidth() / 552 * (c
-						.getCoordonneesMatricielles()[0] - coinX));
-				int y = (int) (zoom * (double) getWidth() / 552 * (c
-						.getCoordonneesMatricielles()[1] - coinY));
+					int x = (int) (zoom * (double) getWidth() / 552 * (c
+							.getCoordonneesMatricielles()[0] - coinX));
+					int y = (int) (zoom * (double) getWidth() / 552 * (c
+							.getCoordonneesMatricielles()[1] - coinY));
 
-				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-				g.fillOval(x, y, 10, 10);
+					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.fillOval(x, y, 10, 10);
+				}
 			}
 
 			// Dessin des noms
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-				Club c = obs.getDiv().getListe().get(i);
+				if (obs.getTableVisible()[i]) {
+					Club c = obs.getDiv().getListe().get(i);
 
-				int x = (int) (zoom * (double) getWidth() / 552 * (c
-						.getCoordonneesMatricielles()[0] - coinX));
-				int y = (int) (zoom * (double) getWidth() / 552 * (c
-						.getCoordonneesMatricielles()[1] - coinY));
+					int x = (int) (zoom * (double) getWidth() / 552 * (c
+							.getCoordonneesMatricielles()[0] - coinX));
+					int y = (int) (zoom * (double) getWidth() / 552 * (c
+							.getCoordonneesMatricielles()[1] - coinY));
 
-				String nom = c.toString();
-				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-				if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
-					g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+					String nom = c.toString();
+					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+					}
 				}
 			}
 			// Si la largeur est plus grande que la longeur (au facteur 1.389
@@ -89,30 +93,34 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 			// Dessin des points (avant les noms pour eviter la superposition)
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-				Club c = obs.getDiv().getListe().get(i);
+				if (obs.getTableVisible()[i]) {
+					Club c = obs.getDiv().getListe().get(i);
 
-				int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
-						.getCoordonneesMatricielles()[0] - coinX));
-				int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
-						.getCoordonneesMatricielles()[1] - coinY));
+					int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+							.getCoordonneesMatricielles()[0] - coinX));
+					int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+							.getCoordonneesMatricielles()[1] - coinY));
 
-				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-				g.fillOval(x, y, 10, 10);
+					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.fillOval(x, y, 10, 10);
+				}
 			}
 
 			// Dessin des noms
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
-				Club c = obs.getDiv().getListe().get(i);
+				if (obs.getTableVisible()[i]) {
+					Club c = obs.getDiv().getListe().get(i);
 
-				int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
-						.getCoordonneesMatricielles()[0] - coinX));
-				int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
-						.getCoordonneesMatricielles()[1] - coinY));
+					int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+							.getCoordonneesMatricielles()[0] - coinX));
+					int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
+							.getCoordonneesMatricielles()[1] - coinY));
 
-				String nom = c.toString();
-				g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-				if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
-					g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+					String nom = c.toString();
+					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
+					}
 				}
 			}
 		}

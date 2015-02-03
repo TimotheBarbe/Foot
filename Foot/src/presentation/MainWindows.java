@@ -57,7 +57,7 @@ public class MainWindows extends JFrame {
 		JPanel gauche = new JPanel(new BorderLayout());
 
 		// table
-		TableClub model = new TableClub(obs.getListForTable());
+		TableClub model = new TableClub(obs);
 		TableRowSorter<TableClub> sorter = new TableRowSorter<TableClub>(model);
 		sorter.setSortable(0, false);
 		sorter.setSortable(1, false);

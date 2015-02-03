@@ -4,14 +4,20 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class TableClub extends AbstractTableModel{
+import model.Club;
+import model.Obs;
+
+public class TableClub extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private String[] columnNames = { "", "Club" };
 	private Object[][] data;
+	private Obs obs;
 
-	public TableClub(ArrayList<String> liste) {
+	public TableClub(Obs obs) {
+		this.obs = obs;
+		ArrayList<String> liste = obs.getListForTable();
 		data = new Object[liste.size()][2];
 		for (int i = 0; i < liste.size(); i++) {
 			data[i][0] = new Boolean(true);
@@ -50,6 +56,35 @@ public class TableClub extends AbstractTableModel{
 	public void setValueAt(Object value, int row, int col) {
 		data[row][col] = value;
 		fireTableCellUpdated(row, col);
+		if (getIndexClubChanged(row) >= 0) {
+			boolean[] columnToBool = obs.getTableVisible();
+			columnToBool[getIndexClubChanged(row)] = (boolean) value;
+			obs.setTableVisible(columnToBool);
+		} else {
+			this.changementPouleEntiere(value, row);
+		}
+	}
+
+	private void changementPouleEntiere(Object value, int row) {
+		row++;
+		while (getIndexClubChanged(row) >= 0) {
+			setValueAt(value, row, 0);
+			row++;
+		}
+	}
+
+	private int getIndexClubChanged(int row) {
+		int rep = -1;
+		try {
+			String selection = (String) data[row][1];
+			String id = selection.substring(selection.indexOf("(") + 1,
+					selection.indexOf(")"));
+			Club c = obs.getDiv().getClubById(Integer.parseInt(id));
+			rep = obs.getDiv().getListe().indexOf(c);
+		} catch (Exception e) {
+
+		}
+		return rep;
 	}
 
 	public void setData(ArrayList<String> liste) {
@@ -57,6 +92,9 @@ public class TableClub extends AbstractTableModel{
 		for (int i = 0; i < liste.size(); i++) {
 			data[i][0] = new Boolean(true);
 			data[i][1] = liste.get(i);
+			if (getIndexClubChanged(i) > 0) {
+				data[i][0] = obs.getTableVisible()[getIndexClubChanged(i)];
+			}
 		}
 	}
 }

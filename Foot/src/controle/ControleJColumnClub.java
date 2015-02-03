@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Club;
 import model.Obs;
+import presentation.BoiteDeDialogue;
 import presentation.FrameClub;
 import presentation.TableClub;
 
@@ -50,7 +51,7 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 		Integer iMessage = (Integer) message;
 		if (iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
 			model.setData(obs.getListForTable());
-			table.repaint();
+			//table.repaint();
 		}
 		if (iMessage == Obs.CHANGEMENT_CLUB_COURANT
 				|| iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
@@ -72,7 +73,7 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) {
 			try {
-				String selection = model.getValueAt(table.getSelectedRow(), 1)
+				String selection = table.getValueAt(table.getSelectedRow(), 1)
 						.toString();
 				String id = selection.substring(selection.indexOf("(") + 1,
 						selection.indexOf(")"));

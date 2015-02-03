@@ -4,13 +4,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Observable;
-import java.util.Vector;
 
 public class Obs extends Observable {
 
 	public static final Integer CHANGEMENT_CLUB_COURANT = new Integer(1);
 	public static final Integer CHANGEMENT_DESSIN = new Integer(2);
 	public static final Integer CHANGEMENT_REPONSE_SOLVEUR = new Integer(3);
+	
 	private Division div;
 	private int[] reponseSolveur;
 	private int zoom;
