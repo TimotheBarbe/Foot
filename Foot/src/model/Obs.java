@@ -10,8 +10,7 @@ public class Obs extends Observable {
 	public static final Integer CHANGEMENT_CLUB_COURANT = new Integer(1);
 	public static final Integer CHANGEMENT_DESSIN = new Integer(2);
 	public static final Integer CHANGEMENT_REPONSE_SOLVEUR = new Integer(3);
-	
-	
+
 	private Division div;
 	private int[] reponseSolveur;
 	private int zoom;
@@ -21,8 +20,9 @@ public class Obs extends Observable {
 	private Club clubSelection;
 	private int indiceJListClubSelection;
 	private boolean[] tableVisible;
+	private int[][] tabDist;
 
-	public Obs(Division div, int[] reponseSolveur) {
+	public Obs(Division div, int[] reponseSolveur, int[][] tabDist) {
 		super();
 		this.div = div;
 		this.reponseSolveur = reponseSolveur;
@@ -34,6 +34,7 @@ public class Obs extends Observable {
 		this.setIndiceSurvole(-1);
 		this.setClubSelectionne(null);
 		this.setIndiceJListClubSelection(-1);
+		this.setTabDist(tabDist);
 	}
 
 	public Division getDiv() {
@@ -113,7 +114,7 @@ public class Obs extends Observable {
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}
-	
+
 	public boolean[] getTableVisible() {
 		return tableVisible;
 	}
@@ -123,7 +124,6 @@ public class Obs extends Observable {
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_DESSIN);
 	}
-
 
 	public int getIndiceJListClubSelection() {
 		return indiceJListClubSelection;
@@ -149,5 +149,24 @@ public class Obs extends Observable {
 		}
 		return data;
 	}
-	
+
+	public int[][] getTabDist() {
+		return tabDist;
+	}
+
+	public void setTabDist(int[][] tabDist) {
+		this.tabDist = tabDist;
+	}
+
+	public int getDistParcourue(int indiceClub) {
+		int rep = 0;
+		int groupe = this.getReponseSolveur()[indiceClub];
+		for (int i = 0; i < this.getDiv().getListe().size(); i++) {
+			if (getReponseSolveur()[i] == groupe) {
+				rep += getTabDist()[indiceClub][i];
+			}
+		}
+		return rep;
+	}
+
 }

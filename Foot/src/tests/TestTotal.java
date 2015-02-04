@@ -43,10 +43,10 @@ public class TestTotal {
 		// int[] tabSolution = r.getTabSolution();
 		int nbMinuntes = 1;
 		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null,
-				nbMinuntes * 60000, nbMinuntes * 800);
+				nbMinuntes * 60000, nbMinuntes * 800, 10);
 		int[] tabSolution = RS.meilleurSolution;
 
-		Obs obs = new Obs(d, tabSolution);
+		Obs obs = new Obs(d, tabSolution, tabDist);
 
 		MainWindows test = new MainWindows(obs);
 	}

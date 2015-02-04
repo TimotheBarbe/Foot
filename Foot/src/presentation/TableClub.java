@@ -11,18 +11,14 @@ public class TableClub extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private String[] columnNames = { "", "Club" };
+	private String[] columnNames = { "", "Club", "Dist." };
 	private Object[][] data;
 	private Obs obs;
 
 	public TableClub(Obs obs) {
 		this.obs = obs;
 		ArrayList<String> liste = obs.getListForTable();
-		data = new Object[liste.size()][2];
-		for (int i = 0; i < liste.size(); i++) {
-			data[i][0] = new Boolean(true);
-			data[i][1] = liste.get(i);
-		}
+		this.setData(liste);
 	}
 
 	public int getColumnCount() {
@@ -88,13 +84,16 @@ public class TableClub extends AbstractTableModel {
 	}
 
 	public void setData(ArrayList<String> liste) {
-		data = new Object[liste.size()][2];
+		data = new Object[liste.size()][3];
 		for (int i = 0; i < liste.size(); i++) {
 			data[i][0] = new Boolean(true);
 			data[i][1] = liste.get(i);
+			data[i][2] = 0;
 			if (getIndexClubChanged(i) > 0) {
 				data[i][0] = obs.getTableVisible()[getIndexClubChanged(i)];
+				data[i][2] = obs.getDistParcourue(getIndexClubChanged(i));
 			}
+
 		}
 	}
 }

@@ -2,6 +2,7 @@ package tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -88,8 +89,13 @@ public class TestIHM80Club {
 				d.addClub(c);
 				reponseSolveur[i - 1] = (int) (nbGroupe * Math.random());
 			}
-
-			Obs obs = new Obs(d, reponseSolveur);
+			int[][] tabDist = new int[nbClub][nbClub];
+			for (int[] row : tabDist)
+				Arrays.fill(row, (int) (Math.random() * 12) + 1);
+			for (int i = 0; i < nbClub; i++) {
+				tabDist[i][i] = 0;
+			}
+			Obs obs = new Obs(d, reponseSolveur, tabDist);
 
 			MainWindows test = new MainWindows(obs);
 

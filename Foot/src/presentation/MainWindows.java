@@ -83,8 +83,9 @@ public class MainWindows extends JFrame {
 		table.setFillsViewportHeight(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(185);
-
+		table.getColumnModel().getColumn(1).setPreferredWidth(145);
+		table.getColumnModel().getColumn(2).setPreferredWidth(40);
+		
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		ControleJColumnClub controleTable = new ControleJColumnClub(obs, table,
 				model);
