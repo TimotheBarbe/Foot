@@ -49,7 +49,8 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 
 	public void update(Observable o, Object message) {
 		Integer iMessage = (Integer) message;
-		if (iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
+		if (iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR
+				|| iMessage == Obs.CHANGEMENT_DESSIN) {
 			model.setData(obs.getListForTable());
 			table.repaint();
 		}
@@ -67,7 +68,6 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 			table.scrollRectToVisible(new Rectangle(table.getCellRect(
 					table.getSelectedRow(), 0, true)));
 		}
-
 	}
 
 	public void mouseClicked(MouseEvent e) {

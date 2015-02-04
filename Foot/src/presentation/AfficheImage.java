@@ -76,7 +76,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 					String nom = c.toString();
 					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-					if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+					if (obs.getIndiceSurvole() == i) {
 						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 					}
 				}
@@ -118,7 +118,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 					String nom = c.toString();
 					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
-					if (obs.isAfficherNom() || obs.getIndiceSurvole() == i) {
+					if (obs.getIndiceSurvole() == i) {
 						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 					}
 				}

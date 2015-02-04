@@ -15,7 +15,6 @@ public class Obs extends Observable {
 	private int[] reponseSolveur;
 	private int zoom;
 	private Point coinZoom;
-	private boolean afficherNom;
 	private int indiceSurvole;
 	private Club clubSelection;
 	private int indiceJListClubSelection;
@@ -30,7 +29,6 @@ public class Obs extends Observable {
 		this.coinZoom = new Point(0, 0);
 		this.tableVisible = new boolean[reponseSolveur.length];
 		Arrays.fill(this.tableVisible, true);
-		this.setAfficherNom(false);
 		this.setIndiceSurvole(-1);
 		this.setClubSelectionne(null);
 		this.setIndiceJListClubSelection(-1);
@@ -81,16 +79,6 @@ public class Obs extends Observable {
 
 	public void changeGroupe(int id, int newGroupe) {
 		this.reponseSolveur[id] = newGroupe;
-		this.setChanged();
-		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
-	}
-
-	public boolean isAfficherNom() {
-		return afficherNom;
-	}
-
-	public void setAfficherNom(boolean afficherNom) {
-		this.afficherNom = afficherNom;
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_CLUB_COURANT);
 	}

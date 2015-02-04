@@ -26,7 +26,7 @@ import javax.swing.table.TableRowSorter;
 import model.Obs;
 import controle.ControleBoutonExportCarte;
 import controle.ControleImage;
-import controle.ControleJBoxAfficherNom;
+import controle.ControleJBoxToutCocher;
 import controle.ControleJColumnClub;
 import controle.ControleRecherche;
 
@@ -85,7 +85,7 @@ public class MainWindows extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(145);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		
+
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		ControleJColumnClub controleTable = new ControleJColumnClub(obs, table,
 				model);
@@ -109,6 +109,21 @@ public class MainWindows extends JFrame {
 		panelRecherche.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		gauche.add(panelRecherche, BorderLayout.NORTH);
 
+		// TOUT COCHER
+		JPanel panelTickBox = new JPanel(new BorderLayout());
+		// tickbox
+		JCheckBox tickToutCocher = new JCheckBox();
+		panelTickBox.add(tickToutCocher, BorderLayout.WEST);
+		ControleJBoxToutCocher controleBox = new ControleJBoxToutCocher(
+				this.obs);
+		tickToutCocher.addActionListener(controleBox);
+		// titre
+		JLabel labelToutCocher = new JLabel("Tout cocher");
+		labelToutCocher.setFont(new Font(labelToutCocher.getFont().getName(),
+				Font.BOLD, LABEL_SIZE));
+		panelTickBox.add(labelToutCocher, BorderLayout.CENTER);
+		gauche.add(panelTickBox, BorderLayout.SOUTH);
+
 		this.getContentPane().add(gauche, BorderLayout.WEST);
 	}
 
@@ -129,20 +144,6 @@ public class MainWindows extends JFrame {
 	private void creerBas() {
 		JPanel panelBas = new JPanel(new BorderLayout());
 
-		// AFFICHER NOMS
-		JPanel panelWest = new JPanel(new BorderLayout());
-		// tickbox
-		JCheckBox tickAfficherNom = new JCheckBox();
-		panelWest.add(tickAfficherNom, BorderLayout.WEST);
-		ControleJBoxAfficherNom controleboxtest = new ControleJBoxAfficherNom(
-				this.obs);
-		tickAfficherNom.addActionListener(controleboxtest);
-		// titre
-		JLabel labelAfficherNom = new JLabel("Afficher les noms des clubs?");
-		labelAfficherNom.setFont(new Font(labelAfficherNom.getFont().getName(),
-				Font.BOLD, LABEL_SIZE));
-		panelWest.add(labelAfficherNom, BorderLayout.CENTER);
-
 		// BOUTONS
 		JPanel panelEast = new JPanel(new BorderLayout());
 		panelEast.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
@@ -158,7 +159,6 @@ public class MainWindows extends JFrame {
 		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
 		panelEast.add(exportCarte, BorderLayout.EAST);
 
-		panelBas.add(panelWest, BorderLayout.WEST);
 		panelBas.add(panelEast, BorderLayout.EAST);
 		this.getContentPane().add(panelBas, BorderLayout.SOUTH);
 	}
