@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Division {
 
 	// liste des clubs
-	public ArrayList<Club> liste;
+	private ArrayList<Club> liste;
 
 	// nombre de groupes de la division
-	public int nombreDeGroupe;
-	public String nom;
+	private int nombreDeGroupe;
+	private String nom;
 
 	public Division(int nombreDeGroupe) {
 		this.liste = new ArrayList<Club>();

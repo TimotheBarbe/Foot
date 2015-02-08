@@ -42,15 +42,16 @@ public class FrameClub extends JFrame {
 		}
 		comboGroupe.setSelectedItem(groupe + 1);
 		comboGroupe.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-		ControleFrameClub controleFrame = new ControleFrameClub(obs, c,
-				comboGroupe);
-		comboGroupe.addItemListener(controleFrame);
-		obs.addObserver(controleFrame);
-		;
 
 		// distance
-		JLabel distance = new JLabel("Distance : " + 15.5);
+		JLabel distance = new JLabel("Distance : "
+				+ obs.getDistParcourue(obs.getDiv().getListe().indexOf(c)));
 		distance.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+		ControleFrameClub controleFrame = new ControleFrameClub(obs, c,
+				comboGroupe, distance);
+		comboGroupe.addItemListener(controleFrame);
+		obs.addObserver(controleFrame);
 
 		this.add(nom);
 		this.add(comboGroupe);

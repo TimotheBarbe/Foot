@@ -89,7 +89,8 @@ public class ControleBoutonExportCarte implements ActionListener {
 						.getId() + "", font)));
 				table.addCell(new PdfPCell(new Paragraph(listeClub.get(i)
 						.getNom(), font)));
-				table.addCell(new PdfPCell(new Paragraph(15.5 + "", font)));
+				table.addCell(new PdfPCell(new Paragraph(obs
+						.getDistParcourue(i) + "", font)));
 			}
 		}
 		table.writeSelectedRows(0, -1, 100, 350, cb);

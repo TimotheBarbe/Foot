@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 import model.Club;
 import model.Obs;
@@ -15,11 +16,14 @@ public class ControleFrameClub implements ItemListener, Observer {
 	private Obs obs;
 	private Club c;
 	private JComboBox<Integer> comboGroupe;
+	private JLabel distance;
 
-	public ControleFrameClub(Obs obs, Club c, JComboBox<Integer> comboGroupe) {
+	public ControleFrameClub(Obs obs, Club c, JComboBox<Integer> comboGroupe,
+			JLabel distance) {
 		this.obs = obs;
 		this.c = c;
 		this.comboGroupe = comboGroupe;
+		this.distance = distance;
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -36,6 +40,8 @@ public class ControleFrameClub implements ItemListener, Observer {
 			int groupe = obs.getReponseSolveur()[obs.getDiv().getListe()
 					.indexOf(c)];
 			comboGroupe.setSelectedItem(groupe + 1);
+			this.distance.setText("Distance : "
+					+ obs.getDistParcourue(obs.getDiv().getListe().indexOf(c)));
 		}
 	}
 

@@ -124,9 +124,17 @@ public class AfficheImage extends JPanel implements MouseListener,
 				}
 			}
 		}
+
+		// voyant de validation de solution
+		if (obs.estRepartiHomogene())
+			g.setColor(Color.GREEN);
+		else
+			g.setColor(Color.RED);
+		g.fillOval(this.getWidth() - 40, 20, 20, 20);
+
+		// logo foot
 		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0,
 				getHeight() - 100, 120, 100, this);
-
 	}
 
 	private Color getColor(int numeroGroupe) {

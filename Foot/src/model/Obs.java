@@ -157,4 +157,21 @@ public class Obs extends Observable {
 		return rep;
 	}
 
+	public boolean estRepartiHomogene() {
+		int[] tableGroupe = new int[this.getDiv().getNbGroupe()];
+		Arrays.fill(tableGroupe, 0);
+		for (int i : this.getReponseSolveur()) {
+			tableGroupe[i]++;
+		}
+		int max = 0, min = 1000;
+		for (int i : tableGroupe) {
+			if (i < min) {
+				min = i;
+			}
+			if (i > max) {
+				max = i;
+			}
+		}
+		return !(max - min > 1);
+	}
 }
