@@ -127,10 +127,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 
 		// voyant de validation de solution
 		if (obs.estRepartiHomogene())
-			g.setColor(Color.GREEN);
+			g.drawImage(getToolkit().getImage("Donnees/ok.png"), 20, 20, 40,
+					40, this);
 		else
-			g.setColor(Color.RED);
-		g.fillOval(this.getWidth() - 40, 20, 20, 20);
+			g.drawImage(getToolkit().getImage("Donnees/refus.png"), 20, 20, 40,
+					40, this);
 
 		// logo foot
 		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0,
