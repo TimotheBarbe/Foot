@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.CaretListener;
 
 import jxl.Workbook;
 
@@ -29,6 +28,7 @@ public class FenetreAccueil extends JFrame{
 	private Workbook workbook;
 	private String cheminFichierDivision ="";
 	private String nbGroupes;
+	private boolean accueilOuvert = true;
 	
 	public FenetreAccueil(){
 		this.setPreferredSize(new Dimension(400, 150));
@@ -76,7 +76,9 @@ public class FenetreAccueil extends JFrame{
 					
 					try{
 						FenetreAccueil.this.setCheminFichierDivision("Donnees/"+cheminDivision.getText());
-						workbook = Workbook.getWorkbook(new File(cheminFichierDivision));
+						setWorkbook(Workbook.getWorkbook(new File(cheminFichierDivision)));
+						
+						accueilOuvert = false;
 					} catch (Exception e){
 						JOptionPane.showMessageDialog(null, "Le fichier \""+FenetreAccueil.this.getCheminFichierDivision()
 								+"\" est introuvable");
@@ -108,6 +110,22 @@ public class FenetreAccueil extends JFrame{
 
 	public void setNbGroupes(String nbGroupes) {
 		this.nbGroupes = nbGroupes;
+	}
+
+	public Workbook getWorkbook() {
+		return workbook;
+	}
+
+	public void setWorkbook(Workbook workbook) {
+		this.workbook = workbook;
+	}
+
+	public boolean isAccueilOuvert() {
+		return accueilOuvert;
+	}
+
+	public void setAccueilOuvert(boolean accueilOuvert) {
+		this.accueilOuvert = accueilOuvert;
 	}
 	
 }
