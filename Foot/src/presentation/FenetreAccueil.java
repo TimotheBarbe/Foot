@@ -49,20 +49,37 @@ public class FenetreAccueil extends JFrame{
 		JPanel haut = new JPanel(new BorderLayout());
 		JLabel nbGroupes = new JLabel("Nombre de groupes : ");
 		JTextField texteNbGroupes = new JTextField();
+		JButton aideNbGroupes = new JButton("?");
+		aideNbGroupes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Ce champ définit le nombre de groupes souhaité dans la"
+						+ " répartition des clubs. Il doit être de type entier et ne doit pas contenir d'espace.");
+			}
+	     });
 
 		haut.add(nbGroupes, BorderLayout.WEST);
 		haut.add(texteNbGroupes, BorderLayout.CENTER);
+		haut.add(aideNbGroupes, BorderLayout.EAST);
 		nord.add(haut, BorderLayout.NORTH);
 		nord.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JPanel centre = new JPanel(new BorderLayout());
 		JLabel division = new JLabel("Division : ");
-		JTextField cheminDivision = new JTextField();     
+		JTextField cheminDivision = new JTextField();
+		JButton aideFichierDivision = new JButton("?");
+		aideFichierDivision.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Ce champ définit le nom du fichier de la division. Le fichier "
+						+ "doit être présent dans le dossier \"Donnees\" et doit impérativement avoir l'extension "
+						+ "\".xls\" et non, en particulier, l'extension \".xlsx\".");
+			}
+	     });
 		
-		//JButton importer = new JButton("Charger...");
 		centre.add(division, BorderLayout.WEST);
 		centre.add(cheminDivision, BorderLayout.CENTER);
-		//centre.add(importer, BorderLayout.EAST);
+		centre.add(aideFichierDivision, BorderLayout.EAST);
 		nord.add(centre, BorderLayout.SOUTH);
 		
 		JPanel sud = new JPanel(new FlowLayout(FlowLayout.CENTER));
