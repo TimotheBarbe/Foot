@@ -54,7 +54,8 @@ public class FenetreAccueil extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Ce champ définit le nombre de groupes souhaité dans la"
-						+ " répartition des clubs. Il doit être de type entier et ne doit pas contenir d'espace.");
+						+ " répartition des clubs. \n"
+						+ " Il doit être de type entier et ne doit pas contenir d'espace.");
 			}
 	     });
 
@@ -71,8 +72,8 @@ public class FenetreAccueil extends JFrame{
 		aideFichierDivision.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Ce champ définit le nom du fichier de la division. Le fichier "
-						+ "doit être présent dans le dossier \"Donnees\" et doit impérativement avoir l'extension "
+				JOptionPane.showMessageDialog(null, "Ce champ définit le nom du fichier de la division. Le fichier doit"
+						+ " \n être présent dans le dossier \"Donnees\" et doit impérativement \n avoir l'extension "
 						+ "\".xls\" et non, en particulier, l'extension \".xlsx\".");
 			}
 	     });
