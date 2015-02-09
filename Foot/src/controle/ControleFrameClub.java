@@ -9,16 +9,17 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import model.Club;
+import model.EquivalentLettre;
 import model.Obs;
 
 public class ControleFrameClub implements ItemListener, Observer {
 
 	private Obs obs;
 	private Club c;
-	private JComboBox<Integer> comboGroupe;
+	private JComboBox<String> comboGroupe;
 	private JLabel distance;
 
-	public ControleFrameClub(Obs obs, Club c, JComboBox<Integer> comboGroupe,
+	public ControleFrameClub(Obs obs, Club c, JComboBox<String> comboGroupe,
 			JLabel distance) {
 		this.obs = obs;
 		this.c = c;
@@ -28,10 +29,16 @@ public class ControleFrameClub implements ItemListener, Observer {
 
 	public void itemStateChanged(ItemEvent e) {
 		int[] tmp = obs.getReponseSolveur();
-		tmp[obs.getDiv().getListe().indexOf(c)] = (int) e.getItem() - 1;
-		this.obs.setReponseSolveur(tmp);
-		this.obs.setClubSelectionne(c);
-		this.obs.setIndiceSurvole(obs.getDiv().getListe().indexOf(c));
+		String lettre = (String) e.getItem();
+		int groupe = EquivalentLettre.getIndice(lettre.substring(lettre
+				.length() - 1));
+		if (groupe >= 0) {
+			tmp[obs.getDiv().getListe().indexOf(c)] = EquivalentLettre
+					.getIndice(lettre.substring(lettre.length() - 1));
+			this.obs.setReponseSolveur(tmp);
+			this.obs.setClubSelectionne(c);
+			this.obs.setIndiceSurvole(obs.getDiv().getListe().indexOf(c));
+		}
 	}
 
 	public void update(Observable o, Object message) {
@@ -39,7 +46,7 @@ public class ControleFrameClub implements ItemListener, Observer {
 		if (iMessage == Obs.CHANGEMENT_REPONSE_SOLVEUR) {
 			int groupe = obs.getReponseSolveur()[obs.getDiv().getListe()
 					.indexOf(c)];
-			comboGroupe.setSelectedItem(groupe + 1);
+			comboGroupe.setSelectedItem(EquivalentLettre.getLettre(groupe));
 			this.distance.setText("Distance : "
 					+ obs.getDistParcourue(obs.getDiv().getListe().indexOf(c)));
 		}

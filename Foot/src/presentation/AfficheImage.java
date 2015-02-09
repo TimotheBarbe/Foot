@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import model.Club;
+import model.EquivalentLettre;
 import model.Obs;
 import controle.ControleJPopMenu;
 
@@ -187,7 +188,8 @@ public class AfficheImage extends JPanel implements MouseListener,
 			if (clubclick >= 0) {
 				JPopupMenu contextMenu = new JPopupMenu();
 				for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
-					JMenuItem item = new JMenuItem("" + (i + 1));
+					JMenuItem item = new JMenuItem(
+							EquivalentLettre.getLettre(i));
 					if (obs.getReponseSolveur()[clubclick] == i) {
 						item.setIcon(new ImageIcon("Donnees/icone-tick.png"));
 					}

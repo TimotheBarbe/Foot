@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import model.Club;
+import model.EquivalentLettre;
 import model.Obs;
 import controle.ControleFrameClub;
 
@@ -36,9 +37,9 @@ public class FrameClub extends JFrame {
 
 		// combo box
 		int groupe = obs.getReponseSolveur()[obs.getDiv().getListe().indexOf(c)];
-		JComboBox<Integer> comboGroupe = new JComboBox<Integer>();
+		JComboBox<String> comboGroupe = new JComboBox<String>();
 		for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
-			comboGroupe.addItem(i + 1);
+			comboGroupe.addItem(EquivalentLettre.getLettre(i));
 		}
 		comboGroupe.setSelectedItem(groupe + 1);
 		comboGroupe.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));

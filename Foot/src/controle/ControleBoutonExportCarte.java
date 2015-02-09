@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 import model.Club;
+import model.EquivalentLettre;
 import model.Obs;
 import presentation.BoiteDeDialogue;
 import presentation.MainWindows;
@@ -52,7 +53,7 @@ public class ControleBoutonExportCarte implements ActionListener {
 						+ File.separator + obs.getDiv().getNom() + "-groupe";
 				try {
 					FileOutputStream stream = new FileOutputStream(nomDuFichier
-							+ " " + (i + 1) + ".pdf");
+							+ " " + EquivalentLettre.getLettre(i) + ".pdf");
 					PdfWriter myWriter = PdfWriter.getInstance(myPDF, stream);
 					myPDF.open();
 					PdfContentByte cb = myWriter.getDirectContent();
@@ -113,7 +114,7 @@ public class ControleBoutonExportCarte implements ActionListener {
 		cb.beginText();
 		cb.setFontAndSize(bf, 20);
 		cb.showTextAligned(Element.ALIGN_CENTER, obs.getDiv().getNom()
-				+ " - groupe " + (i + 1), 300, 800, 0);
+				+ " - groupe " + EquivalentLettre.getLettre(i), 300, 800, 0);
 
 		cb.endText();
 	}

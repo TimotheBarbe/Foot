@@ -3,6 +3,7 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.EquivalentLettre;
 import model.Obs;
 
 public class ControleJPopMenu implements ActionListener {
@@ -17,7 +18,8 @@ public class ControleJPopMenu implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		int[] reponseSolveur = obs.getReponseSolveur();
-		reponseSolveur[numeroClub] = Integer.parseInt(e.getActionCommand()) - 1;
+		reponseSolveur[numeroClub] = EquivalentLettre.getIndice((String) (e
+				.getActionCommand()));
 		obs.setReponseSolveur(reponseSolveur);
 	}
 

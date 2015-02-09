@@ -126,7 +126,7 @@ public class Obs extends Observable {
 		int clubRestant = this.getReponseSolveur().length;
 		int indice = 0;
 		while (clubRestant > 0) {
-			data.add("Poule " + (indice + 1));
+			data.add("Poule " + EquivalentLettre.getLettre(indice));
 			for (int i = 0; i < this.getReponseSolveur().length; i++) {
 				if (this.getReponseSolveur()[i] == indice) {
 					data.add("  " + this.getDiv().getListe().get(i));

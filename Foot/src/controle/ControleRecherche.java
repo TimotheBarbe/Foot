@@ -5,10 +5,8 @@ import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import javax.swing.text.BadLocationException;
 
 import presentation.TableClub;
-import model.Obs;
 
 public class ControleRecherche implements DocumentListener {
 
