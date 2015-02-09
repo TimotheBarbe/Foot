@@ -98,12 +98,13 @@ public class FenetreAccueil extends JFrame{
 						
 						accueilOuvert = false;
 					} catch (Exception e){
-						JOptionPane.showMessageDialog(null, "Le fichier \""+FenetreAccueil.this.getCheminFichierDivision()
-								+"\" est introuvable");
+						JOptionPane.showMessageDialog(null, "Le fichier \""+cheminFichierDivision+
+								"\" est introuvable", "Alerte", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				} catch (Exception e){
-					JOptionPane.showMessageDialog(null, "Le format du nombre de groupes est incorrect");
+					JOptionPane.showMessageDialog(null, "Le format du nombre de groupes est incorrect", "Alerte",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 	     });      
