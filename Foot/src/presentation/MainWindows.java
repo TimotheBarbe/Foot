@@ -39,9 +39,9 @@ public class MainWindows extends JFrame {
 	public static String pathCarte = "Donnees/carte_region.jpg";
 	public static String pathLogo = "Donnees/Logo_DistrictFootball44.jpg";
 
-	public MainWindows(Obs obs) {
+	public MainWindows(Obs obs, String nomDivision) {
 		this.setPreferredSize(new Dimension(800, 600));
-		this.setTitle("Foot");
+		this.setTitle(nomDivision);
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());

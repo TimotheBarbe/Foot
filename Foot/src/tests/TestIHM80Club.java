@@ -97,7 +97,7 @@ public class TestIHM80Club {
 			}
 			Obs obs = new Obs(d, reponseSolveur, tabDist);
 
-			MainWindows test = new MainWindows(obs);
+			MainWindows test = new MainWindows(obs, "Nom de la division");
 
 		} catch (BiffException e) {
 			e.printStackTrace();

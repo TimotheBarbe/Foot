@@ -51,6 +51,11 @@ public class TestFenetreAccueil {
 		return s;
 	}
 
+	// Cette methode retourne les 3 infos d'un club de par son numero d'affiliation
+	// Ces infos sont retournees sous forme de tableau
+	// Index 0 --> Nom du club
+	// Index 1 --> Latitude du club
+	// Index 2 --> Longitude du club
 	public static String[] getInfosClubByNumber(int numeroAffiliation){
 		String[] infos = new String[3];
 		
@@ -150,7 +155,7 @@ public class TestFenetreAccueil {
 			}
 			Obs obs = new Obs(d, reponseSolveur, tabDist);
 
-			MainWindows test = new MainWindows(obs);
+			MainWindows test = new MainWindows(obs, affiliationDivision[0].getContents());
 
 		} catch (BiffException e) {
 			e.printStackTrace();

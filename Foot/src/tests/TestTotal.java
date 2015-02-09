@@ -48,6 +48,6 @@ public class TestTotal {
 
 		Obs obs = new Obs(d, tabSolution, tabDist);
 
-		MainWindows test = new MainWindows(obs);
+		MainWindows test = new MainWindows(obs, "Nom de la division");
 	}
 }
