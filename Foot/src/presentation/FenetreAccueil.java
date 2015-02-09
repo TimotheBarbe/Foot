@@ -71,14 +71,19 @@ public class FenetreAccueil extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					FenetreAccueil.this.setCheminFichierDivision("Donnees/"+cheminDivision.getText());
 					FenetreAccueil.this.setNbGroupes(texteNbGroupes.getText());
 					Integer.parseInt(getNbGroupes());
-					workbook = Workbook.getWorkbook(new File(cheminFichierDivision));
+					
+					try{
+						FenetreAccueil.this.setCheminFichierDivision("Donnees/"+cheminDivision.getText());
+						workbook = Workbook.getWorkbook(new File(cheminFichierDivision));
+					} catch (Exception e){
+						JOptionPane.showMessageDialog(null, "Le fichier \""+FenetreAccueil.this.getCheminFichierDivision()
+								+"\" est introuvable");
+					}
 					
 				} catch (Exception e){
-					JOptionPane.showMessageDialog(null,"Le format du nombre de groupes et/ou du fichier de la division"
-							+ "est incorrect");
+					JOptionPane.showMessageDialog(null, "Le format du nombre de groupes est incorrect");
 				}
 			}
 	     });      
