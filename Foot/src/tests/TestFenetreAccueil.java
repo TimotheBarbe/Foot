@@ -130,8 +130,10 @@ public class TestFenetreAccueil {
 			int nbClub = affiliationDivision.length-1;
 			// Nombre de groupe
 			int nbGroupe = Integer.parseInt(fa.getNbGroupes());
+			// On met a jour le nom de la division
+			String nomDivision = affiliationDivision[0].getContents();
 			
-			Division d = new Division(nbGroupe);
+			Division d = new Division(nbGroupe, nomDivision);
 			int[] reponseSolveur = new int[nbClub];
 
 			int clubCourant = 0;
@@ -159,7 +161,7 @@ public class TestFenetreAccueil {
 			}
 			Obs obs = new Obs(d, reponseSolveur, tabDist);
 
-			MainWindows test = new MainWindows(obs, affiliationDivision[0].getContents());
+			MainWindows test = new MainWindows(obs, nomDivision);
 
 		} catch (BiffException e) {
 			e.printStackTrace();

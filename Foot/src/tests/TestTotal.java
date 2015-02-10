@@ -16,7 +16,9 @@ public class TestTotal {
 	public static void main(String[] args) {
 		int nbClub = 100;
 		int nbGroupe = 10;
-		Division d = new Division(nbGroupe);
+		String nomDivision = "Nom de la division";
+		
+		Division d = new Division(nbGroupe, nomDivision);
 		Point2D.Double[] tabPoint = new Point2D.Double[nbClub];
 		Random rdm = new Random(0);
 		for (int i = 0; i < nbClub; i++) {
@@ -48,6 +50,6 @@ public class TestTotal {
 
 		Obs obs = new Obs(d, tabSolution, tabDist);
 
-		MainWindows test = new MainWindows(obs, "Nom de la division");
+		MainWindows test = new MainWindows(obs, nomDivision);
 	}
 }

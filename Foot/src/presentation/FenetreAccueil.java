@@ -30,9 +30,12 @@ public class FenetreAccueil extends JFrame{
 	
 	
 	private Workbook workbook;
-	private String cheminFichierDivision ="";
-	private String nbGroupes;
 	private boolean accueilOuvert = true;
+	
+	private String cheminFichierDivision ="";
+	private String nomDivision;
+	private String nbGroupes;
+	
 	
 	public FenetreAccueil(){
 		this.setPreferredSize(new Dimension(400, 150));
@@ -172,6 +175,14 @@ public class FenetreAccueil extends JFrame{
 
 	public void setAccueilOuvert(boolean accueilOuvert) {
 		this.accueilOuvert = accueilOuvert;
+	}
+
+	public String getNomDivision() {
+		return nomDivision;
+	}
+
+	public void setNomDivision(String nomDivision) {
+		this.nomDivision = nomDivision;
 	}
 	
 }

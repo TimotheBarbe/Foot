@@ -74,7 +74,9 @@ public class TestIHM80Club {
 
 			int nbClub = 80;
 			int nbGroupe = 10;
-			Division d = new Division(nbGroupe);
+			String nomDivision = "Nom de la division";
+			
+			Division d = new Division(nbGroupe, nomDivision);
 			int[] reponseSolveur = new int[nbClub];
 
 			for (int i = 1; i <= nbClub; i++) {
@@ -97,7 +99,7 @@ public class TestIHM80Club {
 			}
 			Obs obs = new Obs(d, reponseSolveur, tabDist);
 
-			MainWindows test = new MainWindows(obs, "Nom de la division");
+			MainWindows test = new MainWindows(obs, nomDivision);
 
 		} catch (BiffException e) {
 			e.printStackTrace();

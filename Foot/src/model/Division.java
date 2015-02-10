@@ -11,10 +11,10 @@ public class Division {
 	private int nombreDeGroupe;
 	private String nom;
 
-	public Division(int nombreDeGroupe) {
+	public Division(int nombreDeGroupe, String division) {
 		this.liste = new ArrayList<Club>();
 		this.nombreDeGroupe = nombreDeGroupe;
-		this.nom = "Division";
+		this.nom = division;
 	}
 
 	public ArrayList<Club> getListe() {
