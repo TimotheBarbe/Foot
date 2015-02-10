@@ -6,9 +6,13 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -65,22 +69,45 @@ public class FenetreAccueil extends JFrame{
 		nord.add(haut, BorderLayout.NORTH);
 		nord.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JPanel centre = new JPanel(new BorderLayout());
+		JPanel centre = new JPanel();
+		BoxLayout layout = new BoxLayout(centre, BoxLayout.X_AXIS);
+		centre.setLayout(layout);
 		JLabel division = new JLabel("Division : ");
 		JTextField cheminDivision = new JTextField();
+		JButton importFichier = new JButton("...");
+		importFichier.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser dialogue = new JFileChooser(new File("."));
+				PrintWriter sortie;
+				File fichier;
+				
+				if (dialogue.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
+				    fichier = dialogue.getSelectedFile();
+				    cheminDivision.setText(fichier.getPath());
+				    cheminFichierDivision = fichier.getPath();
+				    try{
+				    	sortie = new PrintWriter (new FileWriter(fichier.getPath(), true));
+					    sortie.close();
+				    } catch (Exception e){
+				    	
+				    }
+				}
+			}
+	     });
 		JButton aideFichierDivision = new JButton("?");
 		aideFichierDivision.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Ce champ définit le nom du fichier de la division. Le fichier doit"
-						+ " \n être présent dans le dossier \"Donnees\" et doit impérativement \n avoir l'extension "
-						+ "\".xls\" et non, en particulier, l'extension \".xlsx\".");
+				JOptionPane.showMessageDialog(null, "Ce champ définit l'adresse du fichier de la division. Le fichier "
+						+ "doit impérativement \n avoir l'extension \".xls\" et non, en particulier, l'extension \".xlsx\".");
 			}
 	     });
 		
-		centre.add(division, BorderLayout.WEST);
-		centre.add(cheminDivision, BorderLayout.CENTER);
-		centre.add(aideFichierDivision, BorderLayout.EAST);
+		centre.add(division);
+		centre.add(cheminDivision);
+		centre.add(importFichier);
+		centre.add(aideFichierDivision);
 		nord.add(centre, BorderLayout.SOUTH);
 		
 		JPanel sud = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -93,7 +120,7 @@ public class FenetreAccueil extends JFrame{
 					Integer.parseInt(getNbGroupes());
 					
 					try{
-						FenetreAccueil.this.setCheminFichierDivision("Donnees/"+cheminDivision.getText());
+						FenetreAccueil.this.setCheminFichierDivision(cheminDivision.getText());
 						setWorkbook(Workbook.getWorkbook(new File(cheminFichierDivision)));
 						
 						accueilOuvert = false;
