@@ -37,7 +37,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 			try {
 				/* On créé un nouveau worbook et on l'ouvre en écriture */
 				workbook = Workbook.createWorkbook(new File(fileChooser
-						.getSelectedFile().toString() + "/division.xls"));
+						.getSelectedFile().toString() + "/"+obs.getDiv().getNom()+".xls"));
 
 				/*
 				 * On créé une nouvelle feuille (test en position 0) et on
