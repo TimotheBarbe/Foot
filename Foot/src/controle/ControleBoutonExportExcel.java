@@ -73,7 +73,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 		WritableCellFormat cellFormatTitre = new WritableCellFormat();
 		cellFormatTitre.setBorder(Border.ALL, BorderLineStyle.THIN);
 		cellFormatTitre.setAlignment(Alignment.CENTRE);
-
+		
 		WritableCellFormat cellFormatAutre = new WritableCellFormat();
 		cellFormatAutre.setBorder(Border.ALL, BorderLineStyle.THIN);
 

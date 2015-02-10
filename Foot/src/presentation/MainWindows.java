@@ -149,7 +149,7 @@ public class MainWindows extends JFrame {
 		// charger solution
 		JButton importsolution = new JButton("Importer une solution",
 				new ImageIcon("Donnees/icone_excel.png"));
-		importsolution.addActionListener(new ControleBoutonImportExcel(obs));
+		importsolution.addActionListener(new ControleBoutonImportExcel(this));
 		panelWest.add(importsolution, BorderLayout.WEST);
 
 		// BOUTONS
