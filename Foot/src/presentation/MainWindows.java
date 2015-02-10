@@ -22,6 +22,7 @@ import javax.swing.table.TableRowSorter;
 import model.Obs;
 import controle.ControleBoutonExportCarte;
 import controle.ControleBoutonExportExcel;
+import controle.ControleBoutonImportExcel;
 import controle.ControleImage;
 import controle.ControleJBoxToutCocher;
 import controle.ControleJColumnClub;
@@ -148,6 +149,7 @@ public class MainWindows extends JFrame {
 		// charger solution
 		JButton importsolution = new JButton("Importer une solution",
 				new ImageIcon("Donnees/icone_excel.png"));
+		importsolution.addActionListener(new ControleBoutonImportExcel(obs));
 		panelWest.add(importsolution, BorderLayout.WEST);
 
 		// BOUTONS
