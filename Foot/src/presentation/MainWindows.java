@@ -17,14 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import model.Obs;
 import controle.ControleBoutonExportCarte;
+import controle.ControleBoutonExportExcel;
 import controle.ControleImage;
 import controle.ControleJBoxToutCocher;
 import controle.ControleJColumnClub;
@@ -68,12 +65,14 @@ public class MainWindows extends JFrame {
 				java.awt.Point p = e.getPoint();
 				int rowIndex = rowAtPoint(p);
 				int colIndex = columnAtPoint(p);
-				int realColumnIndex = convertColumnIndexToModel(colIndex);
+				if (rowIndex >= 0 && colIndex >= 0) {
+					int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-				if (realColumnIndex == 1) {
-					tip = "" + getValueAt(rowIndex, colIndex);
-				} else {
-					tip = super.getToolTipText(e);
+					if (realColumnIndex == 1) {
+						tip = "" + getValueAt(rowIndex, colIndex);
+					} else {
+						tip = super.getToolTipText(e);
+					}
 				}
 				return tip;
 			}
@@ -144,11 +143,20 @@ public class MainWindows extends JFrame {
 	private void creerBas() {
 		JPanel panelBas = new JPanel(new BorderLayout());
 
+		JPanel panelWest = new JPanel(new BorderLayout());
+		panelWest.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		// charger solution
+		JButton importsolution = new JButton("Importer une solution",
+				new ImageIcon("Donnees/icone_excel.png"));
+		panelWest.add(importsolution, BorderLayout.WEST);
+
 		// BOUTONS
 		JPanel panelEast = new JPanel(new BorderLayout());
 		panelEast.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		// export solution
-		JButton exportsolution = new JButton("Exporter la solution");
+		JButton exportsolution = new JButton("Exporter la solution",
+				new ImageIcon("Donnees/icone_excel.png"));
+		exportsolution.addActionListener(new ControleBoutonExportExcel(obs));
 		panelEast.add(exportsolution, BorderLayout.WEST);
 		// espace vide
 		panelEast.add(Box.createRigidArea(new Dimension(5, 0)),
@@ -159,6 +167,7 @@ public class MainWindows extends JFrame {
 		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
 		panelEast.add(exportCarte, BorderLayout.EAST);
 
+		panelBas.add(panelWest, BorderLayout.WEST);
 		panelBas.add(panelEast, BorderLayout.EAST);
 		this.getContentPane().add(panelBas, BorderLayout.SOUTH);
 	}
