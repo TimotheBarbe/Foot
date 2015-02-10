@@ -41,7 +41,7 @@ public class FrameClub extends JFrame {
 		for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
 			comboGroupe.addItem(EquivalentLettre.getLettre(i));
 		}
-		comboGroupe.setSelectedItem(groupe + 1);
+		comboGroupe.setSelectedItem(EquivalentLettre.getLettre(groupe));
 		comboGroupe.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
 		// distance

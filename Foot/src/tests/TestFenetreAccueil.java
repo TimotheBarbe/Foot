@@ -105,9 +105,14 @@ public class TestFenetreAccueil {
 		
 		// Boucle permettant d'attendre la fin de la saisie des parametres
 		while(fa.isAccueilOuvert()){
-			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
+
 		// On ferme la fenetre d'accueil
 		fa.setVisible(false);
 		
