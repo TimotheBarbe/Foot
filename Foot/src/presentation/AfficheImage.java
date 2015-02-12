@@ -1,6 +1,5 @@
 package presentation;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import model.Club;
+import model.Couleur;
 import model.EquivalentLettre;
 import model.Obs;
 import controle.ControleJPopMenu;
@@ -60,7 +60,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 					int y = (int) (zoom * (double) getWidth() / 552 * (c
 							.getCoordonneesMatricielles()[1] - coinY));
 
-					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
 					g.fillOval(x, y, 10, 10);
 				}
 			}
@@ -76,7 +76,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 							.getCoordonneesMatricielles()[1] - coinY));
 
 					String nom = c.toString();
-					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
 					if (obs.getIndiceSurvole() == i) {
 						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 					}
@@ -102,7 +102,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 					int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
 							.getCoordonneesMatricielles()[1] - coinY));
 
-					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
 					g.fillOval(x, y, 10, 10);
 				}
 			}
@@ -118,7 +118,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 							.getCoordonneesMatricielles()[1] - coinY));
 
 					String nom = c.toString();
-					g.setColor(this.getColor(this.obs.getReponseSolveur()[i]));
+					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
 					if (obs.getIndiceSurvole() == i) {
 						g.drawString(nom, x - 5 * nom.length() / 2, y - 10);
 					}
@@ -137,43 +137,6 @@ public class AfficheImage extends JPanel implements MouseListener,
 		// logo foot
 		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0,
 				getHeight() - 100, 120, 100, this);
-	}
-
-	private Color getColor(int numeroGroupe) {
-		Color c = Color.BLACK;
-		switch (numeroGroupe) {
-		case 0:
-			c = Color.BLUE;
-			break;
-		case 1:
-			c = Color.RED;
-			break;
-		case 2:
-			c = new Color(150, 100, 50); // marron
-			break;
-		case 3:
-			c = new Color(170, 170, 20); // Jaune foncé
-			break;
-		case 4:
-			c = new Color(40, 150, 90); // Vert foncé
-			break;
-		case 5:
-			c = new Color(70, 70, 70); // Gris foncé
-			break;
-		case 6:
-			c = new Color(150, 60, 150); // violet
-			break;
-		case 7:
-			c = Color.magenta;
-			break;
-		case 8:
-			c = new Color(150, 50, 60); // Rouge foncé
-			break;
-		case 9:
-			c = new Color(30, 50, 80); // Bleu foncé
-			break;
-		}
-		return c;
 	}
 
 	public void mouseClicked(MouseEvent e) {

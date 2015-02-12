@@ -1,5 +1,6 @@
 package controle;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,11 +10,13 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 import model.Club;
+import model.Couleur;
 import model.EquivalentLettre;
 import model.Obs;
 import presentation.BoiteDeDialogue;
 import presentation.MainWindows;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -126,6 +129,8 @@ public class ControleBoutonExportCarte implements ActionListener {
 		cb.addImage(imageCourante);
 		// dessin des cercles
 		cb.setLineWidth(2);
+		Color c = Couleur.getColor(groupe);
+		cb.setColorStroke(new BaseColor(c.getRed(),c.getGreen(),c.getBlue()));
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {
