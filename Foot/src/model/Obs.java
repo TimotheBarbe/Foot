@@ -126,7 +126,10 @@ public class Obs extends Observable {
 		int clubRestant = this.getReponseSolveur().length;
 		int indice = 0;
 		while (clubRestant > 0) {
-			data.add("Poule " + EquivalentLettre.getLettre(indice));
+			String fin = getNbGroupeDansGroupe(indice) > 1 ? " clubs)"
+					: " club)";
+			data.add("Poule " + EquivalentLettre.getLettre(indice) + " ("
+					+ getNbGroupeDansGroupe(indice) + fin);
 			for (int i = 0; i < this.getReponseSolveur().length; i++) {
 				if (this.getReponseSolveur()[i] == indice) {
 					data.add("  " + this.getDiv().getListe().get(i));
@@ -157,12 +160,22 @@ public class Obs extends Observable {
 		return rep;
 	}
 
+	private int getNbGroupeDansGroupe(int groupe) {
+		int rep = 0;
+		for (int i : this.getReponseSolveur()) {
+			if (i == groupe) {
+				rep++;
+			}
+		}
+		return rep;
+	}
+
 	public boolean estRepartiHomogene() {
 		int[] tableGroupe = new int[this.getDiv().getNbGroupe()];
-		Arrays.fill(tableGroupe, 0);
-		for (int i : this.getReponseSolveur()) {
-			tableGroupe[i]++;
+		for (int i = 0; i < tableGroupe.length; i++) {
+			tableGroupe[i] = this.getNbGroupeDansGroupe(i);
 		}
+
 		int max = 0, min = 1000;
 		for (int i : tableGroupe) {
 			if (i < min) {

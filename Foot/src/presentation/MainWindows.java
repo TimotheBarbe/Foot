@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -8,7 +9,6 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import model.Obs;
@@ -80,14 +81,15 @@ public class MainWindows extends JFrame {
 				return tip;
 			}
 		};
+		table.setDefaultRenderer(Object.class, new RendererTable(obs));
 		table.setRowSorter(sorter);
 		table.setPreferredScrollableViewportSize(new Dimension(200, 600));
 		table.setFillsViewportHeight(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(145);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-
+		
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		ControleJColumnClub controleTable = new ControleJColumnClub(obs, table,
 				model);

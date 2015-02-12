@@ -90,7 +90,7 @@ public class TableClub extends AbstractTableModel {
 	public void setData(ArrayList<String> liste) {
 		for (int i = 0; i < liste.size(); i++) {
 			data[i][1] = liste.get(i);
-			data[i][2] = 0;
+			data[i][2] = "";
 			if (getIndexClubChanged(i) >= 0) {
 				data[i][0] = obs.getTableVisible()[getIndexClubChanged(i)];
 				data[i][2] = obs.getDistParcourue(getIndexClubChanged(i));
