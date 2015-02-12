@@ -64,6 +64,8 @@ public class MainWindows extends JFrame {
 		sorter.setSortable(1, false);
 
 		JTable table = new JTable(model) {
+			private static final long serialVersionUID = 1L;
+
 			public String getToolTipText(MouseEvent e) {
 				String tip = null;
 				java.awt.Point p = e.getPoint();
@@ -81,7 +83,7 @@ public class MainWindows extends JFrame {
 				return tip;
 			}
 		};
-		table.setDefaultRenderer(Object.class, new RendererTable(obs));
+		table.setDefaultRenderer(Object.class, new RendererTable());
 		table.setRowSorter(sorter);
 		table.setPreferredScrollableViewportSize(new Dimension(200, 600));
 		table.setFillsViewportHeight(true);
