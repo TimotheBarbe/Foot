@@ -1,5 +1,7 @@
 package presentation;
 
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -21,7 +23,7 @@ public class FrameClub extends JFrame {
 	public FrameClub(Club c, Obs obs) {
 		this.c = c;
 		this.obs = obs;
-
+		this.setMinimumSize(new Dimension(200, 100));
 		this.setTitle(c.toString());
 		this.getContentPane().setLayout(
 				new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));

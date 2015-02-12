@@ -10,6 +10,7 @@ import model.Obs;
 import presentation.MainWindows;
 import solveur.Recherche;
 import solveur.RecuitSimule;
+import solveur.SolutionInitiale;
 
 public class TestTotal {
 
@@ -43,12 +44,14 @@ public class TestTotal {
 		// 6 * 60000, 30000, true);
 		// r.execute();
 		// int[] tabSolution = r.getTabSolution();
-		int nbMinuntes = 1;
-		RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null,
-				nbMinuntes * 60000, nbMinuntes * 800, 10);
-		int[] tabSolution = RS.meilleurSolution;
+		
+		// int nbMinuntes = 1;
+		// RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null,
+		// nbMinuntes * 60000, nbMinuntes * 800, 10);
+		// int[] tabSolution = RS.meilleurSolution;
 
-		Obs obs = new Obs(d, tabSolution, tabDist);
+		SolutionInitiale si = new SolutionInitiale(nbGroupe, tabDist, nbClub);
+		Obs obs = new Obs(d, si.getSolution(), tabDist);
 
 		MainWindows test = new MainWindows(obs, nomDivision);
 	}
