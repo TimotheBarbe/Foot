@@ -30,6 +30,7 @@ public class FrameClub extends JFrame {
 		this.setVisible(true);
 		this.build();
 		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 	private void build() {

@@ -44,11 +44,11 @@ public class MainWindows extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
 		this.setVisible(true);
-
 		this.creerCarte();
 		this.creerGauche();
 		this.creerBas();
 		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 	private void creerGauche() {
