@@ -13,6 +13,7 @@ import model.Club;
 import model.Couleur;
 import model.EquivalentLettre;
 import model.Obs;
+import model.PrettyDate;
 import presentation.BoiteDeDialogue;
 import presentation.MainWindows;
 
@@ -56,7 +57,8 @@ public class ControleBoutonExportCarte implements ActionListener {
 						+ File.separator + obs.getDiv().getNom() + "-groupe";
 				try {
 					FileOutputStream stream = new FileOutputStream(nomDuFichier
-							+ " " + EquivalentLettre.getLettre(i) + ".pdf");
+							+ " " + EquivalentLettre.getLettre(i) + "_"
+							+ PrettyDate.getPrettyDate() + ".pdf");
 					PdfWriter myWriter = PdfWriter.getInstance(myPDF, stream);
 					myPDF.open();
 					PdfContentByte cb = myWriter.getDirectContent();
@@ -130,7 +132,7 @@ public class ControleBoutonExportCarte implements ActionListener {
 		// dessin des cercles
 		cb.setLineWidth(2);
 		Color c = Couleur.getColor(groupe);
-		cb.setColorStroke(new BaseColor(c.getRed(),c.getGreen(),c.getBlue()));
+		cb.setColorStroke(new BaseColor(c.getRed(), c.getGreen(), c.getBlue()));
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {

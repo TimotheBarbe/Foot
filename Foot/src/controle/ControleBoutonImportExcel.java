@@ -3,21 +3,20 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import model.Club;
 import model.Division;
 import model.Obs;
 import presentation.BoiteDeDialogue;
-import presentation.FrameClub;
 import presentation.MainWindows;
 
 public class ControleBoutonImportExcel implements ActionListener {
@@ -29,7 +28,9 @@ public class ControleBoutonImportExcel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser(new File("."));
+		JFileChooser fileChooser = new JFileChooser();
+		FileFilter filter = new FileNameExtensionFilter("xls", new String[] {"xls"});
+		fileChooser.setFileFilter(filter);
 		fileChooser.setDialogTitle("Ouvrir");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int bouton = fileChooser.showSaveDialog(null);

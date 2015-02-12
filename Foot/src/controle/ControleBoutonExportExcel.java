@@ -3,8 +3,11 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import jxl.CellView;
 import jxl.Workbook;
@@ -18,6 +21,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import model.EquivalentLettre;
 import model.Obs;
+import model.PrettyDate;
 import presentation.BoiteDeDialogue;
 
 public class ControleBoutonExportExcel implements ActionListener {
@@ -34,10 +38,15 @@ public class ControleBoutonExportExcel implements ActionListener {
 		int bouton = fileChooser.showSaveDialog(null);
 		if (bouton == JFileChooser.APPROVE_OPTION) {
 			WritableWorkbook workbook = null;
+			boolean ok = true;
 			try {
 				/* On créé un nouveau worbook et on l'ouvre en écriture */
 				workbook = Workbook.createWorkbook(new File(fileChooser
-						.getSelectedFile().toString() + "/"+obs.getDiv().getNom()+".xls"));
+						.getSelectedFile().toString()
+						+ "/"
+						+ obs.getDiv().getNom()
+						+ "_"
+						+ PrettyDate.getPrettyDate() + ".xls"));
 
 				/*
 				 * On créé une nouvelle feuille (test en position 0) et on
@@ -51,6 +60,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 				workbook.write();
 
 			} catch (Exception ex) {
+				ok = false;
 				BoiteDeDialogue.error(ex.getMessage());
 			} finally {
 				if (workbook != null) {
@@ -58,10 +68,13 @@ public class ControleBoutonExportExcel implements ActionListener {
 					try {
 						workbook.close();
 					} catch (Exception ex) {
+						ok = false;
 						BoiteDeDialogue.error(ex.getMessage());
 					}
 				}
 			}
+			if (ok)
+				BoiteDeDialogue.info("Fichier sauvegardé");
 		}
 	}
 
@@ -73,7 +86,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 		WritableCellFormat cellFormatTitre = new WritableCellFormat();
 		cellFormatTitre.setBorder(Border.ALL, BorderLineStyle.THIN);
 		cellFormatTitre.setAlignment(Alignment.CENTRE);
-		
+
 		WritableCellFormat cellFormatAutre = new WritableCellFormat();
 		cellFormatAutre.setBorder(Border.ALL, BorderLineStyle.THIN);
 
@@ -104,7 +117,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 		for (int i = 0; i < obs.getDiv().getNbGroupe(); i++) {
 			CellView cv = sheet.getColumnView(i * 3);
 			cv.setSize(5000);
-			sheet.setColumnView(i*3, cv);
+			sheet.setColumnView(i * 3, cv);
 		}
 	}
 }
