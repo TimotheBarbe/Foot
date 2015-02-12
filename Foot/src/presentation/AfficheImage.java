@@ -133,10 +133,6 @@ public class AfficheImage extends JPanel implements MouseListener,
 		else
 			g.drawImage(getToolkit().getImage("Donnees/refus.png"), 20, 20, 40,
 					40, this);
-
-		// logo foot
-		g.drawImage(getToolkit().getImage(MainWindows.pathLogo), 0,
-				getHeight() - 100, 120, 100, this);
 	}
 
 	public void mouseClicked(MouseEvent e) {

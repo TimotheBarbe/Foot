@@ -3,6 +3,8 @@ package presentation;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
@@ -144,30 +146,33 @@ public class MainWindows extends JFrame {
 	private void creerBas() {
 		JPanel panelBas = new JPanel(new BorderLayout());
 
+		// LOGO
 		JPanel panelWest = new JPanel(new BorderLayout());
-		panelWest.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-		// charger solution
+		panelWest.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 3));
+		ImageIcon icon = new ImageIcon(new ImageIcon(pathLogo).getImage()
+				.getScaledInstance(81, 60, Image.SCALE_DEFAULT));
+		JLabel image = new JLabel(icon);
+		image.setPreferredSize(new Dimension(81, 60));
+		panelWest.add(image, BorderLayout.CENTER);
+
+		// BOUTONS
+		JPanel panelEast = new JPanel(new GridLayout(1, 3, 3, 3));
+		panelEast.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		// import solution
 		JButton importsolution = new JButton("Importer une solution",
 				new ImageIcon("Donnees/icone_excel.png"));
 		importsolution.addActionListener(new ControleBoutonImportExcel(this));
-		panelWest.add(importsolution, BorderLayout.WEST);
-
-		// BOUTONS
-		JPanel panelEast = new JPanel(new BorderLayout());
-		panelEast.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		panelEast.add(importsolution);
 		// export solution
 		JButton exportsolution = new JButton("Exporter la solution",
 				new ImageIcon("Donnees/icone_excel.png"));
 		exportsolution.addActionListener(new ControleBoutonExportExcel(obs));
-		panelEast.add(exportsolution, BorderLayout.WEST);
-		// espace vide
-		panelEast.add(Box.createRigidArea(new Dimension(5, 0)),
-				BorderLayout.CENTER);
+		panelEast.add(exportsolution);
 		// export carte
 		JButton exportCarte = new JButton("Exporter les cartes", new ImageIcon(
 				"Donnees/logo-pdf.png"));
 		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
-		panelEast.add(exportCarte, BorderLayout.EAST);
+		panelEast.add(exportCarte);
 
 		panelBas.add(panelWest, BorderLayout.WEST);
 		panelBas.add(panelEast, BorderLayout.EAST);
