@@ -10,6 +10,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import model.Couleur;
 import model.EquivalentLettre;
 
+/**
+ * Renderer de la table des clubs
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class RendererTable extends DefaultTableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +27,7 @@ public class RendererTable extends DefaultTableCellRenderer {
 
 		// permet de ne pas decolorer les cases colorees lors de leur selection
 		boolean enterLoop = false;
-		
+
 		String nom = table.getModel()
 				.getValueAt(table.convertRowIndexToModel(row), 1).toString();
 
@@ -47,7 +53,6 @@ public class RendererTable extends DefaultTableCellRenderer {
 					"List.selectionBackground"));
 		}
 
-		
 		return this;
 	}
 }

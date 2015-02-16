@@ -33,6 +33,12 @@ import controle.ControleJBoxToutCocher;
 import controle.ControleJColumnClub;
 import controle.ControleRecherche;
 
+/**
+ * Fenetre principale du logiciel
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class MainWindows extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +48,14 @@ public class MainWindows extends JFrame {
 	public static String pathCarte = "Donnees/carte_region.jpg";
 	public static String pathLogo = "Donnees/Logo_DistrictFootball44.jpg";
 
+	/**
+	 * Cree et initialise une nouvelle fenetre
+	 * 
+	 * @param obs
+	 *            etat du logiciel
+	 * @param nomDivision
+	 *            nom de la fenetre
+	 */
 	public MainWindows(Obs obs, String nomDivision) {
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setTitle(nomDivision);
@@ -56,6 +70,9 @@ public class MainWindows extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Creation de la partie gauche : JTable, Rechercher et Tout cocher
+	 */
 	private void creerGauche() {
 		JPanel gauche = new JPanel(new BorderLayout());
 
@@ -135,6 +152,9 @@ public class MainWindows extends JFrame {
 		this.getContentPane().add(gauche, BorderLayout.WEST);
 	}
 
+	/**
+	 * Creation de la carte (via AfficheImage)
+	 */
 	private void creerCarte() {
 		JPanel panelCarte = new JPanel(new BorderLayout());
 
@@ -149,6 +169,9 @@ public class MainWindows extends JFrame {
 		this.getContentPane().add(panelCarte, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Creation du bas de la fenetre : logo, boutons d'export
+	 */
 	private void creerBas() {
 		JPanel panelBas = new JPanel(new BorderLayout());
 

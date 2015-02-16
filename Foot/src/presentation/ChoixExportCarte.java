@@ -13,6 +13,12 @@ import javax.swing.JPanel;
 import model.Obs;
 import controle.ControleBoutonExportCarte;
 
+/**
+ * Fenetre permettant le choix des exports parmis les cartes
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class ChoixExportCarte extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +27,12 @@ public class ChoixExportCarte extends JFrame implements ActionListener {
 	JCheckBox cartesGroupe;
 	JCheckBox carteSelection;
 
+	/**
+	 * Cree et initialise la fentre
+	 * 
+	 * @param obs
+	 *            etat du logiciel
+	 */
 	public ChoixExportCarte(Obs obs) {
 		super("Choix des exports");
 		this.obs = obs;

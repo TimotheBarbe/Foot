@@ -21,11 +21,14 @@ import javax.swing.JTextField;
 
 import jxl.Workbook;
 
+/**
+ * Fenetre d'acceil du logiciel
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class FenetreAccueil extends JFrame{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	

@@ -21,6 +21,16 @@ import model.EquivalentLettre;
 import model.Obs;
 import controle.ControleJPopMenu;
 
+/**
+ * AfficheImage permet d'afficher la carte
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
+/**
+ * @author Timothé
+ *
+ */
 public class AfficheImage extends JPanel implements MouseListener,
 		MouseWheelListener, MouseMotionListener {
 
@@ -28,6 +38,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 	private Image imageCarte;
 	private Obs obs;
 
+	/**
+	 * Cree et initialise un nouveau JPanel AfficheImage
+	 * 
+	 * @param obs
+	 */
 	public AfficheImage(Obs obs) {
 		this.imageCarte = getToolkit().getImage(MainWindows.pathCarte);
 		this.obs = obs;
@@ -189,6 +204,11 @@ public class AfficheImage extends JPanel implements MouseListener,
 		}
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 * @return le Club le plus proche de (x,y)
+	 */
 	private int getClubPlusProche(int x, int y) {
 		Point pointClick = this.getCoordonneesSansZoom(x, y);
 		double distMini = 10;
@@ -206,6 +226,12 @@ public class AfficheImage extends JPanel implements MouseListener,
 		return rep;
 	}
 
+	
+	/**
+	 * @param x
+	 * @param y
+	 * @return coordonnee sur la carte a l'echelle 1
+	 */
 	private Point getCoordonneesSansZoom(int x, int y) {
 		double facteur = 1;
 		if (getHeight() * 1.389 > getWidth()) {
