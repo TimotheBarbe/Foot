@@ -61,8 +61,26 @@ public class ControleBoutonExportCarte {
 	}
 
 	private boolean saveCarteSelection(JFileChooser fileChooser) {
-		// TODO
-		return true;
+		boolean ok = true;
+		Document myPDF = new Document(PageSize.A4);
+		String nomDuFichier = fileChooser.getSelectedFile().toString()
+				+ File.separator + "Selection-" + obs.getDiv().getNom();
+		try {
+			FileOutputStream stream = new FileOutputStream(nomDuFichier + "_"
+					+ PrettyDate.getPrettyDate() + ".pdf");
+			PdfWriter myWriter = PdfWriter.getInstance(myPDF, stream);
+			myPDF.open();
+			PdfContentByte cb = myWriter.getDirectContent();
+			dessinerCarte(cb);
+			dessinerSelection(cb);
+			dessinerTitre(cb, -1);
+			dessinerLogo(cb);
+			myPDF.close();
+		} catch (Exception e) {
+			BoiteDeDialogue.error(e.getMessage());
+			ok = false;
+		}
+		return ok;
 	}
 
 	private boolean saveCarteTotale(JFileChooser fileChooser) {
@@ -205,6 +223,19 @@ public class ControleBoutonExportCarte {
 			}
 			cb.endText();
 		}
+	}
 
+	private void dessinerSelection(PdfContentByte cb) {
+		cb.setLineWidth(2);
+		ArrayList<Club> listeClub = obs.getDiv().getListe();
+		for (int i = 0; i < listeClub.size(); i++) {
+			if (obs.getTableVisible()[i]) {
+				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
+				float y = 750 - (float) listeClub.get(i)
+						.getCoordonneesMatricielles()[1];
+				cb.circle(x, y, (float) 1);
+			}
+		}
+		cb.stroke();
 	}
 }

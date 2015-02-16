@@ -72,7 +72,6 @@ public class SolutionInitiale {
 		}
 		solution = clubs;
 		majDistances();
-		System.out.println("Distance totale : " + distanceTotale);
 	}
 
 	public int[] getSolution() {
