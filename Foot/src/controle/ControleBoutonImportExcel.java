@@ -3,6 +3,7 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import model.Club;
 import model.Division;
 import model.Obs;
@@ -23,14 +25,15 @@ import presentation.MainWindows;
 public class ControleBoutonImportExcel implements ActionListener {
 
 	private JFrame mw;
-	
+
 	public ControleBoutonImportExcel(JFrame mw) {
 		this.mw = mw;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fileChooser = new JFileChooser();
-		FileFilter filter = new FileNameExtensionFilter("xls", new String[] {"xls"});
+		FileFilter filter = new FileNameExtensionFilter("xls",
+				new String[] { "xls" });
 		fileChooser.setFileFilter(filter);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int bouton = fileChooser.showOpenDialog(null);
@@ -46,9 +49,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 		try {
 			/* Recuperation du classeur Excel (en lecture) */
 			workbook = Workbook.getWorkbook(new File(path));
-		} catch (Exception e) {
-			BoiteDeDialogue.error(e.getMessage());
-		} finally {
+
 			if (workbook != null) {
 				Sheet sheet = workbook.getSheet(0);
 				int nbGroupe = (sheet.getColumns() + 1) / 3;
@@ -74,9 +75,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 							BoiteDeDialogue.error("Mauvais format du club :"
 									+ selection);
 						}
-
 					}
-
 				}
 
 				// DONNES SOLVEUR
@@ -98,16 +97,24 @@ public class ControleBoutonImportExcel implements ActionListener {
 				for (int i = 0; i < d.getNbClub(); i++) {
 					tabDist[i][i] = 0;
 				}
-				
+
 				mw.setVisible(false);
 				mw.dispose();
-				
+
 				Obs obs = new Obs(d, reponseSolveur, tabDist);
 				MainWindows test = new MainWindows(obs, obs.getDiv().getNom());
-				
+
 				workbook.close();
 			}
+		} catch (IOException e) {
+			BoiteDeDialogue.error(e.getMessage());
+		} catch (BiffException e) {
+			BoiteDeDialogue.error(e.getMessage());
+		} catch (StringIndexOutOfBoundsException e) {
+			BoiteDeDialogue.error("Format du nom du fichier incorrect  "
+					+ "(doit être du type 'DSD_16-02-15 10h05m05s.xls')");
 		}
+
 	}
 
 	private ArrayList<Club> getListeTotale() {

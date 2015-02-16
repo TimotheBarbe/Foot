@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
@@ -91,7 +93,7 @@ public class MainWindows extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(145);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		
+
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		ControleJColumnClub controleTable = new ControleJColumnClub(obs, table,
 				model);
@@ -175,7 +177,11 @@ public class MainWindows extends JFrame {
 		// export carte
 		JButton exportCarte = new JButton("Exporter les cartes", new ImageIcon(
 				"Donnees/logo-pdf.png"));
-		exportCarte.addActionListener(new ControleBoutonExportCarte(obs));
+		exportCarte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChoixExportCarte choixExport = new ChoixExportCarte(obs);
+			}
+		});
 		panelEast.add(exportCarte);
 
 		panelBas.add(panelWest, BorderLayout.WEST);
