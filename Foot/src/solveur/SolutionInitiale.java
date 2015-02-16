@@ -147,8 +147,13 @@ public class SolutionInitiale {
 		ArrayList<Integer> clubsAffecte = new ArrayList<>();
 		// boucle d'affectation aux groupes
 		for (int i = 0; i < nbGroupe; i++) {
-			int nbVoisins = nbClub / nbGroupe - 1;
-
+			int nbClubEnRab = nbClub - nbGroupe * (int) (nbClub / nbGroupe);
+			int nbVoisins = 0;
+			if (i < nbClubEnRab) {
+				nbVoisins = nbClub / nbGroupe;
+			} else {
+				nbVoisins = nbClub / nbGroupe - 1;
+			}
 			int[][] tabDist = new int[ListDistance.size()][ListDistance.size()];
 			for (int k = 0; k < ListDistance.size(); k++) {
 				for (int j = 0; j < ListDistance.size(); j++) {
