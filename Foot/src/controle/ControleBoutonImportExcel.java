@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -21,9 +22,9 @@ import presentation.MainWindows;
 
 public class ControleBoutonImportExcel implements ActionListener {
 
-	private MainWindows mw;
+	private JFrame mw;
 	
-	public ControleBoutonImportExcel(MainWindows mw) {
+	public ControleBoutonImportExcel(JFrame mw) {
 		this.mw = mw;
 	}
 
@@ -31,9 +32,8 @@ public class ControleBoutonImportExcel implements ActionListener {
 		JFileChooser fileChooser = new JFileChooser();
 		FileFilter filter = new FileNameExtensionFilter("xls", new String[] {"xls"});
 		fileChooser.setFileFilter(filter);
-		fileChooser.setDialogTitle("Ouvrir");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int bouton = fileChooser.showSaveDialog(null);
+		int bouton = fileChooser.showOpenDialog(null);
 		if (bouton == JFileChooser.APPROVE_OPTION) {
 			ArrayList<Club> listeTotale = this.getListeTotale();
 			this.changeObs(fileChooser.getSelectedFile(), listeTotale);
@@ -54,7 +54,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 				int nbGroupe = (sheet.getColumns() + 1) / 3;
 
 				Division d = new Division(nbGroupe, file.getName().substring(0,
-						file.getName().lastIndexOf(".")));
+						file.getName().lastIndexOf("_")));
 
 				// DONNEES DIVISION
 				for (int i = 0; i < nbGroupe; i++) {
