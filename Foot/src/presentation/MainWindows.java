@@ -46,7 +46,8 @@ public class MainWindows extends JFrame {
 	private Obs obs;
 
 	public static String pathCarte = "Donnees/carte_region.jpg";
-	public static String pathLogo = "Donnees/Logo_DistrictFootball44.jpg";
+	public static String pathLogoFoot = "Donnees/Logo_DistrictFootball44.jpg";
+	public static String pathLogoEcole = "Donnees/logo-emn.png";
 
 	/**
 	 * Cree et initialise une nouvelle fenetre
@@ -178,11 +179,16 @@ public class MainWindows extends JFrame {
 		// LOGO
 		JPanel panelWest = new JPanel(new BorderLayout());
 		panelWest.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 3));
-		ImageIcon icon = new ImageIcon(new ImageIcon(pathLogo).getImage()
+		ImageIcon icon_foot = new ImageIcon(new ImageIcon(pathLogoFoot).getImage()
 				.getScaledInstance(81, 60, Image.SCALE_DEFAULT));
-		JLabel image = new JLabel(icon);
-		image.setPreferredSize(new Dimension(81, 60));
-		panelWest.add(image, BorderLayout.CENTER);
+		JLabel image_foot = new JLabel(icon_foot);
+		image_foot.setPreferredSize(new Dimension(81, 60));
+		panelWest.add(image_foot, BorderLayout.CENTER);
+
+		ImageIcon icon_ecole = new ImageIcon(pathLogoEcole);
+		JLabel image_ecole = new JLabel(icon_ecole);
+		image_ecole.setPreferredSize(new Dimension(65, 60));
+		panelWest.add(image_ecole, BorderLayout.EAST);
 
 		// BOUTONS
 		JPanel panelEast = new JPanel(new GridLayout(1, 3, 3, 3));

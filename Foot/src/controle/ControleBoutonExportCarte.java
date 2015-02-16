@@ -161,7 +161,7 @@ public class ControleBoutonExportCarte {
 	}
 
 	private void dessinerLogo(PdfContentByte cb) throws Exception {
-		Image imageLogo = Image.getInstance(MainWindows.pathLogo);
+		Image imageLogo = Image.getInstance(MainWindows.pathLogoFoot);
 		imageLogo.scaleToFit(100, 100);
 		imageLogo.setAbsolutePosition(490, 10);
 		cb.addImage(imageLogo);
