@@ -3,8 +3,16 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class PrettyDate {
 
+	
+	/**
+	 * @return la date actuelle
+	 */
 	public static String getPrettyDate() {
 		Calendar now = Calendar.getInstance();
 		String rep = new SimpleDateFormat("dd-MM-yy").format(now.getTime())

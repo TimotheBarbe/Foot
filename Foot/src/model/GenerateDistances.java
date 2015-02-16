@@ -2,6 +2,12 @@ package model;
 
 import java.util.Random;
 
+/**
+ * Genere des tableaux de distances aleatoires
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class GenerateDistances {
 
 	public static int[][] genererTableau(int nbClubs, int distanceMax){
