@@ -15,7 +15,7 @@ import solveur.SolutionInitiale;
 public class TestTotal {
 
 	public static void main(String[] args) {
-		int nbClub = 100;
+		int nbClub = 99;
 		int nbGroupe = 10;
 		String nomDivision = "Nom de la division";
 		

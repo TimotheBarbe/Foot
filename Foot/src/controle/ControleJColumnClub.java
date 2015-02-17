@@ -13,7 +13,6 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Club;
 import model.Obs;
-import presentation.BoiteDeDialogue;
 import presentation.FrameClub;
 import presentation.TableClub;
 

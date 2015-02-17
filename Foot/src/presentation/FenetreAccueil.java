@@ -24,11 +24,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+/**
+ * Fenetre d'acceil du logiciel
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class FenetreAccueil extends JFrame{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	

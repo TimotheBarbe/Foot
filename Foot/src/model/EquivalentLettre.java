@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Donne la position d'une lettre dans l'alphabet (et inversement)
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class EquivalentLettre {
 
 	public static String[] lettres = new String[] { "A", "B", "C", "D", "E",

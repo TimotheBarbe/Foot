@@ -13,6 +13,12 @@ import model.EquivalentLettre;
 import model.Obs;
 import controle.ControleFrameClub;
 
+/**
+ * Fenetre contenant les informations specifiques d'un club
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class FrameClub extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -20,6 +26,14 @@ public class FrameClub extends JFrame {
 	private Club c;
 	private Obs obs;
 
+	/**
+	 * Cree et initialiste une nouvelle fenetre
+	 * 
+	 * @param c
+	 *            club a afficher
+	 * @param obs
+	 *            etat du logiciel
+	 */
 	public FrameClub(Club c, Obs obs) {
 		this.c = c;
 		this.obs = obs;
@@ -33,6 +47,9 @@ public class FrameClub extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Contruit la fenetre
+	 */
 	private void build() {
 		// label
 		JLabel nom = new JLabel(c.toString());

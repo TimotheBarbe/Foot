@@ -75,7 +75,8 @@ public class SolutionInitiale {
 		int[] list = new int[n];
 
 		for (int i = 0; i < nbClub; i++) {
-			if (i != club && distVoisins.get(n - 1) > distance[club][i] && distance[club][i] > 0) {
+			if (i != club && distVoisins.get(n - 1) > distance[club][i]
+					&& distance[club][i] > 0) {
 				distVoisins.remove(n - 1);
 				distVoisins.add(distance[club][i]);
 				Collections.sort(distVoisins);
@@ -85,7 +86,8 @@ public class SolutionInitiale {
 		// si toutes les dist sont différentes
 		for (int i = 0; i < n; i++) {
 			for (int cb = 0; cb < nbClub; cb++) {
-				if (distVoisins.get(i) == distance[club][cb] && !appartient(cb, list)) {
+				if (distVoisins.get(i) == distance[club][cb]
+						&& !appartient(cb, list)) {
 					list[i] = cb;
 				}
 			}

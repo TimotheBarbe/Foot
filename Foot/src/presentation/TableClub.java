@@ -7,6 +7,12 @@ import javax.swing.table.AbstractTableModel;
 import model.Club;
 import model.Obs;
 
+/**
+ * Table des clubs avec 3 colonnes : visible, nom, distance parcourue
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class TableClub extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +21,11 @@ public class TableClub extends AbstractTableModel {
 	private Object[][] data;
 	private Obs obs;
 
+	/**
+	 * Cree et initialise une nouvelle TableClub a partir d'un Obs
+	 * 
+	 * @param obs 
+	 */
 	public TableClub(Obs obs) {
 		this.obs = obs;
 		ArrayList<String> liste = obs.getListForTable();

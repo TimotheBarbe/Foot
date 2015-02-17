@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Un club est caracterise par une nom, des coordonnes GPS et un id unique
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class Club {
 
 	private String nom;
@@ -45,14 +51,12 @@ public class Club {
 	 */
 	public double[] getCoordMatriByGPS(double[] coordonneesGPS) {
 		double[] coordonnesMatricielles = new double[2];
-
-		coordonnesMatricielles[0] = (coordonneesGPS[1] + 3.0) * 262.24 - 30.97;
 		// horizontal augmenter pour aller à droite
+		coordonnesMatricielles[0] = (coordonneesGPS[1] + 3.0) * 262.24 - 30.97;
+		
+		// vertical augmenter le coef pour descendre
 		coordonnesMatricielles[1] = 320.87 + (coordonneesGPS[0] - 47)
 				* (-349.89);
-		// vertical augmenter le coef pour descendre
-
-		// coordonnesMatricielles = this.coordonneesGPS;
 		return coordonnesMatricielles;
 	}
 

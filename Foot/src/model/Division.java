@@ -11,6 +11,12 @@ public class Division {
 	private int nombreDeGroupe;
 	private String nom;
 
+	/**
+	 * Initialise une nouvelles division vide
+	 * 
+	 * @param nombreDeGroupe
+	 * @param division : nom de la division
+	 */
 	public Division(int nombreDeGroupe, String division) {
 		this.liste = new ArrayList<Club>();
 		this.nombreDeGroupe = nombreDeGroupe;
