@@ -209,10 +209,9 @@ public class ControleBoutonExportCarte {
 					cb.rectangle(x, y, 1f, 1f);
 				}
 				if (Couleur.getForme(groupe) == 2) {
-					cb.setLineWidth(0.8f);
 					cb.moveTo(x, y);
-					cb.lineTo(x + 1, y - 1);
-					cb.lineTo(x - 1, y - 1);
+					cb.lineTo(x + 1, y - 1.5f);
+					cb.lineTo(x - 1, y - 1.5f);
 					cb.lineTo(x, y);
 				}
 
@@ -247,9 +246,25 @@ public class ControleBoutonExportCarte {
 				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
 						.getCoordonneesMatricielles()[1];
-				cb.circle(x, y, (float) 1);
+				int groupe = obs.getReponseSolveur()[i];
+				Color c = Couleur.getColor(groupe);
+				cb.setColorStroke(new BaseColor(c.getRed(), c.getGreen(), c
+						.getBlue()));
+				if (Couleur.getForme(groupe) == 0) {
+					cb.circle(x, y, 1f);
+				}
+				if (Couleur.getForme(groupe) == 1) {
+					cb.rectangle(x, y, 1f, 1f);
+				}
+				if (Couleur.getForme(groupe) == 2) {
+					cb.moveTo(x, y);
+					cb.lineTo(x + 1, y - 1);
+					cb.lineTo(x - 1, y - 1);
+					cb.lineTo(x + 0.8f, y + 0.8f);
+				}
 			}
+			cb.stroke();
 		}
-		cb.stroke();
+
 	}
 }

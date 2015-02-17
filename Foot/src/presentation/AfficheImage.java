@@ -81,7 +81,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 			}
 		});
 
-		JButton reset = new JButton("Réinitialiser");
+		JButton reset = new JButton("Réinitialiser Zoom");
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reinitialiserZoom();
