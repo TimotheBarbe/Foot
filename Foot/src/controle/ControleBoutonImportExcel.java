@@ -7,31 +7,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.usermodel.Sheet;
-
-import Excel.UtilsExcelPOI;
 import model.Club;
 import model.Division;
 import model.Obs;
+
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import presentation.BoiteDeDialogue;
 import presentation.MainWindows;
+import Excel.UtilsExcelPOI;
 
 public class ControleBoutonImportExcel implements ActionListener {
 
-	private MainWindows mw;
+	private JFrame mw;
 
-	public ControleBoutonImportExcel(MainWindows mw) {
+	public ControleBoutonImportExcel(JFrame mw) {
 		this.mw = mw;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fileChooser = new JFileChooser();
-		FileFilter filter = new FileNameExtensionFilter("xls, xlsx", new String[] {"xls, xlsx"});
+		FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
+				new String[] { "xls", "xlsx" });
 		fileChooser.setFileFilter(filter);
 		fileChooser.setDialogTitle("Ouvrir");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -54,13 +57,14 @@ public class ControleBoutonImportExcel implements ActionListener {
 			if (workbook != null) {
 				Sheet sheet = workbook.getSheetAt(0);
 				int nbGroupe = (UtilsExcelPOI.getNbColumns(sheet) + 1) / 3;
-
+				
 				Division d = new Division(nbGroupe, file.getName().substring(0,
-						file.getName().lastIndexOf(".")));
+						file.getName().lastIndexOf("_")));
 
 				// DONNEES DIVISION
 				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3, workbook);
+					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3,
+							workbook);
 					for (int j = 2; j < col.size(); j++) {
 						String selection = col.get(j);
 						try {
@@ -85,7 +89,8 @@ public class ControleBoutonImportExcel implements ActionListener {
 				int[] reponseSolveur = new int[d.getNbClub()];
 				int indice = 0;
 				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3, workbook);
+					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3,
+							workbook);
 					for (int j = 2; j < col.size(); j++) {
 						reponseSolveur[indice] = i;
 						indice++;
@@ -105,7 +110,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 				mw.dispose();
 
 				Obs obs = new Obs(d, reponseSolveur, tabDist);
-				MainWindows test = new MainWindows(obs, obs.getDiv().getNom());
+				MainWindows newFrame = new MainWindows(obs, obs.getDiv().getNom());
 			}
 		}
 	}
@@ -115,36 +120,41 @@ public class ControleBoutonImportExcel implements ActionListener {
 		ArrayList<Club> listeTotale = new ArrayList<Club>();
 		try {
 			/* Recuperation du classeur Excel (en lecture) */
-			workbook = WorkbookFactory.create(new File("Donnees/CoordonneesGPSEquipes.xls"));
+			workbook = WorkbookFactory.create(new File(
+					"Donnees/CoordonneesGPSEquipes.xls"));
 
 			// On recupere les numeros d'affiliation des clubs
-			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0, workbook);
+			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0,
+					workbook);
 
 			// On recupere le nom des clubs
 			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1, workbook);
 
 			// On recupere la latitude des clubs
-			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2, workbook);
+			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2,
+					workbook);
 
 			// On recupere la longitude des clubs
-			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3, workbook);
+			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3,
+					workbook);
 
 			int nbClub = affiliationClubs.size();
-
+			
 			for (int i = 1; i < nbClub; i++) {
 				double[] coordonneesGPS = {
 						Double.parseDouble(latitudeClubs.get(i)),
 						Double.parseDouble(longitudeClubs.get(i)) };
 
 				Club c = new Club(nomClubs.get(i),
-						Integer.parseInt(affiliationClubs.get(i)),
+						(int)Double.parseDouble(affiliationClubs.get(i)),
 						coordonneesGPS);
 
 				listeTotale.add(c);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			BoiteDeDialogue.error(e.getMessage());
-		} 
+		}
 		return listeTotale;
 	}
 

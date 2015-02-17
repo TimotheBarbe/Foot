@@ -9,13 +9,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import javax.swing.Box;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
@@ -24,146 +24,168 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import controle.ControleBoutonImportExcel;
+
 /**
  * Fenetre d'acceil du logiciel
  * 
  * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
  *
  */
-public class FenetreAccueil extends JFrame{
+public class FenetreAccueil extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private Workbook workbook;
 	private boolean accueilOuvert = true;
-	
-	private String cheminFichierDivision ="";
+
+	private String cheminFichierDivision = "";
 	private String nomDivision;
 	private String nbGroupes;
-	
-	
-	public FenetreAccueil(){
-		this.setPreferredSize(new Dimension(400, 150));
+
+	public FenetreAccueil() {
 		this.setTitle("District de Loire Atlantique");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		
+
 		this.creerCentre();
-		
+
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	
-	public void creerCentre(){
+
+	public void creerCentre() {
+		// NORD
 		JPanel nord = new JPanel(new BorderLayout());
-		
+
 		JPanel haut = new JPanel();
-		BoxLayout layout = new BoxLayout(haut, BoxLayout.X_AXIS);
-		haut.setLayout(layout);
+		haut.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		BoxLayout layoutHaut = new BoxLayout(haut, BoxLayout.X_AXIS);
+		haut.setLayout(layoutHaut);
 		JLabel division = new JLabel("Division : ");
 		JTextField cheminDivision = new JTextField();
-		JButton importFichier = new JButton("...");
+		cheminDivision.setPreferredSize(new Dimension(200, 30));
+		JButton importFichier = new JButton(new ImageIcon("Donnees/load.png"));
 		importFichier.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser dialogue = new JFileChooser(new File("."));
-				FileFilter filter = new FileNameExtensionFilter("xls, xlsx", new String[] {"xls", "xlsx"});
+				FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
+						new String[] { "xls", "xlsx" });
 				dialogue.setFileFilter(filter);
 				dialogue.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				PrintWriter sortie;
 				File fichier;
-				
-				if (dialogue.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
-				    fichier = dialogue.getSelectedFile();
-				    cheminDivision.setText(fichier.getPath());
-				    cheminFichierDivision = fichier.getPath();
-				    try{
-				    	sortie = new PrintWriter (new FileWriter(fichier.getPath(), true));
-					    sortie.close();
-				    } catch (Exception e){
-				    	
-				    }
+
+				if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					fichier = dialogue.getSelectedFile();
+					cheminDivision.setText(fichier.getPath());
+					cheminFichierDivision = fichier.getPath();
+					try {
+						sortie = new PrintWriter(new FileWriter(fichier
+								.getPath(), true));
+						sortie.close();
+					} catch (Exception e) {
+
+					}
 				}
 			}
-	     });
+		});
 		JButton aideFichierDivision = new JButton("?");
 		aideFichierDivision.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Ce champ définit l'adresse du fichier de la division. Le fichier "
-						+ "doit impérativement \n avoir l'extension \".xls\" ou l'extension \".xlsx\".");
+				BoiteDeDialogue
+						.info("Ce champ définit l'adresse du fichier de la division. Le fichier "
+								+ "doit impérativement \n avoir l'extension \".xls\" ou l'extension \".xlsx\".");
 			}
-	     });
-		
+		});
+
 		haut.add(division);
 		haut.add(cheminDivision);
 		haut.add(importFichier);
 		haut.add(aideFichierDivision);
 		nord.add(haut, BorderLayout.NORTH);
-		nord.add(Box.createRigidArea(new Dimension(0, 10)));
-		
-		JPanel centre = new JPanel(new BorderLayout());
+
+		JPanel centreDuNord = new JPanel(new BorderLayout());
+		centreDuNord.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 		JLabel nbGroupes = new JLabel("Nombre de groupes : ");
 		JTextField texteNbGroupes = new JTextField();
 		JButton aideNbGroupes = new JButton("?");
 		aideNbGroupes.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Ce champ définit le nombre de groupes souhaité dans la"
-						+ " répartition des clubs. \n"
-						+ " Il doit être de type entier et ne doit pas contenir d'espace.");
+				BoiteDeDialogue
+						.info("Ce champ définit le nombre de groupes souhaité dans la"
+								+ " répartition des clubs. \n"
+								+ " Il doit être de type entier et ne doit pas contenir d'espace.");
 			}
-	     });
+		});
 
-		centre.add(nbGroupes, BorderLayout.WEST);
-		centre.add(texteNbGroupes, BorderLayout.CENTER);
-		centre.add(aideNbGroupes, BorderLayout.EAST);
-		nord.add(centre, BorderLayout.SOUTH);
-		nord.add(Box.createRigidArea(new Dimension(0, 10)));
-		
-		JPanel sud = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JButton continuer = new JButton("Continuer");
-		continuer.addActionListener(new ActionListener() {
+		centreDuNord.add(nbGroupes, BorderLayout.WEST);
+		centreDuNord.add(texteNbGroupes, BorderLayout.CENTER);
+		centreDuNord.add(aideNbGroupes, BorderLayout.EAST);
+		nord.add(centreDuNord, BorderLayout.SOUTH);
+
+		// CENTRE
+		JPanel centre = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JButton validationCreer = new JButton("Créer");
+		validationCreer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-					FenetreAccueil.this.setCheminFichierDivision(cheminDivision.getText());
+				try {
+					FenetreAccueil.this.setCheminFichierDivision(cheminDivision
+							.getText());
 					CharSequence xls = ".xls";
-					if(!cheminFichierDivision.contains(xls)){
-						JOptionPane.showMessageDialog(null, "Le fichier \""+cheminFichierDivision+
-								"\" n'a pas l'extension xls ou xlsx.", "Alerte", JOptionPane.ERROR_MESSAGE);
+					if (!cheminFichierDivision.contains(xls)) {
+						BoiteDeDialogue.error("Le fichier \""
+								+ cheminFichierDivision
+								+ "\" n'a pas l'extension xls ou xlsx.");
 					} else {
-						setWorkbook(WorkbookFactory.create(new File(cheminFichierDivision)));
-						
-						try{
-							FenetreAccueil.this.setNbGroupes(texteNbGroupes.getText());
+						setWorkbook(WorkbookFactory.create(new File(
+								cheminFichierDivision)));
+
+						try {
+							FenetreAccueil.this.setNbGroupes(texteNbGroupes
+									.getText());
 							int nbGroupes = Integer.parseInt(getNbGroupes());
-							if(nbGroupes<=0){
-								JOptionPane.showMessageDialog(null, "Le nombre de groupes ne peut pas être négatif ou nul.", "Alerte",
-										JOptionPane.ERROR_MESSAGE);
+							if (nbGroupes <= 0) {
+								BoiteDeDialogue
+										.error("Le nombre de groupes ne peut pas être négatif ou nul.");
 							} else {
 								accueilOuvert = false;
 							}
-							
-						} catch (Exception e){
-							JOptionPane.showMessageDialog(null, "Le format du nombre de groupes est incorrect", "Alerte",
-									JOptionPane.ERROR_MESSAGE);
+
+						} catch (Exception e) {
+							BoiteDeDialogue
+									.error("Le format du nombre de groupes est incorrect");
 						}
 					}
-					
-				} catch (Exception e){
-					JOptionPane.showMessageDialog(null, "Le fichier \""+cheminFichierDivision+
-							"\" est introuvable", "Alerte", JOptionPane.ERROR_MESSAGE);
+
+				} catch (Exception e) {
+					BoiteDeDialogue.error("Le fichier \""
+							+ cheminFichierDivision + " est introuvable");
 				}
 			}
-	     });      
-		
-		sud.add(continuer);
+		});
+
+		centre.add(validationCreer);
+
+		// SUD
+		JPanel sud = new JPanel();
+		BoxLayout layoutSud = new BoxLayout(sud, BoxLayout.X_AXIS);
+		sud.setLayout(layoutSud);
+		sud.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		JLabel charger = new JLabel("ou : ");
+		JButton importsolution = new JButton("Importer une solution",
+				new ImageIcon("Donnees/icone_excel.png"));
+		importsolution.addActionListener(new ControleBoutonImportExcel(this));
+
+		sud.add(charger);
+		sud.add(importsolution);
 		
 		this.getContentPane().add(nord, BorderLayout.NORTH);
-		this.getContentPane().add(sud, BorderLayout.CENTER);
+		this.getContentPane().add(centre, BorderLayout.CENTER);
+		this.getContentPane().add(sud, BorderLayout.SOUTH);
 	}
 
 	public String getCheminFichierDivision() {
@@ -205,5 +227,5 @@ public class FenetreAccueil extends JFrame{
 	public void setNomDivision(String nomDivision) {
 		this.nomDivision = nomDivision;
 	}
-	
+
 }

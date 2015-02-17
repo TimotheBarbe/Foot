@@ -21,8 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import com.sun.prism.paint.Color;
-
 import model.Club;
 import model.Couleur;
 import model.EquivalentLettre;
