@@ -1,7 +1,6 @@
 package presentation;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -21,11 +20,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import model.Obs;
-import controle.ControleBoutonExportCarte;
 import controle.ControleBoutonExportExcel;
 import controle.ControleBoutonImportExcel;
 import controle.ControleImage;
@@ -139,14 +136,15 @@ public class MainWindows extends JFrame {
 		JPanel panelTickBox = new JPanel(new BorderLayout());
 		// tickbox
 		JCheckBox tickToutCocher = new JCheckBox();
+		tickToutCocher.setSelected(true);
 		panelTickBox.add(tickToutCocher, BorderLayout.WEST);
-		ControleJBoxToutCocher controleBox = new ControleJBoxToutCocher(
-				this.obs);
-		tickToutCocher.addActionListener(controleBox);
 		// titre
-		JLabel labelToutCocher = new JLabel("Tout cocher");
+		JLabel labelToutCocher = new JLabel("Tout décocher");
 		labelToutCocher.setFont(new Font(labelToutCocher.getFont().getName(),
 				Font.BOLD, LABEL_SIZE));
+		ControleJBoxToutCocher controleBox = new ControleJBoxToutCocher(
+				this.obs, labelToutCocher);
+		tickToutCocher.addActionListener(controleBox);
 		panelTickBox.add(labelToutCocher, BorderLayout.CENTER);
 		gauche.add(panelTickBox, BorderLayout.SOUTH);
 
@@ -179,8 +177,8 @@ public class MainWindows extends JFrame {
 		// LOGO
 		JPanel panelWest = new JPanel(new BorderLayout());
 		panelWest.setBorder(BorderFactory.createEmptyBorder(3, 6, 6, 3));
-		ImageIcon icon_foot = new ImageIcon(new ImageIcon(pathLogoFoot).getImage()
-				.getScaledInstance(81, 60, Image.SCALE_DEFAULT));
+		ImageIcon icon_foot = new ImageIcon(new ImageIcon(pathLogoFoot)
+				.getImage().getScaledInstance(81, 60, Image.SCALE_DEFAULT));
 		JLabel image_foot = new JLabel(icon_foot);
 		image_foot.setPreferredSize(new Dimension(81, 60));
 		panelWest.add(image_foot, BorderLayout.CENTER);

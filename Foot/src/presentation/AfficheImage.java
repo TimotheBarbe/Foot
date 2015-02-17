@@ -27,10 +27,6 @@ import controle.ControleJPopMenu;
  * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
  *
  */
-/**
- * @author Timothé
- *
- */
 public class AfficheImage extends JPanel implements MouseListener,
 		MouseWheelListener, MouseMotionListener {
 
