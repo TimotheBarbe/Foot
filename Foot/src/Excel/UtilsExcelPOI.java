@@ -21,6 +21,8 @@ public class UtilsExcelPOI {
 			Cell c = r.getCell(indexColonne);
 			if(c != null) {
 				colonne.add(c.toString());
+			} else {
+				colonne.add("-1");
 			}
 		}
 
