@@ -5,12 +5,74 @@ import java.util.Collections;
 
 public class SolutionInitiale {
 	private int nbGroupe;
-	private double[][] tabDistance;
+	private int[][] tabDistance;
 	private int[] clubs;
 	private int nbClub;
 	private int[] solution;
 	private int distanceTotale;
 	private int[] distance;
+
+	public SolutionInitiale(int nbGroupe, int[][] tabDistance, int nbClub) {
+		this.nbGroupe = nbGroupe;
+		this.tabDistance = tabDistance;
+		this.clubs = new int[nbClub];
+		this.nbClub = nbClub;
+		this.solution = new int[nbClub];
+
+		ArrayList<ArrayList<Integer>> ListDistance = new ArrayList<>();
+		for (int i = 0; i < nbClub; i++) {
+			ArrayList<Integer> listTemp = new ArrayList<>();
+
+			for (int j = 0; j < nbClub; j++) {
+				listTemp.add(j, tabDistance[i][j]);
+			}
+			ListDistance.add(listTemp);
+		}
+
+		ArrayList<Integer> clubsAffecte = new ArrayList<>();
+		// boucle d'affectation aux groupes
+		for (int i = 0; i < this.nbGroupe; i++) {
+			int nbClubEnRab = nbClub - nbGroupe * (int) (nbClub / nbGroupe);
+			int nbVoisins = 0;
+			if (i < nbClubEnRab) {
+				nbVoisins = nbClub / nbGroupe;
+			} else {
+				nbVoisins = nbClub / nbGroupe - 1;
+			}
+			int[][] tabDist = new int[ListDistance.size()][ListDistance.size()];
+			for (int k = 0; k < ListDistance.size(); k++) {
+				for (int j = 0; j < ListDistance.size(); j++) {
+					tabDist[k][j] = ListDistance.get(k).get(j);
+				}
+			}
+
+			int clubPlusLoin = clubPlusLoin(tabDist, clubsAffecte);
+			clubs[clubPlusLoin] = i;
+			clubsAffecte.add(clubPlusLoin);
+
+			int[] voisins = nClubsPlusProche(nbVoisins, clubPlusLoin, tabDist);
+			for (int j = 0; j < nbVoisins; j++) {
+				clubs[voisins[j]] = i;
+				clubsAffecte.add(voisins[j]);
+			}
+
+			// maj ListDist des clubs utilisés à -1
+			for (int k : voisins) {
+				for (int j = 0; j < nbClub; j++) {
+					ListDistance.get(k).set(j, -1);
+					ListDistance.get(j).set(k, -1);
+				}
+
+			}
+			for (int j = 0; j < nbClub; j++) {
+				ListDistance.get(clubPlusLoin).set(j, -1);
+				ListDistance.get(j).set(clubPlusLoin, -1);
+			}
+
+		}
+		solution = clubs;
+		majDistances();
+	}
 
 	public int[] getSolution() {
 		return this.solution;
@@ -21,7 +83,7 @@ public class SolutionInitiale {
 	 * @param dist
 	 * @return l'indice du club le plus éloigné (en moyenne)
 	 */
-	public int clubPlusLoin(double[][] dist, ArrayList<Integer> clubsAffecte) {
+	public int clubPlusLoin(int[][] dist, ArrayList<Integer> clubsAffecte) {
 		int[] somLign = new int[nbClub];
 
 		for (int i = 0; i < nbClub; i++) {
@@ -66,17 +128,16 @@ public class SolutionInitiale {
 	 * @param n
 	 * @return les n clubs les plus proches d'un club
 	 */
-	public int[] nClubsPlusProche(int n, int club, double[][] distance) {
-		ArrayList<Double> distVoisins = new ArrayList<>();
+	public int[] nClubsPlusProche(int n, int club, int[][] distance) {
+		ArrayList<Integer> distVoisins = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
-			distVoisins.add(Double.MAX_VALUE);
+			distVoisins.add(Integer.MAX_VALUE);
 		}
 
 		int[] list = new int[n];
 
 		for (int i = 0; i < nbClub; i++) {
-			if (i != club && distVoisins.get(n - 1) > distance[club][i]
-					&& distance[club][i] > 0) {
+			if (i != club && distVoisins.get(n - 1) > distance[club][i] && distance[club][i] > 0) {
 				distVoisins.remove(n - 1);
 				distVoisins.add(distance[club][i]);
 				Collections.sort(distVoisins);
@@ -86,8 +147,7 @@ public class SolutionInitiale {
 		// si toutes les dist sont différentes
 		for (int i = 0; i < n; i++) {
 			for (int cb = 0; cb < nbClub; cb++) {
-				if (distVoisins.get(i) == distance[club][cb]
-						&& !appartient(cb, list)) {
+				if (distVoisins.get(i) == distance[club][cb] && !appartient(cb, list)) {
 					list[i] = cb;
 				}
 			}
@@ -129,62 +189,4 @@ public class SolutionInitiale {
 		}
 	}
 
-	public SolutionInitiale(int nbGroupe, double[][] tabDistance, int nbClub) {
-		this.nbGroupe = nbGroupe;
-		this.tabDistance = tabDistance;
-		this.clubs = new int[nbClub];
-		this.nbClub = nbClub;
-		this.solution = new int[nbClub];
-
-		ArrayList<ArrayList<Double>> ListDistance = new ArrayList<>();
-		for (int i = 0; i < nbClub; i++) {
-			ArrayList<Double> listTemp = new ArrayList<>();
-
-			for (int j = 0; j < nbClub; j++) {
-				listTemp.add(j, tabDistance[i][j]);
-			}
-			ListDistance.add(listTemp);
-		}
-
-		ArrayList<Integer> clubsAffecte = new ArrayList<>();
-		// boucle d'affectation aux groupes
-		for (int i = 0; i < nbGroupe; i++) {
-			int nbVoisins = nbClub / nbGroupe - 1;
-
-			double[][] tabDist = new double[ListDistance.size()][ListDistance.size()];
-			for (int k = 0; k < ListDistance.size(); k++) {
-				for (int j = 0; j < ListDistance.size(); j++) {
-					tabDist[k][j] = ListDistance.get(k).get(j);
-				}
-			}
-
-			int clubPlusLoin = clubPlusLoin(tabDist, clubsAffecte);
-			clubs[clubPlusLoin] = i;
-			clubsAffecte.add(clubPlusLoin);
-
-			int[] voisins = nClubsPlusProche(nbVoisins, clubPlusLoin, tabDist);
-			for (int j = 0; j < nbVoisins; j++) {
-				clubs[voisins[j]] = i;
-				clubsAffecte.add(voisins[j]);
-			}
-
-			// maj ListDist des clubs utilisés à -1
-			for (int k : voisins) {
-				for (int j = 0; j < nbClub; j++) {
-					ListDistance.get(k).set(j, -1.0);
-					ListDistance.get(j).set(k, -1.0);
-				}
-
-			}
-			for (int j = 0; j < nbClub; j++) {
-				ListDistance.get(clubPlusLoin).set(j, -1.0);
-				ListDistance.get(j).set(clubPlusLoin, -1.0);
-			}
-
-		}
-		solution = clubs;
-		majDistances();
-		System.out.println("Distance totale : " + distanceTotale);
-
-	}
 }
