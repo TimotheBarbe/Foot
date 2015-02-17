@@ -16,11 +16,13 @@ public class UtilsExcelPOI {
 	public static ArrayList<String> getColumn(int indexColonne, Workbook workbook){
 		ArrayList<String> colonne = new ArrayList<String>();
 		Sheet sheet = workbook.getSheetAt(0);
-
+		
 		for(Row r : sheet) {
 			Cell c = r.getCell(indexColonne);
 			if(c != null) {
 				colonne.add(c.toString());
+			} else {
+				colonne.add("-1");
 			}
 		}
 
@@ -32,6 +34,16 @@ public class UtilsExcelPOI {
 	public static int getNbColumns(Sheet sheet){
 		Row r = sheet.getRow(0);
 		return r.getLastCellNum();
+	}
+	
+	// POI ne fournit pas de methode permettnt de recuperer la matrice entiere
+	// Cette methode permet de recuperer la matrice entiere d'une feuille
+	public static String[][] getMatrice(Workbook workbook){
+		Sheet sheet = workbook.getSheetAt(0);
+		int taille = getNbColumns(sheet);
+		String[][] matrice = new String[taille][taille];
+		
+		return matrice;
 	}
 
 	// POI ne fournit pas d'acces a une cellule de par sa ligne et sa colonne
