@@ -8,8 +8,6 @@ import model.Desiderata;
 import model.Division;
 import model.Obs;
 import presentation.MainWindows;
-import solveur.Recherche;
-import solveur.RecuitSimule;
 import solveur.SolutionInitiale;
 
 public class TestTotal {
@@ -18,13 +16,12 @@ public class TestTotal {
 		int nbClub = 99;
 		int nbGroupe = 10;
 		String nomDivision = "Nom de la division";
-		
+
 		Division d = new Division(nbGroupe, nomDivision);
 		Point2D.Double[] tabPoint = new Point2D.Double[nbClub];
 		Random rdm = new Random(0);
 		for (int i = 0; i < nbClub; i++) {
-			tabPoint[i] = new Point2D.Double((47.2 + 0.01 * rdm.nextInt(60)),
-					-2.4 + 0.01 * rdm.nextInt(100));
+			tabPoint[i] = new Point2D.Double((47.2 + 0.01 * rdm.nextInt(60)), -2.4 + 0.01 * rdm.nextInt(100));
 
 			double[] coordonneesGPS = { tabPoint[i].getX(), tabPoint[i].getY() };
 
@@ -34,7 +31,7 @@ public class TestTotal {
 		double[][] tabDist = new double[nbClub][nbClub];
 		for (int i = 0; i < nbClub; i++) {
 			for (int j = 0; j < nbClub; j++) {
-				tabDist[i][j] = 00 * tabPoint[i].distance(tabPoint[j]);
+				tabDist[i][j] = 100 * tabPoint[i].distance(tabPoint[j]);
 			}
 		}
 
@@ -44,7 +41,7 @@ public class TestTotal {
 		// 6 * 60000, 30000, true);
 		// r.execute();
 		// int[] tabSolution = r.getTabSolution();
-		
+
 		// int nbMinuntes = 1;
 		// RecuitSimule RS = new RecuitSimule(nbGroupe, tabDist, null,
 		// nbMinuntes * 60000, nbMinuntes * 800, 10);
