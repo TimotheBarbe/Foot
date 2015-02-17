@@ -31,10 +31,10 @@ public class TestTotal {
 			Club c = new Club("Club " + i, i, coordonneesGPS);
 			d.addClub(c);
 		}
-		int[][] tabDist = new int[nbClub][nbClub];
+		double[][] tabDist = new double[nbClub][nbClub];
 		for (int i = 0; i < nbClub; i++) {
 			for (int j = 0; j < nbClub; j++) {
-				tabDist[i][j] = (int) (100 * tabPoint[i].distance(tabPoint[j]));
+				tabDist[i][j] = 00 * tabPoint[i].distance(tabPoint[j]);
 			}
 		}
 

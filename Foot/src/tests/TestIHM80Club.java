@@ -91,8 +91,8 @@ public class TestIHM80Club {
 				d.addClub(c);
 				reponseSolveur[i - 1] = (int) (nbGroupe * Math.random());
 			}
-			int[][] tabDist = new int[nbClub][nbClub];
-			for (int[] row : tabDist)
+			double[][] tabDist = new double[nbClub][nbClub];
+			for (double[] row : tabDist)
 				Arrays.fill(row, (int) (Math.random() * 12) + 1);
 			for (int i = 0; i < nbClub; i++) {
 				tabDist[i][i] = 0;

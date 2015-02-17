@@ -19,9 +19,9 @@ public class Obs extends Observable {
 	private Club clubSelection;
 	private int indiceJListClubSelection;
 	private boolean[] tableVisible;
-	private int[][] tabDist;
+	private double[][] tabDist;
 
-	public Obs(Division div, int[] reponseSolveur, int[][] tabDist) {
+	public Obs(Division div, int[] reponseSolveur, double[][] tabDist) {
 		super();
 		this.div = div;
 		this.reponseSolveur = reponseSolveur;
@@ -141,11 +141,11 @@ public class Obs extends Observable {
 		return data;
 	}
 
-	public int[][] getTabDist() {
+	public double[][] getTabDist() {
 		return tabDist;
 	}
 
-	public void setTabDist(int[][] tabDist) {
+	public void setTabDist(double[][] tabDist) {
 		this.tabDist = tabDist;
 	}
 
