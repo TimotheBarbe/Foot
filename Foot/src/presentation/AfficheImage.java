@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -223,20 +224,16 @@ public class AfficheImage extends JPanel implements MouseListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		Point p = e.getPoint();
-		startX = p.x;
-		startY = p.y;
+		if (obs.getZoom() > 1) {
+			this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+			Point p = e.getPoint();
+			startX = p.x;
+			startY = p.y;
+		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		Point p = e.getPoint();
-		if (obs.getZoom() > 1) {
-			int diffX = (startX - p.x) / obs.getZoom();
-			int diffY = (startY - p.y) / obs.getZoom();
-			int newX = obs.getCoinZoom().x + diffX;
-			int newY = obs.getCoinZoom().y + diffY;
-			obs.setCoinZoom(new Point(newX, newY));
-		}
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -310,6 +307,16 @@ public class AfficheImage extends JPanel implements MouseListener,
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		Point p = e.getPoint();
+		if (obs.getZoom() > 1) {
+			int diffX = (startX - p.x) / obs.getZoom();
+			int diffY = (startY - p.y) / obs.getZoom();
+			int newX = obs.getCoinZoom().x + diffX;
+			int newY = obs.getCoinZoom().y + diffY;
+			obs.setCoinZoom(new Point(newX, newY));
+			startX = p.x;
+			startY = p.y;
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
