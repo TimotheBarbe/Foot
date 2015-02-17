@@ -73,7 +73,7 @@ public class TestIHM80Club {
 			Cell[] longitudeClubs = sheet.getColumn(3);
 
 			int nbClub = 80;
-			int nbGroupe = 12;
+			int nbGroupe = 23;
 			String nomDivision = "Nom de la division";
 			
 			Division d = new Division(nbGroupe, nomDivision);

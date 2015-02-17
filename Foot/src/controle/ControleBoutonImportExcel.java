@@ -63,7 +63,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 
 				// DONNEES DIVISION
 				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3,
+					ArrayList<String> col = UtilsExcelPOI.getAncienneColumn(i * 3,
 							workbook);
 					for (int j = 2; j < col.size(); j++) {
 						String selection = col.get(j);
@@ -89,7 +89,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 				int[] reponseSolveur = new int[d.getNbClub()];
 				int indice = 0;
 				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getColumn(i * 3,
+					ArrayList<String> col = UtilsExcelPOI.getAncienneColumn(i * 3,
 							workbook);
 					for (int j = 2; j < col.size(); j++) {
 						reponseSolveur[indice] = i;
@@ -124,22 +124,21 @@ public class ControleBoutonImportExcel implements ActionListener {
 					"Donnees/CoordonneesGPSEquipes.xls"));
 
 			// On recupere les numeros d'affiliation des clubs
-			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0,
+			ArrayList<String> affiliationClubs = UtilsExcelPOI.getAncienneColumn(0,
 					workbook);
-
+			
 			// On recupere le nom des clubs
-			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1, workbook);
+			ArrayList<String> nomClubs = UtilsExcelPOI.getAncienneColumn(1, workbook);
 
 			// On recupere la latitude des clubs
-			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2,
+			ArrayList<String> latitudeClubs = UtilsExcelPOI.getAncienneColumn(2,
 					workbook);
 
 			// On recupere la longitude des clubs
-			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3,
+			ArrayList<String> longitudeClubs = UtilsExcelPOI.getAncienneColumn(3,
 					workbook);
 
 			int nbClub = affiliationClubs.size();
-			
 			for (int i = 1; i < nbClub; i++) {
 				double[] coordonneesGPS = {
 						Double.parseDouble(latitudeClubs.get(i)),
