@@ -37,7 +37,7 @@ public class RendererTable extends DefaultTableCellRenderer {
 				setBackground(table.getBackground());
 			} else {
 				enterLoop = true;
-				int groupe = EquivalentLettre.getIndice(nom.substring(6, 7));
+				int groupe = EquivalentLettre.getIndice(nom.substring(6, 8).trim());
 				setBackground(Couleur.getColor(groupe));
 			}
 		} else {

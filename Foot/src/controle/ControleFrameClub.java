@@ -30,11 +30,9 @@ public class ControleFrameClub implements ItemListener, Observer {
 	public void itemStateChanged(ItemEvent e) {
 		int[] tmp = obs.getReponseSolveur();
 		String lettre = (String) e.getItem();
-		int groupe = EquivalentLettre.getIndice(lettre.substring(lettre
-				.length() - 1));
+		int groupe = EquivalentLettre.getIndice(lettre);
 		if (groupe >= 0) {
-			tmp[obs.getDiv().getListe().indexOf(c)] = EquivalentLettre
-					.getIndice(lettre.substring(lettre.length() - 1));
+			tmp[obs.getDiv().getListe().indexOf(c)] = groupe;
 			this.obs.setReponseSolveur(tmp);
 			this.obs.setClubSelectionne(c);
 			this.obs.setIndiceSurvole(obs.getDiv().getListe().indexOf(c));
