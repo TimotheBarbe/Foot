@@ -1,9 +1,13 @@
 package presentation;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,6 +15,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -22,7 +27,7 @@ import model.Obs;
 import controle.ControleJPopMenu;
 
 /**
- * AfficheImage permet d'afficher la carte
+ * AfficheImage permet d'afficher la carte et les clubs
  * 
  * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
  *
@@ -33,6 +38,8 @@ public class AfficheImage extends JPanel implements MouseListener,
 	private static final long serialVersionUID = 1L;
 	private Image imageCarte;
 	private Obs obs;
+	// drag'n'drop
+	int startX = -1, startY = -1;
 
 	/**
 	 * Cree et initialise un nouveau JPanel AfficheImage
@@ -45,6 +52,42 @@ public class AfficheImage extends JPanel implements MouseListener,
 		this.addMouseListener(this);
 		this.addMouseWheelListener(this);
 		this.addMouseMotionListener(this);
+		this.setLayout(new BorderLayout());
+		this.creerSud();
+	}
+
+	/**
+	 * Creation du bas de la fenetre : boutons zoom
+	 */
+	private void creerSud() {
+		JPanel sud = new JPanel(new GridLayout(1, 3, 3, 3));
+		JButton zPlus = new JButton("Zoom +");
+		zPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zoomPoint(new Point(getWidth() / 2, getHeight() / 2));
+			}
+		});
+
+		JButton zMoins = new JButton("Zoom -");
+		zMoins.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				obs.setZoom(obs.getZoom() - 1);
+				if (obs.getZoom() < 2) {
+					reinitialiserZoom();
+				}
+			}
+		});
+
+		JButton reset = new JButton("Réinitialiser");
+		reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reinitialiserZoom();
+			}
+		});
+		sud.add(reset);
+		sud.add(zMoins);
+		sud.add(zPlus);
+		this.add(sud, BorderLayout.SOUTH);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -180,24 +223,49 @@ public class AfficheImage extends JPanel implements MouseListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
+		Point p = e.getPoint();
+		startX = p.x;
+		startY = p.y;
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		Point p = e.getPoint();
+		if (obs.getZoom() > 1) {
+			int diffX = (startX - p.x) / obs.getZoom();
+			int diffY = (startY - p.y) / obs.getZoom();
+			int newX = obs.getCoinZoom().x + diffX;
+			int newY = obs.getCoinZoom().y + diffY;
+			obs.setCoinZoom(new Point(newX, newY));
+		}
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int notches = e.getWheelRotation();
 		if (notches < 0) {
-			int zoom = obs.getZoom() + 1;
-			obs.setZoom(zoom);
-			Point nouveauCoin = new Point(e.getX() * 552 / getWidth() - 400
-					/ (zoom), e.getY() - 300 / zoom);
-			obs.setCoinZoom(nouveauCoin);
-
+			zoomPoint(e.getPoint());
 		} else {
-			obs.setZoom(1);
-			obs.setCoinZoom(new Point());
+			reinitialiserZoom();
 		}
+	}
+
+	/**
+	 * Remet le zoom a 1 et le coinZoom a (0,0)
+	 */
+	private void reinitialiserZoom() {
+		obs.setZoom(1);
+		obs.setCoinZoom(new Point());
+	}
+
+	/**
+	 * @param e
+	 *            centre du zoom
+	 */
+	private void zoomPoint(Point e) {
+		int zoom = obs.getZoom() + 1;
+		obs.setZoom(zoom);
+		Point nouveauCoin = new Point(e.x * 552 / getWidth() - 400 / (zoom),
+				e.y - 300 / zoom);
+		obs.setCoinZoom(nouveauCoin);
 	}
 
 	/**
@@ -222,7 +290,6 @@ public class AfficheImage extends JPanel implements MouseListener,
 		return rep;
 	}
 
-	
 	/**
 	 * @param x
 	 * @param y
