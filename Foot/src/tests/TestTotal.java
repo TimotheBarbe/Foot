@@ -14,7 +14,7 @@ public class TestTotal {
 
 	public static void main(String[] args) {
 		int nbClub = 99;
-		int nbGroupe = 10;
+		int nbGroupe = 30;
 		String nomDivision = "Nom de la division";
 
 		Division d = new Division(nbGroupe, nomDivision);

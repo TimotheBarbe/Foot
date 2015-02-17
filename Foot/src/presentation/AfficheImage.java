@@ -21,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import com.sun.prism.paint.Color;
+
 import model.Club;
 import model.Couleur;
 import model.EquivalentLettre;
@@ -39,7 +41,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 	private static final long serialVersionUID = 1L;
 	private Image imageCarte;
 	private Obs obs;
-	// drag'n'drop
+	// coordonnee de depart du drag'n'drop
 	int startX = -1, startY = -1;
 
 	/**
@@ -109,14 +111,23 @@ public class AfficheImage extends JPanel implements MouseListener,
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 				if (obs.getTableVisible()[i]) {
 					Club c = obs.getDiv().getListe().get(i);
+					int groupe = this.obs.getReponseSolveur()[i];
 
 					int x = (int) (zoom * (double) getWidth() / 552 * (c
 							.getCoordonneesMatricielles()[0] - coinX));
 					int y = (int) (zoom * (double) getWidth() / 552 * (c
 							.getCoordonneesMatricielles()[1] - coinY));
-
-					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
-					g.fillOval(x, y, 10, 10);
+					g.setColor(Couleur.getColor(groupe));
+					if (Couleur.getForme(groupe) == 0) {
+						g.fillOval(x, y, 10, 10);
+					}
+					if (Couleur.getForme(groupe) == 1) {
+						g.fillRect(x, y, 10, 10);
+					}
+					if (Couleur.getForme(groupe) == 2) {
+						g.fillPolygon(new int[] { x, x + 7, x - 7 }, new int[] {
+								y, y + 7, y + 7 }, 3);
+					}
 				}
 			}
 
@@ -151,14 +162,24 @@ public class AfficheImage extends JPanel implements MouseListener,
 			for (int i = 0; i < obs.getDiv().getListe().size(); i++) {
 				if (obs.getTableVisible()[i]) {
 					Club c = obs.getDiv().getListe().get(i);
+					int groupe = this.obs.getReponseSolveur()[i];
 
 					int x = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
 							.getCoordonneesMatricielles()[0] - coinX));
 					int y = (int) (zoom * (double) getHeight() / 552 * 1.389 * (c
 							.getCoordonneesMatricielles()[1] - coinY));
 
-					g.setColor(Couleur.getColor(this.obs.getReponseSolveur()[i]));
-					g.fillOval(x, y, 10, 10);
+					g.setColor(Couleur.getColor(groupe));
+					if (Couleur.getForme(groupe) == 0) {
+						g.fillOval(x, y, 10, 10);
+					}
+					if (Couleur.getForme(groupe) == 1) {
+						g.fillRect(x, y, 10, 10);
+					}
+					if (Couleur.getForme(groupe) == 2) {
+						g.fillPolygon(new int[] { x, x + 7, x - 7 }, new int[] {
+								y, y + 7, y + 7 }, 3);
+					}
 				}
 			}
 

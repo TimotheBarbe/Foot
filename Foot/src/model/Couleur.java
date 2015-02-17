@@ -5,6 +5,7 @@ import java.awt.Color;
 public class Couleur {
 
 	public static Color getColor(int numeroGroupe) {
+		numeroGroupe = numeroGroupe % 10;
 		Color c = Color.BLACK;
 		switch (numeroGroupe) {
 		case 0:
@@ -39,5 +40,9 @@ public class Couleur {
 			break;
 		}
 		return c;
+	}
+
+	public static int getForme(int numeroGroupe) {
+		return numeroGroupe / 10;
 	}
 }
