@@ -1,6 +1,7 @@
 package controle;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -201,7 +202,20 @@ public class ControleBoutonExportCarte {
 				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
 						.getCoordonneesMatricielles()[1];
-				cb.circle(x, y, (float) 1);
+				if (Couleur.getForme(groupe) == 0) {
+					cb.circle(x, y, 1f);
+				}
+				if (Couleur.getForme(groupe) == 1) {
+					cb.rectangle(x, y, 1f, 1f);
+				}
+				if (Couleur.getForme(groupe) == 2) {
+					cb.setLineWidth(0.8f);
+					cb.moveTo(x, y);
+					cb.lineTo(x + 1, y - 1);
+					cb.lineTo(x - 1, y - 1);
+					cb.lineTo(x, y);
+				}
+
 			}
 		}
 		cb.stroke();
