@@ -102,7 +102,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 				for (int i = 0; i < d.getNbClub(); i++) {
 					tabDist[i][i] = 0;
 				}
-
+				
 				mw.setVisible(false);
 				mw.dispose();
 

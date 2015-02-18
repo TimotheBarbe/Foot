@@ -3,6 +3,7 @@ package controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -64,10 +65,17 @@ public class ControleBoutonDesiderata implements ActionListener {
 					listeDe.add(new Desiderata(id1, id2, op, listeClub));
 				}
 				obs.setDesiderata(listeDe);
-				parent.dispose();
+				parent.dispose();	
 			}
 		} catch (Exception e) {
 			BoiteDeDialogue.error(e.getMessage());
+		}
+		finally{
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
