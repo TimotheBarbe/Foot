@@ -18,32 +18,9 @@ import Excel.UtilsExcelPOI;
 public class TestFenetreAccueil {
 
 	private static Workbook fichierGPSEquipes;
-	private static Workbook fichierDistances;
 	private static Workbook fichierDivision;
-	private static String[][] matriceDistances;
-
-	// Cette methode permet d'obtenir les numeros d'affiliation de tous les
-	// clubs.
-	public static ArrayList<Integer> getNumerosAffiliation() {
-		ArrayList<Integer> numerosDAffiliation = new ArrayList<Integer>();
-		try {
-			// Recuperation du classeur Excel (en lecture)
-			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
-
-			// On recupere les numeros d'affiliation des clubs.
-			// NB : Le meme club est au meme index sur la ligne que sur la
-			// colonne.
-			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0, fichierDistances);
-			for (String s : affiliationClubs) {
-				numerosDAffiliation.add((int) Double.parseDouble(s));
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return numerosDAffiliation;
-	}
-
+	private static Workbook fichierDistances;
+	
 	// Cette methode donne tous les clubs presents dans le fichier de la
 	// division
 	public static int[] getClubsDivision() {
@@ -61,34 +38,7 @@ public class TestFenetreAccueil {
 
 		return clubs;
 	}
-
-	// Cette methode donne la distance d'un club a un autre
-	public static double getDistance(int clubA, int clubB, ArrayList<Integer> affiliation) {
-		double distance = 0;
-		if (clubA == clubB) {
-			return 0;
-		} else {
-			int a = 0;
-			int b = 0;
-			for (int i = 0; i < affiliation.size(); i++) {
-				if (clubA == affiliation.get(i)) {
-					a = i;
-				}
-				if (clubB == affiliation.get(i)) {
-					b = i;
-				}
-			}
-			if (a > b) {
-				distance = Double.parseDouble(matriceDistances[a][b]);
-			} else {
-				distance = Double.parseDouble(matriceDistances[b][a]);
-			}
-
-			return distance;
-		}
-
-	}
-
+	
 	// Cette methode retourne les 3 infos d'un club de par son numero
 	// d'affiliation
 	// Ces infos sont retournees sous forme de tableau
@@ -148,11 +98,7 @@ public class TestFenetreAccueil {
 		try {
 			// Recuperation du fichier de la division
 			fichierDivision = WorkbookFactory.create(new File(fa.getCheminFichierDivision()));
-
-			// Recuperation du classeur Excel (en lecture)
 			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
-			// Recuperation matrice distances
-			matriceDistances = UtilsExcelPOI.getMatrice(fichierDistances);
 
 			// On recupere les numeros d'affiliation des clubs de la division
 			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
@@ -185,13 +131,16 @@ public class TestFenetreAccueil {
 				d.addClub(c);
 			}
 
-			ArrayList<Integer> affiliation = getNumerosAffiliation();
+			ArrayList<Integer> affiliation = UtilsExcelPOI.getNumerosAffiliation();
 			double[][] tabDist = new double[nbClub][nbClub];
 			clubCourant = 0;
 			int[] affiliationClubs = getClubsDivision();
+			String[][] matriceDistances = UtilsExcelPOI.getMatrice(fichierDistances);
+			
 			for (int i = 0; i < nbClub; i++) {
 				for (int j = i + 1; j < nbClub; j++) {
-					tabDist[i][j] = getDistance(affiliationClubs[i], affiliationClubs[j], affiliation);
+					tabDist[i][j] = UtilsExcelPOI.getDistance(affiliationClubs[i], affiliationClubs[j],
+							affiliation, matriceDistances);
 					tabDist[j][i] = tabDist[i][j];
 				}
 			}

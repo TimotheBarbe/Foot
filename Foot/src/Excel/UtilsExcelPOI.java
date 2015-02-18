@@ -3,12 +3,13 @@ package Excel;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.*;
 
 public class UtilsExcelPOI {
 
 	private static Workbook workbook;
+	private static String[][] matriceDistances;
+	private static Workbook fichierDistances;
 
 	// POI ne fournit pas d'acces a une colonne, il n'y a d'acces que pour les
 	// lignes
@@ -58,7 +59,7 @@ public class UtilsExcelPOI {
 		Sheet sheet = workbook.getSheetAt(0);
 		int nbColonnes = getNbColumns(sheet);
 		String[][] matrice = new String[nbColonnes][nbColonnes];
-		
+
 		int i=0;
 		for (Row r : sheet) {
 			if(i<nbColonnes){
@@ -75,8 +76,84 @@ public class UtilsExcelPOI {
 				break;
 			}
 		}
-		
+
 		return matrice;
+	}
+
+	// Cette methode donne la matrice extraite des distances
+	public static double[][] getMatriceExtraite(ArrayList<Integer> clubs){
+		double[][] matriceExtraite = new double[clubs.size()][clubs.size()];
+
+		try{
+			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
+			ArrayList<Integer> affiliation = getNumerosAffiliation();
+			// Recuperation matrice distances
+			matriceDistances = getMatrice(fichierDistances);
+
+			for(int i=0; i<clubs.size(); i++){
+				for(int j=i+1; j<clubs.size(); j++){
+					matriceExtraite[i][j] = getDistance(clubs.get(i), clubs.get(j),
+							affiliation, matriceDistances);
+					matriceExtraite[i][j] = matriceExtraite[j][i];
+				}
+			}
+			
+		} catch(Exception e){
+
+		}
+
+
+		return matriceExtraite;
+	}
+
+	// Cette methode donne la distance d'un club a un autre
+	public static double getDistance(int clubA, int clubB,
+			ArrayList<Integer> affiliation, String[][] matriceDistances) {
+		double distance = 0;
+		if (clubA == clubB) {
+			return 0;
+		} else {
+			int a = 0;
+			int b = 0;
+			for (int i = 0; i < affiliation.size(); i++) {
+				if (clubA == affiliation.get(i)) {
+					a = i;
+				}
+				if (clubB == affiliation.get(i)) {
+					b = i;
+				}
+			}
+			if (a > b) {
+				distance = Double.parseDouble(matriceDistances[a][b]);
+			} else {
+				distance = Double.parseDouble(matriceDistances[b][a]);
+			}
+
+		} 
+		return distance;
+	}
+
+
+	// Cette methode permet d'obtenir les numeros d'affiliation de tous les
+	// clubs.
+	public static ArrayList<Integer> getNumerosAffiliation() {
+		ArrayList<Integer> numerosDAffiliation = new ArrayList<Integer>();
+		try {
+			// Recuperation du classeur Excel (en lecture)
+			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
+
+			// On recupere les numeros d'affiliation des clubs.
+			// NB : Le meme club est au meme index sur la ligne que sur la
+			// colonne.
+			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0, fichierDistances);
+			for (String s : affiliationClubs) {
+				numerosDAffiliation.add((int) Double.parseDouble(s));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return numerosDAffiliation;
 	}
 
 	// POI ne fournit pas d'acces a une cellule de par sa ligne et sa colonne
