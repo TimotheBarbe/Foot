@@ -56,9 +56,26 @@ public class UtilsExcelPOI {
 	// Cette methode permet de recuperer la matrice entiere d'une feuille
 	public static String[][] getMatrice(Workbook workbook) {
 		Sheet sheet = workbook.getSheetAt(0);
-		int taille = getNbColumns(sheet);
-		String[][] matrice = new String[taille][taille];
-
+		int nbColonnes = getNbColumns(sheet);
+		String[][] matrice = new String[nbColonnes][nbColonnes];
+		
+		int i=0;
+		for (Row r : sheet) {
+			if(i<nbColonnes){
+				for(int j=0; j<nbColonnes; j++){
+					Cell c = r.getCell(j);
+					if (c != null) {
+						matrice[i][j] = c.toString();
+					} else {
+						matrice[i][j] = "-1";
+					}
+				}
+				i++;
+			} else {
+				break;
+			}
+		}
+		
 		return matrice;
 	}
 
