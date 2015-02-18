@@ -11,6 +11,7 @@ import model.Club;
 import model.Division;
 import model.Obs;
 import presentation.FenetreAccueil;
+import presentation.FenetreBarreProgression;
 import presentation.MainWindows;
 import solveur.SolutionInitiale;
 
@@ -19,6 +20,7 @@ public class TestFenetreAccueil {
 	private static Workbook fichierGPSEquipes;
 	private static Workbook fichierDistances;
 	private static Workbook fichierDivision;
+	private static String[][] matriceDistances;
 
 	// Cette methode permet d'obtenir les numeros d'affiliation de tous les clubs.
 	public static ArrayList<Integer> getNumerosAffiliation(){
@@ -74,20 +76,12 @@ public class TestFenetreAccueil {
 					b = i;
 				}
 			}
-			try {
-				// Recuperation du classeur Excel (en lecture)
-				fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
-
-				if(a>b){
-					distance =  Double.parseDouble(UtilsExcelPOI.getCell(a, b, fichierDistances));
-				} else {
-					distance =  Double.parseDouble(UtilsExcelPOI.getCell(b, a, fichierDistances));
-				}
-				
-
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(a>b){
+				distance =  Double.parseDouble(matriceDistances[a][b]);
+			} else {
+				distance =  Double.parseDouble(matriceDistances[b][a]);
 			}
+			
 			return distance;
 		}
 		
@@ -151,6 +145,11 @@ public class TestFenetreAccueil {
 		try {
 			// Recuperation du fichier de la division
 			fichierDivision = WorkbookFactory.create(new File(fa.getCheminFichierDivision()));
+			
+			// Recuperation du classeur Excel (en lecture)
+			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
+			// Recuperation matrice distances
+			matriceDistances = UtilsExcelPOI.getMatrice(fichierDistances);
 
 			// On recupere les numeros d'affiliation des clubs de la division
 			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
@@ -182,10 +181,13 @@ public class TestFenetreAccueil {
 				d.addClub(c);
 			}
 
+			FenetreBarreProgression fbg = new FenetreBarreProgression(0, nbClub);
+			
 			double[][] tabDist = new double[nbClub][nbClub];
 			clubCourant = 0;
 			int[] affiliationClubs = getClubsDivision();
 			for(int i=0; i<nbClub; i++){
+				fbg.setCompteur(i);
 				for(int j=i+1; j<nbClub; j++){
 					tabDist[i][j] = getDistance(affiliationClubs[i], affiliationClubs[j]);
 					tabDist[j][i] = tabDist[i][j];
