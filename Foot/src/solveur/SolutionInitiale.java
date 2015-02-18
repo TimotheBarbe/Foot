@@ -39,7 +39,11 @@ public class SolutionInitiale {
 			} else {
 				nbVoisins = nbClub / nbGroupe - 1;
 			}
-			double[][] tabDist = new double[ListDistance.size()][ListDistance.size()];
+			if (nbClub <= nbGroupe) {
+				nbVoisins = 0;
+			}
+			double[][] tabDist = new double[ListDistance.size()][ListDistance
+					.size()];
 			for (int k = 0; k < ListDistance.size(); k++) {
 				for (int j = 0; j < ListDistance.size(); j++) {
 					tabDist[k][j] = ListDistance.get(k).get(j);
@@ -137,7 +141,8 @@ public class SolutionInitiale {
 		int[] list = new int[n];
 
 		for (int i = 0; i < nbClub; i++) {
-			if (i != club && distVoisins.get(n - 1) > distance[club][i] && distance[club][i] > 0) {
+			if (i != club && distVoisins.get(n - 1) > distance[club][i]
+					&& distance[club][i] > 0) {
 				distVoisins.remove(n - 1);
 				distVoisins.add(distance[club][i]);
 				Collections.sort(distVoisins);
@@ -147,7 +152,8 @@ public class SolutionInitiale {
 		// si toutes les dist sont différentes
 		for (int i = 0; i < n; i++) {
 			for (int cb = 0; cb < nbClub; cb++) {
-				if (distVoisins.get(i) == distance[club][cb] && !appartient(cb, list)) {
+				if (distVoisins.get(i) == distance[club][cb]
+						&& !appartient(cb, list)) {
 					list[i] = cb;
 				}
 			}
