@@ -41,7 +41,6 @@ public class FrameClub extends JFrame {
 		this.setTitle(c.toString());
 		this.getContentPane().setLayout(
 				new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		this.setVisible(true);
 		this.build();
 		this.pack();
 		this.setLocationRelativeTo(null);

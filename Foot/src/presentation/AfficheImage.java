@@ -61,7 +61,16 @@ public class AfficheImage extends JPanel implements MouseListener,
 	 * Creation du bas de la fenetre : boutons zoom
 	 */
 	private void creerSud() {
-		JPanel sud = new JPanel(new GridLayout(1, 3, 3, 3));
+		JPanel sud = new JPanel(new GridLayout(1, 4, 3, 3));
+		
+		JButton desiderata = new JButton("Désidérata");
+		desiderata.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameDesiderata frameDesi = new FrameDesiderata(obs);
+				frameDesi.setVisible(true);
+			}
+		});
+		
 		JButton zPlus = new JButton("Zoom +");
 		zPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,6 +94,7 @@ public class AfficheImage extends JPanel implements MouseListener,
 				reinitialiserZoom();
 			}
 		});
+		sud.add(desiderata);
 		sud.add(reset);
 		sud.add(zMoins);
 		sud.add(zPlus);

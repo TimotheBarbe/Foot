@@ -36,9 +36,8 @@ public class ControleBoutonImportExcel implements ActionListener {
 		FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
 				new String[] { "xls", "xlsx" });
 		fileChooser.setFileFilter(filter);
-		fileChooser.setDialogTitle("Ouvrir");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int bouton = fileChooser.showSaveDialog(null);
+		int bouton = fileChooser.showOpenDialog(null);
 		if (bouton == JFileChooser.APPROVE_OPTION) {
 			ArrayList<Club> listeTotale = this.getListeTotale();
 			this.changeObs(fileChooser.getSelectedFile(), listeTotale);
@@ -80,9 +79,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 							BoiteDeDialogue.error("Mauvais format du club :"
 									+ selection);
 						}
-
 					}
-
 				}
 
 				// DONNES SOLVEUR

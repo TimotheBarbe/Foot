@@ -37,7 +37,7 @@ public class UtilsExcelPOI {
 
 		for (Row r : sheet) {
 			Cell c = r.getCell(indexColonne);
-			if (c != null) {
+			if (c != null && !c.toString().equals("")) {
 				colonne.add(c.toString());
 			}
 		}

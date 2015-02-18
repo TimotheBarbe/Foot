@@ -20,6 +20,7 @@ public class Obs extends Observable {
 	private int indiceJListClubSelection;
 	private boolean[] tableVisible;
 	private double[][] tabDist;
+	private ArrayList<Desiderata> desiderata;
 
 	public Obs(Division div, int[] reponseSolveur, double[][] tabDist) {
 		super();
@@ -33,6 +34,7 @@ public class Obs extends Observable {
 		this.setClubSelectionne(null);
 		this.setIndiceJListClubSelection(-1);
 		this.setTabDist(tabDist);
+		this.setDesiderata(new ArrayList<Desiderata>());
 	}
 
 	public Division getDiv() {
@@ -186,5 +188,38 @@ public class Obs extends Observable {
 			}
 		}
 		return !(max - min > 1);
+	}
+
+	public ArrayList<Desiderata> getDesiderata() {
+		return desiderata;
+	}
+
+	public void setDesiderata(ArrayList<Desiderata> desiderata) {
+		this.desiderata = desiderata;
+	}
+
+	public boolean desiderataOk(int i) {
+		Desiderata d = this.getDesiderata().get(i);
+		Club c1 = this.getDiv().getClubById(d.getClub1());
+		Club c2 = this.getDiv().getClubById(d.getClub2());
+		if (d.getOp().equals("=")) {
+			return getReponseSolveur()[getDiv().getListe().indexOf(c1)] == getReponseSolveur()[getDiv()
+					.getListe().indexOf(c2)];
+		}
+		if (d.getOp().equals("!=")) {
+			return getReponseSolveur()[getDiv().getListe().indexOf(c1)] != getReponseSolveur()[getDiv()
+					.getListe().indexOf(c2)];
+		}
+		return false;
+	}
+
+	public int nbDesiderataFail() {
+		int rep = 0;
+		for (int i = 0; i < this.getDesiderata().size(); i++) {
+			if (!desiderataOk(i)) {
+				rep++;
+			}
+		}
+		return rep;
 	}
 }

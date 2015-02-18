@@ -78,6 +78,7 @@ public class ControleJColumnClub implements ListSelectionListener, Observer,
 						selection.indexOf(")"));
 				Club c = obs.getDiv().getClubById(Integer.parseInt(id));
 				FrameClub frame = new FrameClub(c, obs);
+				frame.setVisible(true);
 			} catch (Exception ex) {
 
 			}
