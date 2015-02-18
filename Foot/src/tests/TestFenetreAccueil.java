@@ -11,7 +11,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import presentation.FenetreAccueil;
-import presentation.FenetreBarreProgression;
 import presentation.MainWindows;
 import solveur.SolutionInitiale;
 import Excel.UtilsExcelPOI;
@@ -186,13 +185,11 @@ public class TestFenetreAccueil {
 				d.addClub(c);
 			}
 
-			FenetreBarreProgression fbg = new FenetreBarreProgression(0, nbClub);
 			ArrayList<Integer> affiliation = getNumerosAffiliation();
 			double[][] tabDist = new double[nbClub][nbClub];
 			clubCourant = 0;
 			int[] affiliationClubs = getClubsDivision();
 			for (int i = 0; i < nbClub; i++) {
-				fbg.setCompteur(i);
 				for (int j = i + 1; j < nbClub; j++) {
 					tabDist[i][j] = getDistance(affiliationClubs[i], affiliationClubs[j], affiliation);
 					tabDist[j][i] = tabDist[i][j];
