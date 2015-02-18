@@ -3,17 +3,18 @@ package tests;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import Excel.UtilsExcelPOI;
 import model.Club;
 import model.Division;
 import model.Obs;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import presentation.FenetreAccueil;
 import presentation.FenetreBarreProgression;
 import presentation.MainWindows;
 import solveur.SolutionInitiale;
+import Excel.UtilsExcelPOI;
 
 public class TestFenetreAccueil {
 
@@ -22,77 +23,80 @@ public class TestFenetreAccueil {
 	private static Workbook fichierDivision;
 	private static String[][] matriceDistances;
 
-	// Cette methode permet d'obtenir les numeros d'affiliation de tous les clubs.
-	public static ArrayList<Integer> getNumerosAffiliation(){
+	// Cette methode permet d'obtenir les numeros d'affiliation de tous les
+	// clubs.
+	public static ArrayList<Integer> getNumerosAffiliation() {
 		ArrayList<Integer> numerosDAffiliation = new ArrayList<Integer>();
 		try {
 			// Recuperation du classeur Excel (en lecture)
 			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
 
 			// On recupere les numeros d'affiliation des clubs.
-			// NB : Le meme club est au meme index sur la ligne que sur la colonne.
+			// NB : Le meme club est au meme index sur la ligne que sur la
+			// colonne.
 			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0, fichierDistances);
-			for(String s : affiliationClubs){
-				numerosDAffiliation.add((int)Double.parseDouble(s));
+			for (String s : affiliationClubs) {
+				numerosDAffiliation.add((int) Double.parseDouble(s));
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return numerosDAffiliation;
 	}
-	
-	// Cette methode donne tous les clubs presents dans le fichier de la division
-	public static int[] getClubsDivision(){
+
+	// Cette methode donne tous les clubs presents dans le fichier de la
+	// division
+	public static int[] getClubsDivision() {
 
 		// On recupere les numeros d'affiliation des clubs de la division
 		ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
-		// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la division)
-		int nbClub = affiliationDivision.size()-1;
+		// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la
+		// division)
+		int nbClub = affiliationDivision.size() - 1;
 
 		int[] clubs = new int[nbClub];
-		for(int i=1; i<affiliationDivision.size(); i++){
-			clubs[i-1] = (int)Double.parseDouble(affiliationDivision.get(i));
+		for (int i = 1; i < affiliationDivision.size(); i++) {
+			clubs[i - 1] = (int) Double.parseDouble(affiliationDivision.get(i));
 		}
 
 		return clubs;
 	}
-	
+
 	// Cette methode donne la distance d'un club a un autre
-	public static double getDistance(int clubA, int clubB){
+	public static double getDistance(int clubA, int clubB, ArrayList<Integer> affiliation) {
 		double distance = 0;
-		ArrayList<Integer> affiliation = getNumerosAffiliation();
-		if(clubA==clubB){
+		if (clubA == clubB) {
 			return 0;
 		} else {
 			int a = 0;
 			int b = 0;
-			for(int i=0; i<affiliation.size(); i++){
-				if(clubA==affiliation.get(i)){
+			for (int i = 0; i < affiliation.size(); i++) {
+				if (clubA == affiliation.get(i)) {
 					a = i;
 				}
-				if(clubB==affiliation.get(i)){
+				if (clubB == affiliation.get(i)) {
 					b = i;
 				}
 			}
-			if(a>b){
-				distance =  Double.parseDouble(matriceDistances[a][b]);
+			if (a > b) {
+				distance = Double.parseDouble(matriceDistances[a][b]);
 			} else {
-				distance =  Double.parseDouble(matriceDistances[b][a]);
+				distance = Double.parseDouble(matriceDistances[b][a]);
 			}
-			
+
 			return distance;
 		}
-		
+
 	}
 
-	// Cette methode retourne les 3 infos d'un club de par son numero d'affiliation
+	// Cette methode retourne les 3 infos d'un club de par son numero
+	// d'affiliation
 	// Ces infos sont retournees sous forme de tableau
 	// Index 0 --> Nom du club
 	// Index 1 --> Latitude du club
 	// Index 2 --> Longitude du club
-	public static String[] getInfosClubByNumber(int numeroAffiliation){
+	public static String[] getInfosClubByNumber(int numeroAffiliation) {
 		String[] infos = new String[3];
 
 		try {
@@ -111,8 +115,8 @@ public class TestFenetreAccueil {
 			// On recupere la longitude des clubs
 			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3, fichierGPSEquipes);
 
-			for(int i=1; i<affiliationClubs.size(); i++){
-				if(numeroAffiliation==(int)Double.parseDouble(affiliationClubs.get(i))){
+			for (int i = 1; i < affiliationClubs.size(); i++) {
+				if (numeroAffiliation == (int) Double.parseDouble(affiliationClubs.get(i))) {
 					infos[0] = nomClubs.get(i);
 					infos[1] = latitudeClubs.get(i);
 					infos[2] = longitudeClubs.get(i);
@@ -130,7 +134,7 @@ public class TestFenetreAccueil {
 		FenetreAccueil fa = new FenetreAccueil();
 
 		// Boucle permettant d'attendre la fin de la saisie des parametres
-		while(fa.isAccueilOuvert()){
+		while (fa.isAccueilOuvert()) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -145,7 +149,7 @@ public class TestFenetreAccueil {
 		try {
 			// Recuperation du fichier de la division
 			fichierDivision = WorkbookFactory.create(new File(fa.getCheminFichierDivision()));
-			
+
 			// Recuperation du classeur Excel (en lecture)
 			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
 			// Recuperation matrice distances
@@ -154,8 +158,9 @@ public class TestFenetreAccueil {
 			// On recupere les numeros d'affiliation des clubs de la division
 			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
 
-			// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la division)
-			int nbClub = affiliationDivision.size()-1;
+			// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom
+			// de la division)
+			int nbClub = affiliationDivision.size() - 1;
 			// Nombre de groupe
 			int nbGroupe = Integer.parseInt(fa.getNbGroupes());
 			// On met a jour le nom de la division
@@ -166,15 +171,15 @@ public class TestFenetreAccueil {
 			int clubCourant = 0;
 			String[] infosClub = new String[3];
 			int[] clubs = new int[nbClub];
-			for(int i = 1; i <= nbClub; i++) {
+			for (int i = 1; i <= nbClub; i++) {
 				// Recuperation du numero d'affiliation du club courant
-				clubCourant = (int)Double.parseDouble(affiliationDivision.get(i));
-				clubs[i-1] = clubCourant;
+				clubCourant = (int) Double.parseDouble(affiliationDivision.get(i));
+				clubs[i - 1] = clubCourant;
 
 				// Recuperation des infos du club
 				infosClub = getInfosClubByNumber(clubCourant);
 
-				double[] coordonneesGPS = {Double.parseDouble(infosClub[1]), Double.parseDouble(infosClub[2])};
+				double[] coordonneesGPS = { Double.parseDouble(infosClub[1]), Double.parseDouble(infosClub[2]) };
 
 				Club c = new Club(infosClub[0], clubCourant, coordonneesGPS);
 
@@ -182,14 +187,14 @@ public class TestFenetreAccueil {
 			}
 
 			FenetreBarreProgression fbg = new FenetreBarreProgression(0, nbClub);
-			
+			ArrayList<Integer> affiliation = getNumerosAffiliation();
 			double[][] tabDist = new double[nbClub][nbClub];
 			clubCourant = 0;
 			int[] affiliationClubs = getClubsDivision();
-			for(int i=0; i<nbClub; i++){
+			for (int i = 0; i < nbClub; i++) {
 				fbg.setCompteur(i);
-				for(int j=i+1; j<nbClub; j++){
-					tabDist[i][j] = getDistance(affiliationClubs[i], affiliationClubs[j]);
+				for (int j = i + 1; j < nbClub; j++) {
+					tabDist[i][j] = getDistance(affiliationClubs[i], affiliationClubs[j], affiliation);
 					tabDist[j][i] = tabDist[i][j];
 				}
 			}
@@ -198,13 +203,10 @@ public class TestFenetreAccueil {
 			Obs obs = new Obs(d, si.getSolution(), tabDist);
 			MainWindows test = new MainWindows(obs, nomDivision);
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		
-		
 	}
 
 }
