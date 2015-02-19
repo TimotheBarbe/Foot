@@ -35,7 +35,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser("Export-Import/");
 		FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
 				new String[] { "xls", "xlsx" });
 		fileChooser.setFileFilter(filter);
