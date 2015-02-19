@@ -58,6 +58,7 @@ public class FenetreAccueil extends JFrame {
 		this.setTitle("GéoGroupFoot44");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
+		this.setResizable(false);
 		this.creerCentreEtNord();
 		this.creerSud();
 		this.pack();
