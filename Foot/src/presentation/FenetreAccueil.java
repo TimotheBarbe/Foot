@@ -64,7 +64,7 @@ public class FenetreAccueil extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	
+
 	/**
 	 * Construit le sud de la frame
 	 */
@@ -161,7 +161,6 @@ public class FenetreAccueil extends JFrame {
 		JPanel centre = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JButton validationCreer = new JButton("Créer");
 		validationCreer.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					FenetreAccueil.this.setCheminFichierDivision(cheminDivision
@@ -182,6 +181,9 @@ public class FenetreAccueil extends JFrame {
 							if (nbGroupes <= 0) {
 								BoiteDeDialogue
 										.error("Le nombre de groupes ne peut pas être négatif ou nul.");
+							} else if (nbGroupes > 36) {
+								BoiteDeDialogue
+										.error("Le nombre de groupes doit être inférieur à 36");
 							} else {
 								accueilOuvert = false;
 							}
@@ -308,6 +310,7 @@ public class FenetreAccueil extends JFrame {
 			MainWindows test = new MainWindows(obs, nomDivision);
 
 		} catch (Exception e) {
+			BoiteDeDialogue.error("Format de fichier à charger incorrect");
 			e.printStackTrace();
 		}
 	}

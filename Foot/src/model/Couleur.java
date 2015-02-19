@@ -5,7 +5,7 @@ import java.awt.Color;
 public class Couleur {
 
 	public static Color getColor(int numeroGroupe) {
-		numeroGroupe = numeroGroupe % 10;
+		numeroGroupe = numeroGroupe % 12;
 		Color c = Color.BLACK;
 		switch (numeroGroupe) {
 		case 0:
@@ -33,16 +33,22 @@ public class Couleur {
 			c = Color.magenta;
 			break;
 		case 8:
-			c = new Color(150, 50, 60); // Rouge foncé
+			c = new Color(170, 30, 30); // Rouge foncé
 			break;
 		case 9:
 			c = new Color(30, 50, 80); // Bleu foncé
 			break;
+		case 10:
+			c = new Color(91, 118, 232); // Bleu clair
+		break;
+		case 11:
+			c = new Color(118, 232, 37); // Vert pomme
+		break;
 		}
 		return c;
 	}
 
 	public static int getForme(int numeroGroupe) {
-		return numeroGroupe / 10;
+		return numeroGroupe / 12;
 	}
 }

@@ -50,12 +50,11 @@ public class ControleBoutonImportExcel implements ActionListener {
 	private void changeObs(File file, ArrayList<Club> listeTotale) {
 		String path = file.getPath();
 		Workbook workbook = null;
+
+		/* Recuperation du classeur Excel (en lecture) */
 		try {
-			/* Recuperation du classeur Excel (en lecture) */
 			workbook = WorkbookFactory.create(new File(path));
-		} catch (Exception e) {
-			BoiteDeDialogue.error(e.getMessage());
-		} finally {
+
 			if (workbook != null) {
 				Sheet sheet = workbook.getSheetAt(0);
 				int nbGroupe = (UtilsExcelPOI.getNbColumns(sheet) + 1) / 3;
@@ -107,24 +106,20 @@ public class ControleBoutonImportExcel implements ActionListener {
 					affiliationClubs[i] = d.getListe().get(i).getId();
 				}
 				Workbook fichierDistances;
-				try {
-					fichierDistances = WorkbookFactory.create(new File(
-							"Donnees/DistancesClubs.xlsx"));
-					String[][] matriceDistances = UtilsExcelPOI
-							.getMatrice(fichierDistances);
 
-					for (int i = 0; i < nbClub; i++) {
-						for (int j = i + 1; j < nbClub; j++) {
-							tabDist[i][j] = UtilsExcelPOI.getDistance(
-									affiliationClubs[i], affiliationClubs[j],
-									affiliation, matriceDistances);
-							tabDist[j][i] = tabDist[i][j];
-						}
+				fichierDistances = WorkbookFactory.create(new File(
+						"Donnees/DistancesClubs.xlsx"));
+
+				String[][] matriceDistances = UtilsExcelPOI
+						.getMatrice(fichierDistances);
+
+				for (int i = 0; i < nbClub; i++) {
+					for (int j = i + 1; j < nbClub; j++) {
+						tabDist[i][j] = UtilsExcelPOI.getDistance(
+								affiliationClubs[i], affiliationClubs[j],
+								affiliation, matriceDistances);
+						tabDist[j][i] = tabDist[i][j];
 					}
-				} catch (InvalidFormatException | IOException e) {
-					e.printStackTrace();
-					BoiteDeDialogue
-							.error("Le fichier de distance n'a pas été correctement chargé");
 				}
 
 				mw.setVisible(false);
@@ -133,6 +128,18 @@ public class ControleBoutonImportExcel implements ActionListener {
 				Obs obs = new Obs(d, reponseSolveur, tabDist);
 				MainWindows newFrame = new MainWindows(obs, obs.getDiv()
 						.getNom());
+			}
+		} catch (InvalidFormatException e) {
+			BoiteDeDialogue.error("Format du fichier non valide");
+		} catch (IOException e) {
+			BoiteDeDialogue.error("Format du fichier non valide");
+		} catch (Exception e) {
+			BoiteDeDialogue.error("Erreur de chargement du fichier");
+		} finally {
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				BoiteDeDialogue.error("Impossible de fermé le fichier Excel");
 			}
 		}
 	}
