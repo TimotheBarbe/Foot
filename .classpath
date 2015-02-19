@@ -2,14 +2,16 @@
 <classpath>
 	<classpathentry kind="src" path="Foot/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/apidocs-3.2.2.zip"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-samples-3.2.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/choco-3.2.2/choco-solver-3.2.2-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/jxl-2.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Timothé/Desktop/Cours/lib/itext/itextpdf-5.5.4-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/jxl-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/itext/itextpdf-5.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/itext/itextpdf-5.5.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/itext/itextpdf-5.5.4-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-examples-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-excelant-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-ooxml-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-ooxml-schemas-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/poi-scratchpad-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Timothé/Documents/Cours/lib/POI/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
