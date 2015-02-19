@@ -32,7 +32,7 @@ public class ControleBoutonDesiderata implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser("Export-Import/");
 		FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
 				new String[] { "xls", "xlsx" });
 		fileChooser.setFileFilter(filter);
@@ -62,6 +62,7 @@ public class ControleBoutonDesiderata implements ActionListener {
 							.get(i);
 					ArrayList<Club> listeClub = new ArrayList<Club>();
 					listeClub.addAll(obs.getDiv().getListe());
+
 					listeDe.add(new Desiderata(id1, id2, op, listeClub));
 				}
 				obs.setDesiderata(listeDe);

@@ -22,9 +22,14 @@ public class Desiderata {
 	}
 
 	public void setClub1(int club1) throws IllegalArgumentException {
-		if (listeClub.contains(club1)) {
-			this.club1 = club1;
-		} else {
+		boolean ok = false;
+		for (Club c : this.listeClub) {
+			if (c.getId() == club1) {
+				this.club1 = club1;
+				ok = true;
+			}
+		}
+		if (!ok) {
 			throw new IllegalArgumentException(club1
 					+ " : id non compris dans la division");
 		}
@@ -35,9 +40,14 @@ public class Desiderata {
 	}
 
 	public void setClub2(int club2) throws IllegalArgumentException {
-		if (listeClub.contains(club2)) {
-			this.club2 = club2;
-		} else {
+		boolean ok = false;
+		for (Club c : this.listeClub) {
+			if (c.getId() == club1) {
+				this.club2 = club2;
+				ok = true;
+			}
+		}
+		if (!ok) {
 			throw new IllegalArgumentException(club2
 					+ " : id non compris dans la division");
 		}

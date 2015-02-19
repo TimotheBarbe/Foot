@@ -100,7 +100,7 @@ public class FenetreAccueil extends JFrame {
 		JButton importFichier = new JButton(new ImageIcon("Donnees/load.png"));
 		importFichier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser dialogue = new JFileChooser(new File("."));
+				JFileChooser dialogue = new JFileChooser("Export-Import/");
 				FileFilter filter = new FileNameExtensionFilter("xls, xlsx", new String[] { "xls", "xlsx" });
 				dialogue.setFileFilter(filter);
 				dialogue.setFileSelectionMode(JFileChooser.FILES_ONLY);

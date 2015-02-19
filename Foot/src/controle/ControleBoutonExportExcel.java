@@ -30,7 +30,7 @@ public class ControleBoutonExportExcel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser("Export-Import/");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int bouton = fileChooser.showSaveDialog(null);
 		if (bouton == JFileChooser.APPROVE_OPTION) {

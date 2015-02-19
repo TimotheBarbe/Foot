@@ -44,7 +44,7 @@ public class ControleBoutonExportCarte {
 			BoiteDeDialogue.error(e.getMessage());
 		}
 		if (carteTotal || cartesGroupe || carteSelection) {
-			JFileChooser fileChooser = new JFileChooser();
+			JFileChooser fileChooser = new JFileChooser("Export-Import/Cartes/");
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int bouton = fileChooser.showSaveDialog(null);
 			if (bouton == JFileChooser.APPROVE_OPTION) {
