@@ -65,7 +65,7 @@ public class FrameClub extends JFrame {
 
 		// distance
 		JLabel distance = new JLabel("Distance : "
-				+ obs.getDistParcourue(obs.getDiv().getListe().indexOf(c)));
+				+ obs.getDistParcourue(obs.getDiv().getListe().indexOf(c))+" km");
 		distance.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
 		ControleFrameClub controleFrame = new ControleFrameClub(obs, c,
