@@ -59,75 +59,82 @@ public class ControleBoutonImportExcel implements ActionListener {
 				Sheet sheet = workbook.getSheetAt(0);
 				int nbGroupe = (UtilsExcelPOI.getNbColumns(sheet) + 1) / 3;
 
-				Division d = new Division(nbGroupe, file.getName().substring(0,
-						file.getName().lastIndexOf("_")));
+				if (!UtilsExcelPOI.getAncienneColumn(0, workbook).get(0)
+						.startsWith("Poule")) {
+					BoiteDeDialogue.error("Format du fichier non correct");
 
-				// DONNEES DIVISION
-				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getAncienneColumn(
-							i * 3, workbook);
-					for (int j = 1; j < col.size(); j++) {
-						String selection = col.get(j);
-						try {
-							String id = selection.substring(
-									selection.indexOf("(") + 1,
-									selection.indexOf(")"));
-							for (Club c : listeTotale) {
-								if (c.getId() == Integer.parseInt(id)) {
-									d.addClub(c);
+				} else {
+					Division d = new Division(nbGroupe, file.getName()
+							.substring(0, file.getName().lastIndexOf("_")));
+
+					// DONNEES DIVISION
+					for (int i = 0; i < nbGroupe; i++) {
+						ArrayList<String> col = UtilsExcelPOI
+								.getAncienneColumn(i * 3, workbook);
+						for (int j = 1; j < col.size(); j++) {
+							String selection = col.get(j);
+							try {
+								String id = selection.substring(
+										selection.indexOf("(") + 1,
+										selection.indexOf(")"));
+								for (Club c : listeTotale) {
+									if (c.getId() == Integer.parseInt(id)) {
+										d.addClub(c);
+									}
 								}
+							} catch (Exception ex) {
+								BoiteDeDialogue
+										.error("Mauvais format du club :"
+												+ selection);
 							}
-						} catch (Exception ex) {
-							BoiteDeDialogue.error("Mauvais format du club :"
-									+ selection);
 						}
 					}
-				}
 
-				// DONNES SOLVEUR
-				int[] reponseSolveur = new int[d.getNbClub()];
-				int indice = 0;
-				for (int i = 0; i < nbGroupe; i++) {
-					ArrayList<String> col = UtilsExcelPOI.getAncienneColumn(
-							i * 3, workbook);
-					for (int j = 1; j < col.size(); j++) {
-						reponseSolveur[indice] = i;
-						indice++;
+					// DONNES SOLVEUR
+					int[] reponseSolveur = new int[d.getNbClub()];
+					int indice = 0;
+					for (int i = 0; i < nbGroupe; i++) {
+						ArrayList<String> col = UtilsExcelPOI
+								.getAncienneColumn(i * 3, workbook);
+						for (int j = 1; j < col.size(); j++) {
+							reponseSolveur[indice] = i;
+							indice++;
+						}
 					}
-				}
 
-				// DONNEES DISTANCE
-				int nbClub = d.getNbClub();
-				double[][] tabDist = new double[nbClub][nbClub];
-				ArrayList<Integer> affiliation = UtilsExcelPOI
-						.getNumerosAffiliation();
-				int[] affiliationClubs = new int[nbClub];
-				for (int i = 0; i < d.getListe().size(); i++) {
-					affiliationClubs[i] = d.getListe().get(i).getId();
-				}
-				Workbook fichierDistances;
-
-				fichierDistances = WorkbookFactory.create(new File(
-						"Donnees/DistancesClubs.xlsx"));
-
-				String[][] matriceDistances = UtilsExcelPOI
-						.getMatrice(fichierDistances);
-
-				for (int i = 0; i < nbClub; i++) {
-					for (int j = i + 1; j < nbClub; j++) {
-						tabDist[i][j] = UtilsExcelPOI.getDistance(
-								affiliationClubs[i], affiliationClubs[j],
-								affiliation, matriceDistances);
-						tabDist[j][i] = tabDist[i][j];
+					// DONNEES DISTANCE
+					int nbClub = d.getNbClub();
+					double[][] tabDist = new double[nbClub][nbClub];
+					ArrayList<Integer> affiliation = UtilsExcelPOI
+							.getNumerosAffiliation();
+					int[] affiliationClubs = new int[nbClub];
+					for (int i = 0; i < d.getListe().size(); i++) {
+						affiliationClubs[i] = d.getListe().get(i).getId();
 					}
+					Workbook fichierDistances;
+
+					fichierDistances = WorkbookFactory.create(new File(
+							"Donnees/DistancesClubs.xlsx"));
+
+					String[][] matriceDistances = UtilsExcelPOI
+							.getMatrice(fichierDistances);
+
+					for (int i = 0; i < nbClub; i++) {
+						for (int j = i + 1; j < nbClub; j++) {
+							tabDist[i][j] = UtilsExcelPOI.getDistance(
+									affiliationClubs[i], affiliationClubs[j],
+									affiliation, matriceDistances);
+							tabDist[j][i] = tabDist[i][j];
+						}
+					}
+
+					mw.setVisible(false);
+					mw.dispose();
+
+					Obs obs = new Obs(d, reponseSolveur, tabDist);
+					MainWindows newFrame = new MainWindows(obs, obs.getDiv()
+							.getNom());
 				}
-
-				mw.setVisible(false);
-				mw.dispose();
-
-				Obs obs = new Obs(d, reponseSolveur, tabDist);
-				MainWindows newFrame = new MainWindows(obs, obs.getDiv()
-						.getNom());
 			}
 		} catch (InvalidFormatException e) {
 			BoiteDeDialogue.error("Format du fichier non valide");
