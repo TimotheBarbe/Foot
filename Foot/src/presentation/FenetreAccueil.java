@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,13 +22,19 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import model.Club;
+import model.Division;
+import model.Obs;
+
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import solveur.SolutionInitiale;
+import Excel.UtilsExcelPOI;
 import controle.ControleBoutonImportExcel;
 
 /**
- * Fenetre d'acceil du logiciel
+ * Fenetre d'accueil du logiciel
  * 
  * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
  *
@@ -43,19 +50,43 @@ public class FenetreAccueil extends JFrame {
 	private String nomDivision;
 	private String nbGroupes;
 
+	private static Workbook fichierGPSEquipes;
+	private static Workbook fichierDivision;
+	private static Workbook fichierDistances;
+
 	public FenetreAccueil() {
-		this.setTitle("District de Loire Atlantique");
+		this.setTitle("GéoGroupFoot44");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-
-		this.creerCentre();
-
+		this.creerCentreEtNord();
+		this.creerSud();
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
+	
+	/**
+	 * Construit le sud de la frame
+	 */
+	public void creerSud() {
+		JPanel sud = new JPanel();
+		BoxLayout layoutSud = new BoxLayout(sud, BoxLayout.X_AXIS);
+		sud.setLayout(layoutSud);
+		sud.setBorder(BorderFactory.createEmptyBorder(60, 6, 6, 6));
+		JLabel charger = new JLabel("ou : ");
+		JButton importsolution = new JButton("Importer une solution",
+				new ImageIcon("Donnees/icone_excel.png"));
+		importsolution.addActionListener(new ControleBoutonImportExcel(this));
 
-	public void creerCentre() {
+		sud.add(charger);
+		sud.add(importsolution);
+		this.getContentPane().add(sud, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Construit le centre et le nord de la frame
+	 */
+	public void creerCentreEtNord() {
 		// NORD
 		JPanel nord = new JPanel(new BorderLayout());
 
@@ -167,25 +198,10 @@ public class FenetreAccueil extends JFrame {
 				}
 			}
 		});
-
 		centre.add(validationCreer);
 
-		// SUD
-		JPanel sud = new JPanel();
-		BoxLayout layoutSud = new BoxLayout(sud, BoxLayout.X_AXIS);
-		sud.setLayout(layoutSud);
-		sud.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
-		JLabel charger = new JLabel("ou : ");
-		JButton importsolution = new JButton("Importer une solution",
-				new ImageIcon("Donnees/icone_excel.png"));
-		importsolution.addActionListener(new ControleBoutonImportExcel(this));
-
-		sud.add(charger);
-		sud.add(importsolution);
-		
 		this.getContentPane().add(nord, BorderLayout.NORTH);
 		this.getContentPane().add(centre, BorderLayout.CENTER);
-		this.getContentPane().add(sud, BorderLayout.SOUTH);
 	}
 
 	public String getCheminFichierDivision() {
@@ -204,10 +220,6 @@ public class FenetreAccueil extends JFrame {
 		this.nbGroupes = nbGroupes;
 	}
 
-	public Workbook getWorkbook() {
-		return workbook;
-	}
-
 	public void setWorkbook(Workbook workbook) {
 		this.workbook = workbook;
 	}
@@ -216,16 +228,154 @@ public class FenetreAccueil extends JFrame {
 		return accueilOuvert;
 	}
 
-	public void setAccueilOuvert(boolean accueilOuvert) {
-		this.accueilOuvert = accueilOuvert;
+	/**
+	 * Charge les fichiers excel
+	 */
+	public void launch() {
+		while (this.isAccueilOuvert()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// On ferme la fenetre d'accueil
+		this.setVisible(false);
+
+		// On commence le traitement de la division
+		try {
+			// Recuperation du fichier de la division
+			fichierDivision = WorkbookFactory.create(new File(this
+					.getCheminFichierDivision()));
+			fichierDistances = WorkbookFactory.create(new File(
+					"Donnees/DistancesClubs.xlsx"));
+
+			// On recupere les numeros d'affiliation des clubs de la division
+			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
+					fichierDivision);
+
+			// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom
+			// de la division)
+			int nbClub = affiliationDivision.size() - 1;
+			// Nombre de groupe
+			int nbGroupe = Integer.parseInt(this.getNbGroupes());
+			// On met a jour le nom de la division
+			String nomDivision = affiliationDivision.get(0);
+
+			Division d = new Division(nbGroupe, nomDivision);
+
+			int clubCourant = 0;
+			String[] infosClub = new String[3];
+			int[] clubs = new int[nbClub];
+			for (int i = 1; i <= nbClub; i++) {
+				// Recuperation du numero d'affiliation du club courant
+				clubCourant = (int) Double.parseDouble(affiliationDivision
+						.get(i));
+				clubs[i - 1] = clubCourant;
+
+				// Recuperation des infos du club
+				infosClub = getInfosClubByNumber(clubCourant);
+
+				double[] coordonneesGPS = { Double.parseDouble(infosClub[1]),
+						Double.parseDouble(infosClub[2]) };
+
+				Club c = new Club(infosClub[0], clubCourant, coordonneesGPS);
+
+				d.addClub(c);
+			}
+
+			ArrayList<Integer> affiliation = UtilsExcelPOI
+					.getNumerosAffiliation();
+			double[][] tabDist = new double[nbClub][nbClub];
+			clubCourant = 0;
+			int[] affiliationClubs = getClubsDivision();
+			String[][] matriceDistances = UtilsExcelPOI
+					.getMatrice(fichierDistances);
+
+			for (int i = 0; i < nbClub; i++) {
+				for (int j = i + 1; j < nbClub; j++) {
+					tabDist[i][j] = UtilsExcelPOI.getDistance(
+							affiliationClubs[i], affiliationClubs[j],
+							affiliation, matriceDistances);
+					tabDist[j][i] = tabDist[i][j];
+				}
+			}
+
+			SolutionInitiale si = new SolutionInitiale(nbGroupe, tabDist,
+					nbClub);
+			Obs obs = new Obs(d, si.getSolution(), tabDist);
+			MainWindows test = new MainWindows(obs, nomDivision);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public String getNomDivision() {
-		return nomDivision;
+	public static int[] getClubsDivision() {
+
+		// On recupere les numeros d'affiliation des clubs de la division
+		ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
+				fichierDivision);
+		// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la
+		// division)
+		int nbClub = affiliationDivision.size() - 1;
+
+		int[] clubs = new int[nbClub];
+		for (int i = 1; i < affiliationDivision.size(); i++) {
+			clubs[i - 1] = (int) Double.parseDouble(affiliationDivision.get(i));
+		}
+
+		return clubs;
 	}
 
-	public void setNomDivision(String nomDivision) {
-		this.nomDivision = nomDivision;
+	/**
+	 * Cette methode retourne les 3 infos d'un club de par son numero
+	 * d'affiliation Ces infos sont retournees sous forme de tableau : Index 0
+	 * --> Nom du club ; Index 1 --> Latitude du club ; Index 2 --> Longitude du
+	 * club
+	 * 
+	 * @param numeroAffiliation
+	 * @return
+	 */
+	public static String[] getInfosClubByNumber(int numeroAffiliation) {
+		String[] infos = new String[3];
+
+		try {
+			// Recuperation du classeur Excel (en lecture)
+			fichierGPSEquipes = WorkbookFactory.create(new File(
+					"Donnees/CoordonneesGPSEquipes.xls"));
+
+			// On recupere les numeros d'affiliation des clubs
+			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0,
+					fichierGPSEquipes);
+
+			// On recupere le nom des clubs
+			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1,
+					fichierGPSEquipes);
+
+			// On recupere la latitude des clubs
+			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2,
+					fichierGPSEquipes);
+
+			// On recupere la longitude des clubs
+			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3,
+					fichierGPSEquipes);
+
+			for (int i = 1; i < affiliationClubs.size(); i++) {
+				if (numeroAffiliation == (int) Double
+						.parseDouble(affiliationClubs.get(i))) {
+					infos[0] = nomClubs.get(i);
+					infos[1] = latitudeClubs.get(i);
+					infos[2] = longitudeClubs.get(i);
+					break;
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return infos;
 	}
 
 }

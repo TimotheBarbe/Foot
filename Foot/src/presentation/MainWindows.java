@@ -56,7 +56,7 @@ public class MainWindows extends JFrame {
 	 */
 	public MainWindows(Obs obs, String nomDivision) {
 		this.setPreferredSize(new Dimension(800, 600));
-		this.setTitle(nomDivision);
+		this.setTitle("GéoGroupFoot44 : " + nomDivision);
 		this.obs = obs;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
