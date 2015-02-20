@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -26,6 +27,8 @@ import model.Club;
 import model.Division;
 import model.Obs;
 
+import org.apache.poi.hssf.OldExcelFormatException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -75,7 +78,8 @@ public class FenetreAccueil extends JFrame {
 		sud.setLayout(layoutSud);
 		sud.setBorder(BorderFactory.createEmptyBorder(60, 6, 6, 6));
 		JLabel charger = new JLabel("ou : ");
-		JButton importsolution = new JButton("Importer une solution", new ImageIcon("Donnees/icone_excel.png"));
+		JButton importsolution = new JButton("Importer une solution",
+				new ImageIcon("Donnees/icone_excel.png"));
 		importsolution.addActionListener(new ControleBoutonImportExcel(this));
 
 		sud.add(charger);
@@ -101,7 +105,8 @@ public class FenetreAccueil extends JFrame {
 		importFichier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser dialogue = new JFileChooser("Export-Import/");
-				FileFilter filter = new FileNameExtensionFilter("xls, xlsx", new String[] { "xls", "xlsx" });
+				FileFilter filter = new FileNameExtensionFilter("xls, xlsx",
+						new String[] { "xls", "xlsx" });
 				dialogue.setFileFilter(filter);
 				dialogue.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				PrintWriter sortie;
@@ -112,7 +117,8 @@ public class FenetreAccueil extends JFrame {
 					cheminDivision.setText(fichier.getPath());
 					cheminFichierDivision = fichier.getPath();
 					try {
-						sortie = new PrintWriter(new FileWriter(fichier.getPath(), true));
+						sortie = new PrintWriter(new FileWriter(fichier
+								.getPath(), true));
 						sortie.close();
 					} catch (Exception e) {
 
@@ -124,8 +130,9 @@ public class FenetreAccueil extends JFrame {
 		aideFichierDivision.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				BoiteDeDialogue.info("Ce champ définit l'adresse du fichier de la division. Le fichier "
-						+ "doit impérativement \n avoir l'extension \".xls\" ou l'extension \".xlsx\".");
+				BoiteDeDialogue
+						.info("Ce champ définit l'adresse du fichier de la division. Le fichier "
+								+ "doit impérativement \n avoir l'extension \".xls\" ou l'extension \".xlsx\".");
 			}
 		});
 
@@ -142,9 +149,10 @@ public class FenetreAccueil extends JFrame {
 		JButton aideNbGroupes = new JButton("?");
 		aideNbGroupes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BoiteDeDialogue.info("Ce champ définit le nombre de groupes souhaité dans la"
-						+ " répartition des clubs. \n"
-						+ " Il doit être de type entier et ne doit pas contenir d'espace.");
+				BoiteDeDialogue
+						.info("Ce champ définit le nombre de groupes souhaité dans la"
+								+ " répartition des clubs. \n"
+								+ " Il doit être de type entier et ne doit pas contenir d'espace.");
 			}
 		});
 
@@ -159,32 +167,47 @@ public class FenetreAccueil extends JFrame {
 		validationCreer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					FenetreAccueil.this.setCheminFichierDivision(cheminDivision.getText());
+					FenetreAccueil.this.setCheminFichierDivision(cheminDivision
+							.getText());
 					CharSequence xls = ".xls";
 					if (!cheminFichierDivision.contains(xls)) {
-						BoiteDeDialogue.error("Le fichier \"" + cheminFichierDivision
+						BoiteDeDialogue.error("Le fichier \""
+								+ cheminFichierDivision
 								+ "\" n'a pas l'extension xls ou xlsx.");
 					} else {
-						setWorkbook(WorkbookFactory.create(new File(cheminFichierDivision)));
+						setWorkbook(WorkbookFactory.create(new File(
+								cheminFichierDivision)));
 
 						try {
-							FenetreAccueil.this.setNbGroupes(texteNbGroupes.getText());
+							FenetreAccueil.this.setNbGroupes(texteNbGroupes
+									.getText());
 							int nbGroupes = Integer.parseInt(getNbGroupes());
 							if (nbGroupes <= 0) {
-								BoiteDeDialogue.error("Le nombre de groupes ne peut pas être négatif ou nul.");
+								BoiteDeDialogue
+										.error("Le nombre de groupes ne peut pas être négatif ou nul.");
 							} else if (nbGroupes > 36) {
-								BoiteDeDialogue.error("Le nombre de groupes doit être inférieur à 36");
+								BoiteDeDialogue
+										.error("Le nombre de groupes doit être inférieur à 36");
 							} else {
 								accueilOuvert = false;
 							}
 
 						} catch (Exception e) {
-							BoiteDeDialogue.error("Le format du nombre de groupes est incorrect");
+							BoiteDeDialogue
+									.error("Le format du nombre de groupes est incorrect");
 						}
 					}
-
-				} catch (Exception e) {
-					BoiteDeDialogue.error("Le fichier \"" + cheminFichierDivision + " est introuvable");
+				} catch (InvalidFormatException e1) {
+					BoiteDeDialogue.error("Format non valide :\n"
+							+ e1.getMessage());
+				} catch (IOException e1) {
+					BoiteDeDialogue
+							.error("Erreur lors de la lecture du fichier :\n"
+									+ e1.getMessage());
+				} catch (OldExcelFormatException e1) {
+					BoiteDeDialogue
+							.error("Le fichier Excel que vous voulez charger doit\n"
+									+ "être dans une version d'Excel 7 ou plus récente");
 				}
 			}
 		});
@@ -236,11 +259,14 @@ public class FenetreAccueil extends JFrame {
 		// On commence le traitement de la division
 		try {
 			// Recuperation du fichier de la division
-			fichierDivision = WorkbookFactory.create(new File(this.getCheminFichierDivision()));
-			fichierDistances = WorkbookFactory.create(new File("Donnees/DistancesClubs.xlsx"));
+			fichierDivision = WorkbookFactory.create(new File(this
+					.getCheminFichierDivision()));
+			fichierDistances = WorkbookFactory.create(new File(
+					"Donnees/DistancesClubs.xlsx"));
 
 			// On recupere les numeros d'affiliation des clubs de la division
-			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
+			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
+					fichierDivision);
 
 			// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom
 			// de la division)
@@ -255,49 +281,70 @@ public class FenetreAccueil extends JFrame {
 			int clubCourant = 0;
 			String[] infosClub = new String[3];
 			int[] clubs = new int[nbClub];
+
 			for (int i = 1; i <= nbClub; i++) {
 				// Recuperation du numero d'affiliation du club courant
-				clubCourant = (int) Double.parseDouble(affiliationDivision.get(i));
+				clubCourant = (int) Double.parseDouble(affiliationDivision
+						.get(i));
 				clubs[i - 1] = clubCourant;
 
 				// Recuperation des infos du club
 				infosClub = getInfosClubByNumber(clubCourant);
-
-				double[] coordonneesGPS = { Double.parseDouble(infosClub[1]), Double.parseDouble(infosClub[2]) };
+				double[] coordonneesGPS = { Double.parseDouble(infosClub[1]),
+						Double.parseDouble(infosClub[2]) };
 
 				Club c = new Club(infosClub[0], clubCourant, coordonneesGPS);
 
 				d.addClub(c);
 			}
 
-			ArrayList<Integer> affiliation = UtilsExcelPOI.getNumerosAffiliation();
+			ArrayList<Integer> affiliation = UtilsExcelPOI
+					.getNumerosAffiliation();
 			double[][] tabDist = new double[nbClub][nbClub];
 			clubCourant = 0;
 			int[] affiliationClubs = getClubsDivision();
-			String[][] matriceDistances = UtilsExcelPOI.getMatrice(fichierDistances);
+			String[][] matriceDistances = UtilsExcelPOI
+					.getMatrice(fichierDistances);
 
 			for (int i = 0; i < nbClub; i++) {
 				for (int j = i + 1; j < nbClub; j++) {
-					tabDist[i][j] = UtilsExcelPOI.getDistance(affiliationClubs[i], affiliationClubs[j], affiliation,
-							matriceDistances);
+					tabDist[i][j] = UtilsExcelPOI.getDistance(
+							affiliationClubs[i], affiliationClubs[j],
+							affiliation, matriceDistances);
 					tabDist[j][i] = tabDist[i][j];
 				}
 			}
 
-			SolutionInitiale si = new SolutionInitiale(nbGroupe, tabDist, nbClub);
+			fichierDivision.close();
+			fichierDistances.close();
+
+			SolutionInitiale si = new SolutionInitiale(nbGroupe, tabDist,
+					nbClub);
 			Obs obs = new Obs(d, si.getSolution(), tabDist);
 			MainWindows test = new MainWindows(obs, nomDivision);
-
-		} catch (Exception e) {
-			BoiteDeDialogue.error("Format de fichier à charger incorrect");
-			e.printStackTrace();
+		} catch (java.lang.IllegalArgumentException e) {
+			BoiteDeDialogue.error(e.getMessage());
+		} catch (InvalidFormatException e) {
+			BoiteDeDialogue.error("Format invalide :\n" + e.getMessage());
+		} catch (IOException e) {
+			BoiteDeDialogue.error("Ouverture du fichier impossible :\n"
+					+ e.getMessage());
+		}
+		finally {
+			try {
+				fichierDivision.close();
+				fichierDistances.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static int[] getClubsDivision() {
 
 		// On recupere les numeros d'affiliation des clubs de la division
-		ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0, fichierDivision);
+		ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
+				fichierDivision);
 		// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la
 		// division)
 		int nbClub = affiliationDivision.size() - 1;
@@ -319,36 +366,48 @@ public class FenetreAccueil extends JFrame {
 	 * @param numeroAffiliation
 	 * @return
 	 */
-	public static String[] getInfosClubByNumber(int numeroAffiliation) {
+	public static String[] getInfosClubByNumber(int numeroAffiliation)
+			throws IllegalArgumentException {
 		String[] infos = new String[3];
-
+		boolean trouve = false;
 		try {
 			// Recuperation du classeur Excel (en lecture)
-			fichierGPSEquipes = WorkbookFactory.create(new File("Donnees/CoordonneesGPSEquipes.xls"));
+			fichierGPSEquipes = WorkbookFactory.create(new File(
+					"Donnees/CoordonneesGPSEquipes.xls"));
 
 			// On recupere les numeros d'affiliation des clubs
-			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0, fichierGPSEquipes);
+			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0,
+					fichierGPSEquipes);
 
 			// On recupere le nom des clubs
-			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1, fichierGPSEquipes);
+			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1,
+					fichierGPSEquipes);
 
 			// On recupere la latitude des clubs
-			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2, fichierGPSEquipes);
+			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2,
+					fichierGPSEquipes);
 
 			// On recupere la longitude des clubs
-			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3, fichierGPSEquipes);
+			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3,
+					fichierGPSEquipes);
 
 			for (int i = 1; i < affiliationClubs.size(); i++) {
-				if (numeroAffiliation == (int) Double.parseDouble(affiliationClubs.get(i))) {
+				if (numeroAffiliation == (int) Double
+						.parseDouble(affiliationClubs.get(i))) {
 					infos[0] = nomClubs.get(i);
 					infos[1] = latitudeClubs.get(i);
 					infos[2] = longitudeClubs.get(i);
+					trouve = true;
 					break;
 				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (!trouve) {
+				throw new IllegalArgumentException("L'id " + numeroAffiliation
+						+ " n'existe pas dans la base de données");
+			}
 		}
 		return infos;
 	}
