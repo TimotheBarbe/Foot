@@ -13,8 +13,8 @@ import solveur.SolutionInitiale;
 public class TestTotal {
 
 	public static void main(String[] args) {
-		int nbClub = 99;
-		int nbGroupe = 10;
+		int nbClub = 100;
+		int nbGroupe = 15;
 		String nomDivision = "Nom de la division";
 
 		Division d = new Division(nbGroupe, nomDivision);

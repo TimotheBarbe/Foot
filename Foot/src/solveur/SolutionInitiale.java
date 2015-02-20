@@ -63,16 +63,14 @@ public class SolutionInitiale {
 			// maj ListDist des clubs utilisés à -1
 			for (int k : voisins) {
 				for (int j = 0; j < nbClub; j++) {
-					ListDistance.get(k).set(j, -1.0);
-					ListDistance.get(j).set(k, -1.0);
+					ListDistance.get(k).set(j, -0.00001);
+					ListDistance.get(j).set(k, -0.00001);
 				}
-
 			}
 			for (int j = 0; j < nbClub; j++) {
-				ListDistance.get(clubPlusLoin).set(j, -1.0);
-				ListDistance.get(j).set(clubPlusLoin, -1.0);
+				ListDistance.get(clubPlusLoin).set(j, -0.00001);
+				ListDistance.get(j).set(clubPlusLoin, -0.00001);
 			}
-
 		}
 		solution = clubs;
 		majDistances();
@@ -95,11 +93,9 @@ public class SolutionInitiale {
 				somLign[i] += dist[i][j];
 			}
 		}
-
 		for (int i : clubsAffecte) {
 			somLign[i] = -1;
 		}
-
 		return getIndiceDuMax(somLign);
 	}
 
