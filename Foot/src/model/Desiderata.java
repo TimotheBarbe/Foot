@@ -58,7 +58,7 @@ public class Desiderata {
 	public void setClub2(int club2) throws IllegalArgumentException {
 		boolean ok = false;
 		for (Club c : this.listeClub) {
-			if (c.getId() == club1) {
+			if (c.getId() == club2) {
 				this.club2 = club2;
 				ok = true;
 			}

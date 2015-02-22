@@ -199,7 +199,8 @@ public class ControleBoutonExportCarte {
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {
-				float x = 25 + (float) listeClub.get(i).getCoordonneesMatricielles()[0];
+				float x = 25 + (float) listeClub.get(i)
+						.getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
 						.getCoordonneesMatricielles()[1];
 				if (Couleur.getForme(groupe) == 0) {
@@ -212,7 +213,7 @@ public class ControleBoutonExportCarte {
 					cb.moveTo(x, y);
 					cb.lineTo(x + 1, y - 1.5f);
 					cb.lineTo(x - 1, y - 1.5f);
-					cb.lineTo(x, y);
+					cb.lineTo(x + 0.8f, y + 0.8f);
 				}
 
 			}
@@ -226,7 +227,7 @@ public class ControleBoutonExportCarte {
 			cb.setFontAndSize(bf, 6);
 			for (int i = 0; i < listeClub.size(); i++) {
 				if (obs.getReponseSolveur()[i] == groupe) {
-					float x = (float) listeClub.get(i)
+					float x = 25 + (float) listeClub.get(i)
 							.getCoordonneesMatricielles()[0];
 					float y = 750 - (float) listeClub.get(i)
 							.getCoordonneesMatricielles()[1];
@@ -243,7 +244,8 @@ public class ControleBoutonExportCarte {
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getTableVisible()[i]) {
-				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
+				float x = 25 + (float) listeClub.get(i)
+						.getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
 						.getCoordonneesMatricielles()[1];
 				int groupe = obs.getReponseSolveur()[i];

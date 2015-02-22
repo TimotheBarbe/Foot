@@ -65,10 +65,12 @@ public class ControleBoutonDesiderata implements ActionListener {
 
 					listeDe.add(new Desiderata(id1, id2, op, listeClub));
 				}
+				System.out.println(listeDe.size());
 				obs.setDesiderata(listeDe);
 				parent.dispose();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			BoiteDeDialogue.error(e.getMessage());
 		} finally {
 			try {
