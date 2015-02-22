@@ -52,11 +52,11 @@ public class Club {
 	public double[] getCoordMatriByGPS(double[] coordonneesGPS) {
 		double[] coordonnesMatricielles = new double[2];
 		// horizontal augmenter pour aller à droite
-		coordonnesMatricielles[0] = (coordonneesGPS[1] + 3.0) * 262.24 - 30.97;
+		coordonnesMatricielles[0] = (coordonneesGPS[1] + 3.0) * 258.1524 - 32.7704;
 
 		// vertical augmenter le coef pour descendre
-		coordonnesMatricielles[1] = 320.87 + (coordonneesGPS[0] - 47)
-				* (-349.89);
+		coordonnesMatricielles[1] = 331.994 + (coordonneesGPS[0] - 47)
+				* (-388.0);
 		return coordonnesMatricielles;
 	}
 

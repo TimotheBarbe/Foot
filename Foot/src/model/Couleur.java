@@ -40,10 +40,10 @@ public class Couleur {
 			break;
 		case 10:
 			c = new Color(91, 118, 232); // Bleu clair
-		break;
+			break;
 		case 11:
 			c = new Color(118, 232, 37); // Vert pomme
-		break;
+			break;
 		}
 		return c;
 	}

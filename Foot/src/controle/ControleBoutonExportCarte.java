@@ -199,7 +199,7 @@ public class ControleBoutonExportCarte {
 		ArrayList<Club> listeClub = obs.getDiv().getListe();
 		for (int i = 0; i < listeClub.size(); i++) {
 			if (obs.getReponseSolveur()[i] == groupe) {
-				float x = (float) listeClub.get(i).getCoordonneesMatricielles()[0];
+				float x = 25 + (float) listeClub.get(i).getCoordonneesMatricielles()[0];
 				float y = 750 - (float) listeClub.get(i)
 						.getCoordonneesMatricielles()[1];
 				if (Couleur.getForme(groupe) == 0) {
