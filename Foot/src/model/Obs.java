@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Observable;
 
+/**
+ * Observable représentant l'état du logiciel
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class Obs extends Observable {
 
 	public static final Integer CHANGEMENT_CLUB_COURANT = new Integer(1);
@@ -22,6 +28,14 @@ public class Obs extends Observable {
 	private double[][] tabDist;
 	private ArrayList<Desiderata> desiderata;
 
+	/**
+	 * @param div
+	 *            division courante
+	 * @param reponseSolveur
+	 *            solution donnée par le solveur
+	 * @param tabDist
+	 *            matrice des distances de la division
+	 */
 	public Obs(Division div, int[] reponseSolveur, double[][] tabDist) {
 		super();
 		this.div = div;
@@ -123,6 +137,9 @@ public class Obs extends Observable {
 		this.indiceJListClubSelection = indiceJListClubSelection;
 	}
 
+	/**
+	 * @return liste ordonnée des clubs pour la JTable
+	 */
 	public ArrayList<String> getListForTable() {
 		ArrayList<String> data = new ArrayList<String>();
 		int clubRestant = this.getReponseSolveur().length;
@@ -151,6 +168,10 @@ public class Obs extends Observable {
 		this.tabDist = tabDist;
 	}
 
+	/**
+	 * @param indiceClub
+	 * @return le nombre de km parcouru par le club
+	 */
 	public int getDistParcourue(int indiceClub) {
 		int rep = 0;
 		int groupe = this.getReponseSolveur()[indiceClub];
@@ -198,6 +219,11 @@ public class Obs extends Observable {
 		this.desiderata = desiderata;
 	}
 
+	/**
+	 * @param i
+	 *            indice du desiderata dans la liste
+	 * @return true si le desiderata est respecté, false sinon
+	 */
 	public boolean desiderataOk(int i) {
 		Desiderata d = this.getDesiderata().get(i);
 		Club c1 = this.getDiv().getClubById(d.getClub1());
@@ -213,6 +239,9 @@ public class Obs extends Observable {
 		return false;
 	}
 
+	/**
+	 * @return nombre de desiderata respectés
+	 */
 	public int nbDesiderataFail() {
 		int rep = 0;
 		for (int i = 0; i < this.getDesiderata().size(); i++) {

@@ -2,6 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Un desiderata est un souhait d'un club d'être avec ou non un autre club
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class Desiderata {
 
 	private ArrayList<Club> listeClub;
@@ -9,6 +15,16 @@ public class Desiderata {
 	private int club2;
 	private String op;
 
+	/**
+	 * @param club1
+	 * @param club2
+	 * @param op
+	 *            "=" si club1 et club2 sont dans la meme division, "!=" sinon
+	 * @param listeClub
+	 *            liste dse clubs de la division
+	 * @throws IllegalArgumentException
+	 *             lancée si un des deux clubs n'est pas dans la division
+	 */
 	public Desiderata(int club1, int club2, String op, ArrayList<Club> listeClub)
 			throws IllegalArgumentException {
 		this.op = op;

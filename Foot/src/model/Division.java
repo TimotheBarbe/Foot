@@ -2,6 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Une division est un ensemble de clubs, répartis en poules
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class Division {
 
 	// liste des clubs
@@ -15,7 +21,8 @@ public class Division {
 	 * Initialise une nouvelles division vide
 	 * 
 	 * @param nombreDeGroupe
-	 * @param division : nom de la division
+	 * @param division
+	 *            : nom de la division
 	 */
 	public Division(int nombreDeGroupe, String division) {
 		this.liste = new ArrayList<Club>();

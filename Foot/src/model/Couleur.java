@@ -2,6 +2,12 @@ package model;
 
 import java.awt.Color;
 
+/**
+ * Douze couleurs différentes sont définies pour les cartes
+ * 
+ * @authors Timothé Barbe, Florent Euvrard, Cheikh Sylla
+ *
+ */
 public class Couleur {
 
 	public static Color getColor(int numeroGroupe) {
