@@ -59,7 +59,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 				Sheet sheet = workbook.getSheetAt(0);
 				int nbGroupe = (UtilsExcelPOI.getNbColumns(sheet) + 1) / 3;
 
-				if (!UtilsExcelPOI.getAncienneColumn(0, workbook).get(0)
+				if (!UtilsExcelPOI.getAncienneColumn(0, workbook, 0).get(0)
 						.startsWith("Poule")) {
 					BoiteDeDialogue.error("Format du fichier non correct");
 
@@ -70,7 +70,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 					// DONNEES DIVISION
 					for (int i = 0; i < nbGroupe; i++) {
 						ArrayList<String> col = UtilsExcelPOI
-								.getAncienneColumn(i * 3, workbook);
+								.getAncienneColumn(i * 3, workbook, 0);
 						for (int j = 1; j < col.size(); j++) {
 							String selection = col.get(j);
 							try {
@@ -95,7 +95,7 @@ public class ControleBoutonImportExcel implements ActionListener {
 					int indice = 0;
 					for (int i = 0; i < nbGroupe; i++) {
 						ArrayList<String> col = UtilsExcelPOI
-								.getAncienneColumn(i * 3, workbook);
+								.getAncienneColumn(i * 3, workbook, 0);
 						for (int j = 1; j < col.size(); j++) {
 							reponseSolveur[indice] = i;
 							indice++;
@@ -157,23 +157,23 @@ public class ControleBoutonImportExcel implements ActionListener {
 		try {
 			/* Recuperation du classeur Excel (en lecture) */
 			workbook = WorkbookFactory.create(new File(
-					"Donnees/CoordonneesGPSEquipes.xls"));
+					"Donnees/DistancesClubs.xlsx"));
 
 			// On recupere les numeros d'affiliation des clubs
 			ArrayList<String> affiliationClubs = UtilsExcelPOI
-					.getAncienneColumn(0, workbook);
+					.getAncienneColumn(0, workbook, 1);
 
 			// On recupere le nom des clubs
 			ArrayList<String> nomClubs = UtilsExcelPOI.getAncienneColumn(1,
-					workbook);
+					workbook, 1);
 
 			// On recupere la latitude des clubs
 			ArrayList<String> latitudeClubs = UtilsExcelPOI.getAncienneColumn(
-					2, workbook);
+					5, workbook, 1);
 
 			// On recupere la longitude des clubs
 			ArrayList<String> longitudeClubs = UtilsExcelPOI.getAncienneColumn(
-					3, workbook);
+					6, workbook, 1);
 
 			int nbClub = affiliationClubs.size();
 			for (int i = 1; i < nbClub; i++) {

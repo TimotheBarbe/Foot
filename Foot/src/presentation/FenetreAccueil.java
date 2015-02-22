@@ -266,7 +266,7 @@ public class FenetreAccueil extends JFrame {
 
 			// On recupere les numeros d'affiliation des clubs de la division
 			ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
-					fichierDivision);
+					fichierDivision, 0);
 
 			// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom
 			// de la division)
@@ -323,14 +323,14 @@ public class FenetreAccueil extends JFrame {
 			Obs obs = new Obs(d, si.getSolution(), tabDist);
 			MainWindows test = new MainWindows(obs, nomDivision);
 		} catch (java.lang.IllegalArgumentException e) {
+			e.printStackTrace();
 			BoiteDeDialogue.error(e.getMessage());
 		} catch (InvalidFormatException e) {
 			BoiteDeDialogue.error("Format invalide :\n" + e.getMessage());
 		} catch (IOException e) {
 			BoiteDeDialogue.error("Ouverture du fichier impossible :\n"
 					+ e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				fichierDivision.close();
 				fichierDistances.close();
@@ -344,7 +344,7 @@ public class FenetreAccueil extends JFrame {
 
 		// On recupere les numeros d'affiliation des clubs de la division
 		ArrayList<String> affiliationDivision = UtilsExcelPOI.getColumn(0,
-				fichierDivision);
+				fichierDivision, 0);
 		// Nombre de clubs = taille du fichier - 1 (ligne contenant le nom de la
 		// division)
 		int nbClub = affiliationDivision.size() - 1;
@@ -373,23 +373,23 @@ public class FenetreAccueil extends JFrame {
 		try {
 			// Recuperation du classeur Excel (en lecture)
 			fichierGPSEquipes = WorkbookFactory.create(new File(
-					"Donnees/CoordonneesGPSEquipes.xls"));
+					"Donnees/DistancesClubs.xlsx"));
 
 			// On recupere les numeros d'affiliation des clubs
 			ArrayList<String> affiliationClubs = UtilsExcelPOI.getColumn(0,
-					fichierGPSEquipes);
+					fichierGPSEquipes, 1);
 
 			// On recupere le nom des clubs
 			ArrayList<String> nomClubs = UtilsExcelPOI.getColumn(1,
-					fichierGPSEquipes);
+					fichierGPSEquipes, 1);
 
 			// On recupere la latitude des clubs
-			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(2,
-					fichierGPSEquipes);
+			ArrayList<String> latitudeClubs = UtilsExcelPOI.getColumn(5,
+					fichierGPSEquipes, 1);
 
 			// On recupere la longitude des clubs
-			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(3,
-					fichierGPSEquipes);
+			ArrayList<String> longitudeClubs = UtilsExcelPOI.getColumn(6,
+					fichierGPSEquipes, 1);
 
 			for (int i = 1; i < affiliationClubs.size(); i++) {
 				if (numeroAffiliation == (int) Double

@@ -51,14 +51,14 @@ public class ControleBoutonDesiderata implements ActionListener {
 			workbook = WorkbookFactory.create(new File(path));
 			if (workbook != null) {
 				ArrayList<Desiderata> listeDe = new ArrayList<Desiderata>();
-				int nbDesiderata = (UtilsExcelPOI
-						.getAncienneColumn(0, workbook).size());
+				int nbDesiderata = (UtilsExcelPOI.getAncienneColumn(0,
+						workbook, 0).size());
 				for (int i = 0; i < nbDesiderata; i++) {
 					int id1 = (int) Double.parseDouble(UtilsExcelPOI
-							.getAncienneColumn(0, workbook).get(i));
+							.getAncienneColumn(0, workbook, 0).get(i));
 					int id2 = (int) Double.parseDouble(UtilsExcelPOI
-							.getAncienneColumn(2, workbook).get(i));
-					String op = UtilsExcelPOI.getAncienneColumn(1, workbook)
+							.getAncienneColumn(2, workbook, 0).get(i));
+					String op = UtilsExcelPOI.getAncienneColumn(1, workbook, 0)
 							.get(i);
 					ArrayList<Club> listeClub = new ArrayList<Club>();
 					listeClub.addAll(obs.getDiv().getListe());
@@ -66,12 +66,11 @@ public class ControleBoutonDesiderata implements ActionListener {
 					listeDe.add(new Desiderata(id1, id2, op, listeClub));
 				}
 				obs.setDesiderata(listeDe);
-				parent.dispose();	
+				parent.dispose();
 			}
 		} catch (Exception e) {
 			BoiteDeDialogue.error(e.getMessage());
-		}
-		finally{
+		} finally {
 			try {
 				workbook.close();
 			} catch (IOException e) {
